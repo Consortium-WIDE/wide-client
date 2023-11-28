@@ -1,0 +1,13 @@
+.main {
+    .proto {
+        display: flex;
+        gap: 20px;
+
+        .textarea {
+            textarea {
+                min-width: 600px;
+                min-height: 400px;
+            }
+        }
+    }
+}
