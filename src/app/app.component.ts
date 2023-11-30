@@ -12,26 +12,41 @@ import { ClaimsProcessorService } from './services/claims-processor.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'wide-client';
-  jsonData = JSON.stringify({ "key1": "value", "key2": "val2" });
+  inputData = JSON.stringify({ "key1": "value", "key2": "val2" });
 
-  constructor(private claimsProcessorService: ClaimsProcessorService) {}
+  encryptedData: any = {};
+  encryptedDataString: string = JSON.stringify(this.encryptedData);
+  decryptedData: any = {};
+  decryptedDataString: string = JSON.stringify(this.decryptedData);
 
-  async test(){
+  constructor(private claimsProcessorService: ClaimsProcessorService) { }
+  async encryptClaim(onlyJson: boolean = true) {
     try {
-      // Try parsing the JSON data
-      const parsedData = JSON.parse(this.jsonData);
-      console.log('Parsed JSON:', parsedData);
-      // Add further processing if necessary
-      
-      const encrypted = await this.claimsProcessorService.encryptData(parsedData);
+      let data = this.inputData;
 
-      console.log('ENCRYPTED!!!', encrypted);
-      this.claimsProcessorService.printHello();
+      if (onlyJson) {
+        // Try parsing the JSON data
+        data = JSON.parse(this.inputData);
+      }
+
+      this.encryptedData = await this.claimsProcessorService.encryptData(data);
+      this.encryptedDataString = JSON.stringify(this.encryptedData);
+    } catch (error) {
+      // Handle parsing error
+      console.error(error);
+    }
+  }
+
+  async decryptClaim() {
+    try {
+      this.encryptedData = JSON.parse(this.encryptedDataString);
+      this.decryptedData = await this.claimsProcessorService.decryptData(this.encryptedData);
+
+      this.decryptedDataString = JSON.parse(this.decryptedData);
 
     } catch (error) {
       // Handle parsing error
-      console.error('Invalid JSON:', error);
+      console.error(error);
     }
   }
 }

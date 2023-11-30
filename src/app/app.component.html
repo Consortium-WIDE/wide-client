@@ -1,11 +1,29 @@
 <div class="main">
-  <div class="proto">
-    <div class="title">Input Data (JSON)</div>
+  <div class="stage">
+    <div>Input Data (JSON)</div>
     <div class="textarea">
-      <textarea [(ngModel)]="jsonData"></textarea>
+      <textarea [(ngModel)]="inputData"></textarea>
     </div>
   </div>
   <div class="buttons">
-    <button (click)="test()">Process Claim(s)</button>
+    <button (click)="encryptClaim(false)">Encrypt</button>
+  </div>
+  <div class="stage">
+    <div class="title">Encrypted Data (using Public Key)</div>
+    <div class="textarea">
+      <textarea [(ngModel)]="encryptedDataString"></textarea>
+    </div>
+  </div>
+  <div class="buttons">
+    <button (click)="decryptClaim()">Decrypt</button>
+  </div>
+  <div class="stage">
+    <div class="title">Decrypted Data (using Private Key)</div>
+    <div class="textarea">
+      <textarea [(ngModel)]="decryptedDataString"></textarea>
+    </div>
+  </div>
+  <div class="buttons">
+    
   </div>
 </div>

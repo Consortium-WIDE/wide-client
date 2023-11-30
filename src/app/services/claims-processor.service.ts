@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import * as sigUtil from 'eth-sig-util';
 import Web3 from 'web3';
+
 
 // Define a type for the Ethereum object on the window
 declare global {
@@ -23,14 +25,14 @@ export class ClaimsProcessorService {
   }
 
   public async connectWallet(): Promise<void> {
-    if (!this.web3) {
-      console.error('Web3 is not initialized');
+    if (!window.ethereum) {
+      console.error('Ethereum object not found');
       return;
     }
-
+  
     try {
-      await window.ethereum.enable(); // Request access
-      console.log('Wallet connected');
+      // Request access to account
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
     } catch (error) {
       console.error('User denied wallet access', error);
     }
@@ -51,12 +53,10 @@ export class ClaimsProcessorService {
     }
 
     try {
-      const pubKey = await this.getPublicKey(accounts[0]);
-
-      console.log('Public Key is ', pubKey)
+      const pubKey = await this.getEncryptionPublicKey(accounts[0]);
       if (pubKey) {
-        //const encrypted = await EthCrypto.encryptWithPublicKey(pubKey, data);
-        //return encrypted;
+        const encryptedData = sigUtil.encrypt(pubKey, { data: JSON.stringify(data) },'x25519-xsalsa20-poly1305');
+        return encryptedData;
       }
     } catch (error) {
       console.error('Error encrypting data', error);
@@ -64,47 +64,51 @@ export class ClaimsProcessorService {
     }
   }
 
-  private async getPublicKey(account: string): Promise<string | null> {
-    if (!this.web3) {
-      console.error('Web3 is not initialized');
+  public async decryptData(encryptedData: any): Promise<string | null> {
+    if (!window.ethereum) {
+      console.error('Ethereum object not found');
       return null;
     }
 
-    try {
-      const message = "Some string to sign";
-      const signature = await this.web3.eth.personal.sign(message, account, "");
-
-      // Derive the public key from the signature
-      const publicKey = this.web3.eth.accounts.recover(message, signature);
-      return publicKey;
-    } catch (error) {
-      console.error('Error retrieving public key', error);
-      return null;
-    }
-  }
-
-  public async decryptData(encryptedData: string): Promise<any | null> {
-    if (!this.web3) {
-      console.error('Web3 is not initialized');
-      return null;
-    }
-
-    const accounts = await this.web3.eth.getAccounts();
+    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
     if (accounts.length === 0) {
       console.error('No accounts found');
       return null;
     }
 
     try {
-      const decryptedData = this.web3.eth.accounts.decrypt(JSON.parse(encryptedData), accounts[0]);
-      return decryptedData; // Or the appropriate field you want to return
+      // Ensure the encrypted data is a JSON string
+      const encryptedDataString = JSON.stringify(encryptedData);
+
+      // Decrypt the data using MetaMask
+      const decryptedData = await window.ethereum.request({
+        method: 'eth_decrypt',
+        params: [encryptedDataString, accounts[0]]
+      });
+
+      return decryptedData;
     } catch (error) {
       console.error('Error decrypting data', error);
       return null;
     }
   }
 
-  public printHello() {
-    console.log('Hello from ClaimsProcessorService!');
+  private async getEncryptionPublicKey(account: string): Promise<string | null> {
+    if (!window.ethereum) {
+      console.error('Ethereum object not found');
+      return null;
+    }
+
+    try {
+      // Request the encryption public key from MetaMask
+      const encryptionPublicKey = await window.ethereum.request({
+        method: 'eth_getEncryptionPublicKey',
+        params: [account], // The user's account/ Ethereum address
+      });
+      return encryptionPublicKey;
+    } catch (error) {
+      console.error('Error retrieving encryption public key', error);
+      return null;
+    }
   }
 }

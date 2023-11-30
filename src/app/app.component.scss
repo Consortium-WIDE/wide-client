@@ -1,13 +1,14 @@
 .main {
-    .proto {
-        display: flex;
-        gap: 20px;
-
-        .textarea {
-            textarea {
-                min-width: 600px;
-                min-height: 400px;
-            }
-        }
+    .stage {
+        margin-top: 25px;
     }
+
+    .buttons {
+        margin-top: 10px;
+    }
+}
+
+textarea {
+    min-width: 200px;
+    width: 100%
 }
