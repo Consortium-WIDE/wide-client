@@ -17,13 +17,16 @@ export class AppComponent {
 
   constructor(private claimsProcessorService: ClaimsProcessorService) {}
 
-  test(){
+  async test(){
     try {
       // Try parsing the JSON data
       const parsedData = JSON.parse(this.jsonData);
       console.log('Parsed JSON:', parsedData);
       // Add further processing if necessary
       
+      const encrypted = await this.claimsProcessorService.encryptData(parsedData);
+
+      console.log('ENCRYPTED!!!', encrypted);
       this.claimsProcessorService.printHello();
 
     } catch (error) {
