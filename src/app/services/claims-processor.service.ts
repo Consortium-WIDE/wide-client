@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as sigUtil from 'eth-sig-util';
 import Web3 from 'web3';
-
+import WalletConnectProvider from '@walletconnect/web3-provider';
 
 // Define a type for the Ethereum object on the window
 declare global {
@@ -24,17 +24,29 @@ export class ClaimsProcessorService {
     }
   }
 
-  public async connectWallet(): Promise<void> {
+  public async connectWalletMetaMask(): Promise<void> {
     if (!window.ethereum) {
       console.error('Ethereum object not found');
       return;
     }
-  
+
     try {
       // Request access to account
       await window.ethereum.request({ method: 'eth_requestAccounts' });
     } catch (error) {
       console.error('User denied wallet access', error);
+    }
+  }
+
+  public async connectWalletConnect(): Promise<void> {
+    const provider = new WalletConnectProvider({
+      infuraId: 'YOUR_INFURA_ID' // Replace with your Infura ID
+    });
+
+    try {
+      await provider.enable();
+    } catch (error) {
+      console.error('User denied wallet access or connection failed', error);
     }
   }
 
@@ -44,7 +56,7 @@ export class ClaimsProcessorService {
       return null;
     }
 
-    await this.connectWallet();
+    //await this.connectWalletConnect();
 
     const accounts = await this.web3.eth.getAccounts();
     if (accounts.length === 0) {
@@ -55,7 +67,7 @@ export class ClaimsProcessorService {
     try {
       const pubKey = await this.getEncryptionPublicKey(accounts[0]);
       if (pubKey) {
-        const encryptedData = sigUtil.encrypt(pubKey, { data: JSON.stringify(data) },'x25519-xsalsa20-poly1305');
+        const encryptedData = sigUtil.encrypt(pubKey, { data: JSON.stringify(data) }, 'x25519-xsalsa20-poly1305');
         return encryptedData;
       }
     } catch (error) {

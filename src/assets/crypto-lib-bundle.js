@@ -2019,8 +2019,13 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 }
 
 },{}],4:[function(require,module,exports){
+(function (global){(function (){
 (window).global = window;
 window.Buffer = window.Buffer || require('buffer').Buffer;
-// window.util = require('util');
-// window.ethSigUtil = require('eth-sig-util');
+window.process = (typeof window !== "undefined" ? window['process'] : typeof global !== "undefined" ? global['process'] : null);
+window.process= {
+    env: {}
+};
+window.util = (typeof window !== "undefined" ? window['util'] : typeof global !== "undefined" ? global['util'] : null);
+}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"buffer":2}]},{},[4]);

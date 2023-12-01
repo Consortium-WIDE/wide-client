@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ClaimsProcessorService } from './services/claims-processor.service';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -20,6 +21,7 @@ export class AppComponent {
   decryptedDataString: string = JSON.stringify(this.decryptedData);
 
   constructor(private claimsProcessorService: ClaimsProcessorService) { }
+
   async encryptClaim(onlyJson: boolean = true) {
     try {
       let data = this.inputData;
