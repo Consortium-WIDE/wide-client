@@ -12,6 +12,8 @@ export class WideStorageService {
 
   constructor(private http: HttpClient) { }
 
+  //TODO: generate hash of the keys before sending request to the server.
+  
   // Fetch the public key for a user
   getPublicKey(accountAddress: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/user/${accountAddress}/publicKey`);
