@@ -1,0 +1,66 @@
+<div class="main">
+    <div class="wallet-warning" *ngIf="!this.connectedToWallet">
+      <p>Oh no. Looks like MetaMask is not setup on this machine. 😟</p>
+      <p>Please set it up and magic stuff might happen. 🪄</p>
+    </div>
+    <div class="wallet-functions" *ngIf="this.connectedToWallet">
+      <div class="local-functions">
+        <div class="stage">
+          <div>Input Data (JSON)</div>
+          <div class="textarea">
+            <textarea [(ngModel)]="inputData"></textarea>
+          </div>
+          <div class="buttons">
+            <button (click)="encryptClaim(false)">Encrypt</button>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="title">Encrypted Data (using Public Key)</div>
+          <div class="textarea">
+            <textarea [(ngModel)]="encryptedDataString"></textarea>
+          </div>
+          <div class="buttons">
+            <button (click)="decryptClaim()">Decrypt</button>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="title">Decrypted Data (using Private Key)</div>
+          <div class="textarea">
+            <textarea [(ngModel)]="decryptedDataString"></textarea>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="title">Sign a message for funsies!! (for now. We do it for reals later.)</div>
+          <div class="textarea">
+            <textarea [(ngModel)]="messageToSign"></textarea>
+          </div>
+          <div class="buttons">
+            <button (click)="signClaim()">Sign a message!</button>
+          </div>
+        </div>
+      </div>
+      <div class="server-functions">
+        <div class="stage">
+          <div class="title">Ethereum Addresses (fetch from MetaMask)</div>
+          <div class="textarea">
+            <span *ngIf="!this.walletData.publicKeys">None Specified</span>
+            <span *ngIf="this.walletData.publicKeys">{{this.walletData.publicKeys}}</span>
+          </div>
+          <div class="buttons">
+            <button (click)="fetchAccounts()">Fetch</button>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="title">Public (Encryption) Key (register/fetch from KvStorage)</div>
+          <div class="textarea">
+            <span *ngIf="!this.walletData.publicEncryptKey">None Specified</span>
+            <span *ngIf="this.walletData.publicEncryptKey">{{this.walletData.publicEncryptKey | json}}</span>
+          </div>
+          <div class="buttons">
+            <button (click)="registerEncryptKey()">Register</button>
+            <button (click)="fetchEncryptKey()">Fetch</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
