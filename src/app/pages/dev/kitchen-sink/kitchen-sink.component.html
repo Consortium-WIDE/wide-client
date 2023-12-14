@@ -1,62 +1,159 @@
-<h1>Fonts</h1>
-<hr>
-<h1>Big Headline</h1>
-<h2>Middle Headline</h2>
-<h3>Mini Headline</h3>
-<h4>Body 1</h4>
-<p class="important">Body 2</p>
-<p class="active">Body 3</p>
-<p class="info-text">Body 4</p>
-<p class="body-5">Body 5</p>
-<button>Buttons</button>
+<div class="kitchen-sink">
+    <h1>Fonts</h1>
+    <hr>
+    <h1>Big Headline</h1>
+    <h2>Middle Headline</h2>
+    <h3>Mini Headline</h3>
+    <h4>Body 1</h4>
+    <p class="important">Body 2</p>
+    <p class="active">Body 3</p>
+    <p class="info-text">Body 4</p>
+    <p class="body-5">Body 5</p>
+    <button>Buttons</button>
 
-<h1>Colours</h1>
-<hr>
-<h2>Main</h2>
-<div class="swatches">
-    <div class="color-swatch light-beige">$light-beige</div>
-    <div class="color-swatch brown">$brown</div>
-    <div class="color-swatch white">$white</div>
-</div>
-<h2>Gradients</h2>
-<div class="swatches">
-    <div class="color-swatch grad-3">$gradient-3</div>
-    <div class="color-swatch grad-4 text-white">$gradient-4</div>
-</div>
-<h2>Gradient Components</h2>
-<div class="swatches">
-    <div class="color-swatch yellow">$yellow</div>
-    <div class="color-swatch coral">$coral</div>
-    <div class="color-swatch peach">$peach</div>
-    <div class="color-swatch pink">$pink</div>
-</div>
-<h2>Secondary</h2>
-<div class="swatches">
-    <div class="color-swatch grey-light">$grey-light</div>
-    <div class="color-swatch grey-dark">$grey-dark</div>
-</div>
+    <h1>Colours</h1>
+    <hr>
+    <h2>Main</h2>
+    <div class="swatches">
+        <div class="color-swatch light-beige">$light-beige</div>
+        <div class="color-swatch brown">$brown</div>
+        <div class="color-swatch white">$white</div>
+    </div>
+    <h2>Gradients</h2>
+    <div class="swatches">
+        <div class="color-swatch grad-3">$gradient-3</div>
+        <div class="color-swatch grad-4 text-white">$gradient-4</div>
+    </div>
+    <h2>Gradient Components</h2>
+    <div class="swatches">
+        <div class="color-swatch yellow">$yellow</div>
+        <div class="color-swatch coral">$coral</div>
+        <div class="color-swatch peach">$peach</div>
+        <div class="color-swatch pink">$pink</div>
+    </div>
+    <h2>Secondary</h2>
+    <div class="swatches">
+        <div class="color-swatch grey-light">$grey-light</div>
+        <div class="color-swatch grey-dark">$grey-dark</div>
+    </div>
 
-<h1>Buttons</h1>
-<hr>
-<h2>Standard</h2>
-<div class="button-set">
-    <button class="btn-lg" (click)="buttonClick('btn-lg')">btn-lg</button>
-    <button (click)="buttonClick('default')">default</button>
-    <button class="btn-sm" (click)="buttonClick('btn-sm')">btn-sm</button>
-    <button class="btn-xs" (click)="buttonClick('btn-xs')">btn-xs</button>
-</div>
-<h2>White</h2>
-<div class="button-set">
-    <div class="btn-white">
-        <button class="btn-lg" (click)="buttonClick('btn-lg')">btn-lg</button>
+    <h1>Buttons</h1>
+    <hr>
+    <div class="button-region">
+        <h2>Standard</h2>
+        <div class="button-set">
+            <button class="btn-lg" (click)="buttonClick('btn-lg')">btn-lg</button>
+            <button (click)="buttonClick('default')">default</button>
+            <button class="btn-sm" (click)="buttonClick('btn-sm')">btn-sm</button>
+            <button class="btn-xs" (click)="buttonClick('btn-xs')">btn-xs</button>
+        </div>
+        <h2>White Gradient</h2>
+        <div class="button-set">
+            <div class="btn-white-grad">
+                <button class="btn-lg" (click)="buttonClick('btn-lg')">btn-white-grad > btn-lg</button>
+            </div>
+            <div class="btn-white-grad">
+                <button (click)="buttonClick('default')">btn-white-grad > default</button>
+            </div>
+            <div class="btn-white-grad">
+                <button class="btn-sm" (click)="buttonClick('btn-sm')">btn-white-grad > btn-sm</button>
+            </div>
+            <div class="btn-white-grad">
+                <button class="btn-xs" (click)="buttonClick('btn-xs')">btn-white-grad > btn-xs</button>
+            </div>
+        </div>
+        <h2>White Coral</h2>
+        <div class="button-set">
+            <button class="btn-alt btn-lg" (click)="buttonClick('btn-lg')">btn-alt btn-lg</button>
+            <button class="btn-alt" (click)="buttonClick('default')">btn-alt</button>
+            <button class="btn-alt btn-sm" (click)="buttonClick('btn-sm')">btn-alt btn-sm</button>
+            <button class="btn-alt btn-xs" (click)="buttonClick('btn-xs')">btn-alt btn-xs</button>
+        </div>
+        <h2>CTA</h2>
+        <div class="button-set">
+            <a class="btn btn-lg">a.btn.btn-lg <i class="btn-icon"><img src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn">a.btn <i class="btn-icon"><img src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-sm">a.btn.btn-sm <i class="btn-icon"><img src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-xs">a.btn.btn-xs <i class="btn-icon"><img src="assets/icons/pencil.svg" /></i></a>
+        </div>
+        <h2>Grey Light</h2>
+        <div class="button-set">
+            <button class="btn-grey btn-lg" (click)="buttonClick('btn-lg')">btn-grey btn-lg</button>
+            <button class="btn-grey" (click)="buttonClick('default')">btn-grey</button>
+            <button class="btn-grey btn-sm" (click)="buttonClick('btn-sm')">btn-grey btn-sm</button>
+            <button class="btn-grey btn-xs" (click)="buttonClick('btn-xs')">btn-grey btn-xs</button>
+        </div>
+        <h2>White Grey</h2>
+        <div class="button-set">
+            <button class="btn-grey-alt btn-lg" (click)="buttonClick('btn-lg')">btn-grey-alt btn-lg</button>
+            <button class="btn-grey-alt" (click)="buttonClick('default')">btn-grey-alt</button>
+            <button class="btn-grey-alt btn-sm" (click)="buttonClick('btn-sm')">btn-grey-alt btn-sm</button>
+            <button class="btn-grey-alt btn-xs" (click)="buttonClick('btn-xs')">btn-grey-alt btn-xs</button>
+        </div>
+        <h2>CTA Grey</h2>
+        <div class="button-set">
+            <a class="btn btn-grey btn-lg">a.btn.btn-grey.btn-lg <i class="btn-icon"><img
+                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-grey">a.btn.btn-grey <i class="btn-icon"><img
+                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-grey btn-sm">a.btn.btn-grey.btn-sm <i class="btn-icon"><img
+                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-grey btn-xs">a.btn.btn-grey.btn-xs <i class="btn-icon"><img
+                        src="assets/icons/pencil.svg" /></i></a>
+        </div>
     </div>
-    <div class="btn-white">
-        <button (click)="buttonClick('default')">default</button>
+    <div class="button-region gradient">
+        <h2>White</h2>
+        <div class="button-set">
+            <button class="btn-white btn-lg" (click)="buttonClick('btn-lg')">btn-white btn-lg</button>
+            <button class="btn-white" (click)="buttonClick('default')">btn-white</button>
+            <button class="btn-white btn-sm" (click)="buttonClick('btn-sm')">btn-white btn-sm</button>
+            <button class="btn-white btn-xs" (click)="buttonClick('btn-xs')">btn-white btn-xs</button>
+        </div>
+        <h2>White</h2>
+        <div class="button-set">
+            <button class="btn-white-outline btn-lg" (click)="buttonClick('btn-lg')">btn-white-outline btn-lg</button>
+            <button class="btn-white-outline" (click)="buttonClick('default')">btn-white-outline</button>
+            <button class="btn-white-outline btn-sm" (click)="buttonClick('btn-sm')">btn-white-outline btn-sm</button>
+            <button class="btn-white-outline btn-xs" (click)="buttonClick('btn-xs')">btn-white-outline btn-xs</button>
+        </div>
+        <h2>CTA</h2>
+        <div class="button-set">
+            <a class="btn btn-white btn-lg">a.btn.btn-white.btn-lg <i class="btn-icon"><img
+                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-white">a.btn.btn-white <i class="btn-icon"><img
+                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-white btn-sm">a.btn.btn-white.btn-sm <i class="btn-icon"><img
+                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-white btn-xs">a.btn.btn-white.btn-xs <i class="btn-icon"><img
+                        src="assets/icons/pencil.svg" /></i></a>
+        </div>
+        <h2>Grey Dark</h2>
+        <div class="button-set">
+            <button class="btn-grey-dark btn-lg" (click)="buttonClick('btn-lg')">btn-grey-dark btn-lg</button>
+            <button class="btn-grey-dark" (click)="buttonClick('default')">btn-grey-dark</button>
+            <button class="btn-grey-dark btn-sm" (click)="buttonClick('btn-sm')">btn-grey-dark btn-sm</button>
+            <button class="btn-grey-dark btn-xs" (click)="buttonClick('btn-xs')">btn-grey-dark btn-xs</button>
+        </div>
+        <h2>Grey Alt</h2>
+        <div class="button-set">
+            <button class="btn-grey-dark-alt btn-lg" (click)="buttonClick('btn-lg')">btn-grey-dark-alt btn-lg</button>
+            <button class="btn-grey-dark-alt" (click)="buttonClick('default')">btn-grey-dark-alt</button>
+            <button class="btn-grey-dark-alt btn-sm" (click)="buttonClick('btn-sm')">btn-grey-dark-alt btn-sm</button>
+            <button class="btn-grey-dark-alt btn-xs" (click)="buttonClick('btn-xs')">btn-grey-dark-alt btn-xs</button>
+        </div>
+        <h2>CTA Grey Dark</h2>
+        <div class="button-set">
+            <a class="btn btn-grey-dark btn-lg">a.btn.btn-grey-dark.btn-lg <i class="btn-icon"><img
+                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-grey-dark">a.btn.btn-grey-dark <i class="btn-icon"><img
+                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-grey-dark btn-sm">a.btn.btn-grey-dark.btn-sm <i class="btn-icon"><img
+                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-grey-dark btn-xs">a.btn.btn-grey-dark.btn-xs <i class="btn-icon"><img
+                        src="assets/icons/pencil.svg" /></i></a>
+        </div>
     </div>
-    <div class="btn-white">
-        <button class="btn-sm" (click)="buttonClick('btn-sm')">btn-sm</button>
-    </div>
-    <div class="btn-white">
-        <button class="btn-xs" (click)="buttonClick('btn-xs')">btn-xs</button>
-    </div>
+
+
 </div>

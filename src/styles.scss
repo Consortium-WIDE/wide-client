@@ -9,6 +9,8 @@ body {
     line-height: 18px;
 
     background-color: $light-beige;
+
+    margin: 0;
 }
 
 /* TEXT */
@@ -73,35 +75,125 @@ button {
     font-size: 16px;
     line-height: 19px;
 
-    padding-left: 80px;
-    padding-right: 80px;
+    min-width: 190px;
+
+    padding-left: 20px;
+    padding-right: 20px;
     padding-top: 15px;
     padding-bottom: 15px;
 
     cursor: pointer;
+}
 
-    &.btn-lg {
-        font-size: 16px;
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
+a.btn {
+    box-sizing: border-box;
 
-    &.btn-sm {
-        font-size: 14px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-    }
+    color: $coral;
 
-    &.btn-xs {
-        font-size: 14px;
-        padding-top: 5px;
-        padding-bottom: 5px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+
+    min-width: 200px;
+
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+
+    text-align: center;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 2px;
+
+    cursor: pointer;
+
+    .btn-icon {
+        padding-left: 10px;
+        padding-right: 10px;
     }
+}
+
+.btn-lg,
+a.btn.btn-lg {
+    font-size: 16px;
+
+    min-width: 200px;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.btn-sm,
+a.btn.btn-sm {
+    font-size: 14px;
+    min-width: 160px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.btn-xs,
+a.btn.btn-xs {
+    font-size: 14px;
+    min-width: 160px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.btn-alt {
+    background: $white;
+    color: $coral;
+    border: 2px solid $coral;
+}
+
+.btn-white-outline {
+    background: transparent;
+    color: $white;
+    border: 2px solid $white;
+}
+
+button.btn-white {
+    background: $white;
+    color: $black;
+}
+
+button.btn-grey {
+    background: $grey-light;
+    color: $white;
+}
+
+button.btn-grey-dark {
+    background: $grey-dark;
+    color: $light-beige;
+}
+
+button.btn-grey-alt {
+    background: transparent;
+    color: $grey-light;
+    border: 2px solid $grey-light;
+}
+
+button.btn-grey-dark-alt {
+    background: transparent;
+    color: $grey-dark;
+    border: 2px solid $grey-dark;
+}
+
+a.btn.btn-grey {
+    color: $grey-light;
+}
+
+a.btn.btn-grey-dark {
+    color: $grey-dark;
+}
+
+a.btn.btn-white {
+    color: $white;
 }
 
 $btn-white-border-width: 2px;
 
-.btn-white {
+.btn-white-grad {
     &:before {
         content: "";
         display: block;
