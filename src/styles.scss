@@ -1,0 +1,221 @@
+@import 'styles/_imports';
+
+/* STYLES */
+body {
+    font-family: 'Inter', sans-serif;
+
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
+
+    background-color: $light-beige;
+
+    margin: 0;
+}
+
+/* TEXT */
+h1 {
+    font-size: 40px;
+    line-height: 48px;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 23px;
+    line-height: 28px;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: 700;
+}
+
+h4 {
+    font-size: 18px;
+    font-weight: 500;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.important {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.active {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.info-text {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.text-white {
+    color: $white;
+}
+
+.text-black {
+    color: $black;
+}
+
+/* BUTTONS */
+button {
+    border: 0;
+    border-radius: 5px;
+    background: $gradient-4;
+
+    color: $white;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+
+    min-width: 190px;
+
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    cursor: pointer;
+}
+
+a.btn {
+    box-sizing: border-box;
+
+    color: $coral;
+
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+
+    min-width: 200px;
+
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+
+    text-align: center;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 2px;
+
+    cursor: pointer;
+
+    .btn-icon {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+.btn-lg,
+a.btn.btn-lg {
+    font-size: 16px;
+
+    min-width: 200px;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.btn-sm,
+a.btn.btn-sm {
+    font-size: 14px;
+    min-width: 160px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.btn-xs,
+a.btn.btn-xs {
+    font-size: 14px;
+    min-width: 160px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.btn-alt {
+    background: $white;
+    color: $coral;
+    border: 2px solid $coral;
+}
+
+.btn-white-outline {
+    background: transparent;
+    color: $white;
+    border: 2px solid $white;
+}
+
+button.btn-white {
+    background: $white;
+    color: $black;
+}
+
+button.btn-grey {
+    background: $grey-light;
+    color: $white;
+}
+
+button.btn-grey-dark {
+    background: $grey-dark;
+    color: $light-beige;
+}
+
+button.btn-grey-alt {
+    background: transparent;
+    color: $grey-light;
+    border: 2px solid $grey-light;
+}
+
+button.btn-grey-dark-alt {
+    background: transparent;
+    color: $grey-dark;
+    border: 2px solid $grey-dark;
+}
+
+a.btn.btn-grey {
+    color: $grey-light;
+}
+
+a.btn.btn-grey-dark {
+    color: $grey-dark;
+}
+
+a.btn.btn-white {
+    color: $white;
+}
+
+$btn-white-border-width: 2px;
+
+.btn-white-grad {
+    &:before {
+        content: "";
+        display: block;
+        background: $white;
+        position: absolute;
+        width: calc(100% - ($btn-white-border-width * 2));
+        height: calc(100% - ($btn-white-border-width * 2));
+        border-radius: 5px;
+    }
+
+    position: relative;
+    display: block;
+    background: $gradient-4;
+    padding: $btn-white-border-width;
+    z-index: 1;
+    border-radius: 5px;
+
+    button {
+        position: relative;
+        background: $gradient-3;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+}

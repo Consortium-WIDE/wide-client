@@ -1,0 +1,91 @@
+@import '_imports';
+
+.kitchen-sink {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.swatches {
+    display: flex;
+
+    .color-swatch {
+        width: 120px;
+        margin: 20px;
+
+        border: 1px solid $off-white;
+        border-radius: 25px;
+
+        padding-top: 80px;
+        padding-bottom: 20px;
+        padding-left: 20px;
+
+
+        //TODO: Add SCSS Variables
+        &.light-beige {
+            background-color: $light-beige;
+        }
+
+        &.brown {
+            background-color: $brown;
+            color: $white;
+        }
+
+        &.white {
+            background-color: $white;
+        }
+
+        &.grad-3 {
+            background: $gradient-3;
+        }
+
+        &.grad-4 {
+            background: $gradient-4;
+        }
+
+        &.yellow {
+            background-color: $yellow;
+        }
+
+        &.coral {
+            background-color: $coral;
+        }
+
+        &.peach {
+            background-color: $peach;
+        }
+
+        &.pink {
+            background-color: $pink;
+        }
+
+        &.grey-dark {
+            background-color: $grey-dark;
+            color: $white;
+        }
+
+        &.grey-light {
+            background-color: $grey-light;
+        }
+    }
+}
+
+.button-set {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.button-region {
+    margin-left: -20px;
+    margin-right: -20px;
+    
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+
+    &.gradient {
+        color: $light-beige;
+        background: $gradient-4;
+    }
+}
