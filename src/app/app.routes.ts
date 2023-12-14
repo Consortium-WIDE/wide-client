@@ -5,9 +5,8 @@ import { LandingPageComponent } from './pages/client/landing-page/landing-page.c
 import { NotFoundComponent } from './pages/general/not-found/not-found.component';
 
 export const routes: Routes = [
-    // { path: 'dev/kitchen-sink', component: KitchenSinkComponent },
-    // { path: 'dev/poc', component: PocComponent },
-    // { path: '', component: LandingPageComponent },
-    // { path: '**', component: NotFoundComponent }
-    { path: '**', component: LandingPageComponent }
+    { path: 'dev/kitchen-sink', component: KitchenSinkComponent },
+    { path: 'dev/poc', component: PocComponent },
+    { path: '', component: LandingPageComponent },
+    { path: '**', component: NotFoundComponent }
 ];
