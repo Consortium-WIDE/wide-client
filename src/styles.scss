@@ -1,0 +1,129 @@
+@import 'styles/_imports';
+
+/* STYLES */
+body {
+    font-family: 'Inter', sans-serif;
+
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
+
+    background-color: $light-beige;
+}
+
+/* TEXT */
+h1 {
+    font-size: 40px;
+    line-height: 48px;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 23px;
+    line-height: 28px;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: 700;
+}
+
+h4 {
+    font-size: 18px;
+    font-weight: 500;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.important {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.active {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.info-text {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.text-white {
+    color: $white;
+}
+
+.text-black {
+    color: $black;
+}
+
+/* BUTTONS */
+button {
+    border: 0;
+    border-radius: 5px;
+    background: $gradient-4;
+
+    color: $white;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+
+    padding-left: 80px;
+    padding-right: 80px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    cursor: pointer;
+
+    &.btn-lg {
+        font-size: 16px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    &.btn-sm {
+        font-size: 14px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    &.btn-xs {
+        font-size: 14px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
+
+$btn-white-border-width: 2px;
+
+.btn-white {
+    &:before {
+        content: "";
+        display: block;
+        background: $white;
+        position: absolute;
+        width: calc(100% - ($btn-white-border-width * 2));
+        height: calc(100% - ($btn-white-border-width * 2));
+        border-radius: 5px;
+    }
+
+    position: relative;
+    display: block;
+    background: $gradient-4;
+    padding: $btn-white-border-width;
+    z-index: 1;
+    border-radius: 5px;
+
+    button {
+        position: relative;
+        background: $gradient-3;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+}
