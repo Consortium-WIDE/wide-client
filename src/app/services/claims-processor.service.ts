@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
-import * as sigUtil from 'eth-sig-util';
+import nacl from 'tweetnacl';
+import naclUtil from 'tweetnacl-util';
 import Web3 from 'web3';
-import WalletConnectProvider from '@walletconnect/web3-provider';
+// import WalletConnectProvider from '@walletconnect/web3-provider';
 
-// Define a type for the Ethereum object on the window
-declare global {
-  interface Window {
-    ethereum: any;
-  }
-}
+declare let window: any;
 
 @Injectable({
   providedIn: 'root'
@@ -55,17 +51,17 @@ export class ClaimsProcessorService {
   }
 
   //TODO: Sample implementation, not yet fully integrated
-  public async connectWalletConnect(): Promise<void> {
-    const provider = new WalletConnectProvider({
-      infuraId: 'YOUR_INFURA_ID' // Replace with your Infura ID
-    });
+  // public async connectWalletConnect(): Promise<void> {
+  //   const provider = new WalletConnectProvider({
+  //     infuraId: 'YOUR_INFURA_ID' // Replace with your Infura ID
+  //   });
 
-    try {
-      await provider.enable();
-    } catch (error) {
-      console.error('User denied wallet access or connection failed', error);
-    }
-  }
+  //   try {
+  //     await provider.enable();
+  //   } catch (error) {
+  //     console.error('User denied wallet access or connection failed', error);
+  //   }
+  // }
 
   public async getPublicKeys(): Promise<string[] | null> {
     if (!this.web3) {
@@ -99,7 +95,7 @@ export class ClaimsProcessorService {
     try {
       const pubKey = await this.getEncryptionPublicKey(accounts[0]);
       if (pubKey) {
-        const encryptedData = sigUtil.encrypt(pubKey, { data: JSON.stringify(data) }, 'x25519-xsalsa20-poly1305');
+        const encryptedData = this.encrypt(pubKey, JSON.stringify(data));
         return encryptedData;
       }
     } catch (error) {
@@ -176,5 +172,32 @@ export class ClaimsProcessorService {
       console.error('Error retrieving encryption public key', error);
       return null;
     }
+  }
+
+  private encrypt(receiverPublicKey: string, messageToEncrypt: string) {
+    // Convert public key from hex to Uint8Array
+    const publicKeyUint8 = naclUtil.decodeBase64(receiverPublicKey);
+
+    // Convert data to Uint8Array
+    const messageUint8 = naclUtil.decodeUTF8(messageToEncrypt);
+
+    // Generate a random nonce
+    const nonce = nacl.randomBytes(nacl.box.nonceLength);
+
+    // Generate a temporary keypair for this encryption
+    const ephemeralKeyPair = nacl.box.keyPair();
+
+    // Encrypt the message
+    const encryptedData = nacl.box(messageUint8, nonce, publicKeyUint8, ephemeralKeyPair.secretKey);
+
+    // Create an object to hold the encrypted data, nonce, and ephemeral public key
+    const encryptedPayload = {
+      version:"x25519-xsalsa20-poly1305",
+      nonce: naclUtil.encodeBase64(nonce),
+      ephemPublicKey: naclUtil.encodeBase64(ephemeralKeyPair.publicKey),
+      ciphertext: naclUtil.encodeBase64(encryptedData)
+    };
+
+    return encryptedPayload;
   }
 }
