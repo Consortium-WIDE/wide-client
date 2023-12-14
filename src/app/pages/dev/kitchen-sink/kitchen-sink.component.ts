@@ -10,4 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class KitchenSinkComponent {
 
+  buttonClick(msg: string): void {
+    alert(`Clicked ${msg}`);
+  }
 }

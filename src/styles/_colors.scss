@@ -1,0 +1,20 @@
+/* MAIN COLORS */
+$light-beige: #FAF7F6;
+$brown: #3E1B07;
+$white: #FFF;
+$black: #000;
+$off-white: #F2F2F2;
+
+/* SECONDARY */
+$grey-dark: #727272;
+$grey-light: #CBCBCB;
+
+/* GRADIENT COMPONENT */
+$coral: #FF7872;
+$yellow: #FFC586;
+$peach: #FCAB90;
+$pink: #F57F9F;
+
+/* GRADIENT */
+$gradient-3: linear-gradient(60deg, $yellow, 25%, $coral, 75%, $pink);
+$gradient-4: linear-gradient(60deg, $coral, 5%, $yellow, 40%, $peach, 80%, $pink);
