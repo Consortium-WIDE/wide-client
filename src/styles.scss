@@ -10,6 +10,8 @@ body {
 
     background-color: $light-beige;
 
+    color: $brown;
+
     margin: 0;
 }
 
@@ -21,7 +23,7 @@ h1 {
 }
 
 h2 {
-    font-size: 23px;
+    font-size: 24px;
     line-height: 28px;
     font-weight: 700;
 }
@@ -34,8 +36,7 @@ h3 {
 
 h4 {
     font-size: 18px;
-    font-weight: 500;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-weight: 600;
 }
 
 .important {
@@ -68,7 +69,7 @@ h4 {
 button {
     border: 0;
     border-radius: 5px;
-    background: $gradient-4;
+    background: $gradient-3;
 
     color: $white;
     font-weight: 700;
@@ -206,7 +207,7 @@ $btn-white-border-width: 2px;
 
     position: relative;
     display: block;
-    background: $gradient-4;
+    background: $gradient-3;
     padding: $btn-white-border-width;
     z-index: 1;
     border-radius: 5px;
