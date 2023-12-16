@@ -3,6 +3,19 @@
 .kitchen-sink {
     padding-left: 20px;
     padding-right: 20px;
+
+    margin-bottom: 120px;
+}
+
+.form-input-region {
+    background-color: $white;
+    padding: 20px;
+
+
+    .input {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }
 
 .swatches {

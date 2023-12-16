@@ -94,8 +94,7 @@
         <div class="button-set">
             <a class="btn btn-grey btn-lg">a.btn.btn-grey.btn-lg <i class="btn-icon"><img
                         src="assets/icons/pencil.svg" /></i></a>
-            <a class="btn btn-grey">a.btn.btn-grey <i class="btn-icon"><img
-                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-grey">a.btn.btn-grey <i class="btn-icon"><img src="assets/icons/pencil.svg" /></i></a>
             <a class="btn btn-grey btn-sm">a.btn.btn-grey.btn-sm <i class="btn-icon"><img
                         src="assets/icons/pencil.svg" /></i></a>
             <a class="btn btn-grey btn-xs">a.btn.btn-grey.btn-xs <i class="btn-icon"><img
@@ -121,8 +120,7 @@
         <div class="button-set">
             <a class="btn btn-white btn-lg">a.btn.btn-white.btn-lg <i class="btn-icon"><img
                         src="assets/icons/pencil.svg" /></i></a>
-            <a class="btn btn-white">a.btn.btn-white <i class="btn-icon"><img
-                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-white">a.btn.btn-white <i class="btn-icon"><img src="assets/icons/pencil.svg" /></i></a>
             <a class="btn btn-white btn-sm">a.btn.btn-white.btn-sm <i class="btn-icon"><img
                         src="assets/icons/pencil.svg" /></i></a>
             <a class="btn btn-white btn-xs">a.btn.btn-white.btn-xs <i class="btn-icon"><img
@@ -155,5 +153,39 @@
         </div>
     </div>
 
+    <h1>Form Inputs</h1>
+    <div class="form-input-region">
+        <form #myForm="ngForm">
+            <h2>Input</h2>
+            <div class="input">
+                <input type="text" id="textbox" class="text-input" name="textbox" placeholder="input text"
+                    [(ngModel)]="textboxValue">
+            </div>
+            <div class="input">
+                <input type="text" id="textbox" class="text-input invalid" name="textbox" placeholder="input text"
+                    [(ngModel)]="textboxValue">
+                <span class="error-message">Error Text</span>
+            </div>
+
+            <h2>Radio</h2>
+            <div class="radio-group">
+                <input type="radio" id="radioOption1" name="radioGroup" value="option1" [(ngModel)]="radioValue">
+                <label for="radioOption1">Option 1</label>
+                <input type="radio" id="radioOption2" name="radioGroup" value="option2" [(ngModel)]="radioValue">
+                <label for="radioOption2">Option 2</label>
+            </div>
+
+            <h3>Top-down, variant</h3>
+            <div class="radio-group vertical">
+                <input type="radio" id="radioOptionB1" class="radio-alt" name="radioGroupB" value="option1"
+                    [(ngModel)]="radioValueB"> <label for="radioOptionB1">Option 1</label>
+                <input type="radio" id="radioOptionB2" class="radio-alt" name="radioGroupB" value="option2"
+                    [(ngModel)]="radioValueB"> <label for="radioOptionB2">Option 2</label>
+            </div>
+
+            <!-- <h2>Checkbox</h2>
+            <input type="checkbox" id="checkbox" name="checkbox" [(ngModel)]="checkboxValue"> -->
+        </form>
+    </div>
 
 </div>
