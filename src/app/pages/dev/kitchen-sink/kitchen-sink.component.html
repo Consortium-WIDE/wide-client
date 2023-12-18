@@ -162,7 +162,7 @@
                     [(ngModel)]="textboxValue">
             </div>
             <div class="input">
-                <input type="text" id="textbox" class="text-input invalid" name="textbox" placeholder="input text"
+                <input type="text" id="textbox2" class="text-input invalid" name="textbox" placeholder="input text"
                     [(ngModel)]="textboxValue">
                 <span class="error-message">Error Text</span>
             </div>
@@ -183,8 +183,38 @@
                     [(ngModel)]="radioValueB"> <label for="radioOptionB2">Option 2</label>
             </div>
 
-            <!-- <h2>Checkbox</h2>
-            <input type="checkbox" id="checkbox" name="checkbox" [(ngModel)]="checkboxValue"> -->
+            <h2>Checkbox</h2>
+            <div class="checkbox-group">
+                <h3>Small Checkbox (default)</h3>
+                <input type="checkbox" id="checkbox" name="checkbox" [(ngModel)]="checkboxValue">
+            </div>
+            <div class="checkbox-group">
+                <h3>Large checkbox (.checkbox-lg)</h3>
+                <input type="checkbox" class="checkbox-lg" id="checkbox2" name="checkbox2" [(ngModel)]="checkboxValue2">
+            </div>
+
+            <h3>Success indicator</h3>
+            <div class="success-indicator">
+                <i class="wide-tick success"></i> Success indicator
+            </div>
+
+
+            <h3>Dropdown</h3>
+            <div class="dropdown">
+                <select>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                    <option value="4">Option 4</option>
+                    <option value="5">Option 5</option>
+                    <option value="6">Option 6</option>
+                </select>
+            </div>
+
+            <h3>Dropdown Custom</h3>
+            <div class="dropdown">
+                <app-wide-dropdown [(ngModel)]="selectedOption" name="myDropdown" [options]="['WIDE', 'WIDER', 'WIDEST']" prompt="Custom prompt"></app-wide-dropdown>
+            </div>
         </form>
     </div>
 
