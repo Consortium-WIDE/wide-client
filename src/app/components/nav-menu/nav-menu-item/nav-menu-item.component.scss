@@ -20,6 +20,17 @@ a {
         height: 22px;
         background: $white;
         border-radius: 5px;
+
+        &.mdi {
+            background: transparent;
+            position: relative;
+            top: 2px;
+            font-size: 26px;
+        }
+    }
+
+    i.mdi + span.menu-text {
+        bottom: 2px;
     }
 
     span.menu-text {
@@ -33,6 +44,12 @@ a {
 
         i.menu-icon {
             background: $coral;
+
+            &.mdi {
+                background: $white;
+                color: $coral;
+                font-size: 26px;
+            }
         }
 
         &:after,

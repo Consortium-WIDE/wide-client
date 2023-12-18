@@ -5,15 +5,15 @@
         </div>
         <ul class="items top">
             <!-- <li><a [routerLink]="['/']"><i class="menu-icon"></i><span class="menu-text">Home</span></a></li> -->
-            <li><app-nav-menu-item url="/" text="Home"></app-nav-menu-item></li>
-            <li><app-nav-menu-item url="/dev/kitchen-sink" text="Kitchen Sink"></app-nav-menu-item></li>
-            <li><app-nav-menu-item url="/dev/poc" text="Dev POC"></app-nav-menu-item></li>
+            <li><app-nav-menu-item url="/" text="Home" [class]="'mdi mdi-home'"></app-nav-menu-item></li>
+            <li><app-nav-menu-item url="/dev/kitchen-sink" text="Kitchen Sink" [class]="'mdi mdi-countertop'"></app-nav-menu-item></li>
+            <li><app-nav-menu-item url="/dev/poc" text="Dev POC" [class]="'mdi mdi-memory'"></app-nav-menu-item></li>
         </ul>
 
         <ul class="items bottom">
-            <li><app-nav-menu-item url="/about" text="About WIDE"></app-nav-menu-item></li>
-            <li><app-nav-menu-item url="/support" text="Support"></app-nav-menu-item></li>
-            <li class="m-t-25"><app-nav-menu-item (menuItemClickEvent)="logout($event)" text="Log Out"></app-nav-menu-item></li>
+            <li><app-nav-menu-item url="/about" text="About WIDE" [class]="'mdi mdi-information'"></app-nav-menu-item></li>
+            <li><app-nav-menu-item url="/support" text="Support" [class]="'mdi mdi-lifebuoy'"></app-nav-menu-item></li>
+            <li class="m-t-25"><app-nav-menu-item (menuItemClickEvent)="logout($event)" [class]="'mdi mdi-logout'" text="Log Out"></app-nav-menu-item></li>
         </ul>
     </div>
 </div>

@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
 export class NavMenuItemComponent {
   @Input() text: string = ''
   @Input() url: string = '/'
+  @Input() class: string = '';
   @Output() menuItemClickEvent = new EventEmitter<any>();
 
   click(event: any) {
