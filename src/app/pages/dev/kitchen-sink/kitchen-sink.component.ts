@@ -11,12 +11,14 @@ import { WideDropdownComponent } from '../../../components/wide-dropdown/wide-dr
   styleUrl: './kitchen-sink.component.scss'
 })
 export class KitchenSinkComponent {
-  textboxValue = '';
-  radioValue = '';
-  radioValueB = '';
-  checkboxValue = false;
-  checkboxValue2 = true;
-  selectedOption = '';
+  form = {
+    textboxValue: '',
+    radioValue: '',
+    radioValueB: '',
+    checkboxValue: false,
+    checkboxValue2: true,
+    selectedOption: ''
+  }
 
   buttonClick(msg: string): void {
     alert(`Clicked ${msg}`);

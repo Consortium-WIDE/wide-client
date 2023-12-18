@@ -159,38 +159,38 @@
             <h2>Input</h2>
             <div class="input">
                 <input type="text" id="textbox" class="text-input" name="textbox" placeholder="input text"
-                    [(ngModel)]="textboxValue">
+                    [(ngModel)]="form.textboxValue">
             </div>
             <div class="input">
                 <input type="text" id="textbox2" class="text-input invalid" name="textbox" placeholder="input text"
-                    [(ngModel)]="textboxValue">
+                    [(ngModel)]="form.textboxValue">
                 <span class="error-message">Error Text</span>
             </div>
 
             <h2>Radio</h2>
             <div class="radio-group">
-                <input type="radio" id="radioOption1" name="radioGroup" value="option1" [(ngModel)]="radioValue">
+                <input type="radio" id="radioOption1" name="radioGroup" value="option1" [(ngModel)]="form.radioValue">
                 <label for="radioOption1">Option 1</label>
-                <input type="radio" id="radioOption2" name="radioGroup" value="option2" [(ngModel)]="radioValue">
+                <input type="radio" id="radioOption2" name="radioGroup" value="option2" [(ngModel)]="form.radioValue">
                 <label for="radioOption2">Option 2</label>
             </div>
 
             <h3>Top-down, variant</h3>
             <div class="radio-group vertical">
                 <input type="radio" id="radioOptionB1" class="radio-alt" name="radioGroupB" value="option1"
-                    [(ngModel)]="radioValueB"> <label for="radioOptionB1">Option 1</label>
+                    [(ngModel)]="form.radioValueB"> <label for="radioOptionB1">Option 1</label>
                 <input type="radio" id="radioOptionB2" class="radio-alt" name="radioGroupB" value="option2"
-                    [(ngModel)]="radioValueB"> <label for="radioOptionB2">Option 2</label>
+                    [(ngModel)]="form.radioValueB"> <label for="radioOptionB2">Option 2</label>
             </div>
 
             <h2>Checkbox</h2>
             <div class="checkbox-group">
                 <h3>Small Checkbox (default)</h3>
-                <input type="checkbox" id="checkbox" name="checkbox" [(ngModel)]="checkboxValue">
+                <input type="checkbox" id="checkbox" name="checkbox" [(ngModel)]="form.checkboxValue">
             </div>
             <div class="checkbox-group">
                 <h3>Large checkbox (.checkbox-lg)</h3>
-                <input type="checkbox" class="checkbox-lg" id="checkbox2" name="checkbox2" [(ngModel)]="checkboxValue2">
+                <input type="checkbox" class="checkbox-lg" id="checkbox2" name="checkbox2" [(ngModel)]="form.checkboxValue2">
             </div>
 
             <h3>Success indicator</h3>
@@ -198,24 +198,15 @@
                 <i class="wide-tick success"></i> Success indicator
             </div>
 
-
             <h3>Dropdown</h3>
             <div class="dropdown">
-                <select>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
-                    <option value="4">Option 4</option>
-                    <option value="5">Option 5</option>
-                    <option value="6">Option 6</option>
-                </select>
-            </div>
-
-            <h3>Dropdown Custom</h3>
-            <div class="dropdown">
-                <app-wide-dropdown [(ngModel)]="selectedOption" name="myDropdown" [options]="['WIDE', 'WIDER', 'WIDEST']" prompt="Custom prompt"></app-wide-dropdown>
+                <app-wide-dropdown [(ngModel)]="form.selectedOption" name="myDropdown" [options]="['WIDE', 'WIDER', 'WIDEST']" prompt="Custom prompt"></app-wide-dropdown>
             </div>
         </form>
+        <h2>Form Results</h2>
+        <div class="form-results">
+            {{form | json}}
+        </div>
     </div>
 
 </div>
