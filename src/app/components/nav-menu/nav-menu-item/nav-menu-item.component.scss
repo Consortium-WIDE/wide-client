@@ -14,6 +14,14 @@ a {
     margin-top: 5px;
     margin-bottom: 5px;
 
+    &.active {
+        background: $white;
+        color: $coral;
+        font-weight: 500;
+        margin-right: 20px;
+        border-radius: 5px;
+    }
+
     i.menu-icon {
         display: inline-block;
         width: 22px;
@@ -41,6 +49,7 @@ a {
 
     &:hover {
         font-weight: 500;
+        margin-right: 0;
 
         i.menu-icon {
             background: $coral;

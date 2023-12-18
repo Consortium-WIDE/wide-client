@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-nav-menu-item',
@@ -14,6 +14,13 @@ export class NavMenuItemComponent {
   @Input() url: string = '/'
   @Input() class: string = '';
   @Output() menuItemClickEvent = new EventEmitter<any>();
+
+  constructor(private router: Router) {
+  }
+
+  get isActive(): boolean {
+    return this.router.url === this.url;
+  }
 
   click(event: any) {
     this.menuItemClickEvent.emit(event);
