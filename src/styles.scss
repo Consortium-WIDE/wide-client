@@ -1,6 +1,12 @@
 @import 'styles/_imports';
 
 /* STYLES */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: 'Inter', sans-serif;
 
@@ -63,6 +69,17 @@ h4 {
 
 .text-black {
     color: $black;
+}
+
+a {
+    padding: 0px 5px 0px 5px;
+    color: $white;
+    text-decoration: none;
+
+    &:hover {
+        background: $white;
+        color: $coral;
+    }
 }
 
 /* BUTTONS */
@@ -410,4 +427,13 @@ select {
 /* COLOURS */
 .success {
     background-color: $success;
+}
+
+/* HELPERS */
+.m-t-25 {
+    margin-top: 25px;
+}
+
+.p-t-25 {
+    padding-top: 25px;
 }

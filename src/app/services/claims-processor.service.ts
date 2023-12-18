@@ -4,6 +4,8 @@ import naclUtil from 'tweetnacl-util';
 import Web3 from 'web3';
 // import WalletConnectProvider from '@walletconnect/web3-provider';
 
+//DO NOT USE. For POC purpocses only
+
 declare let window: any;
 
 @Injectable({
