@@ -1,0 +1,82 @@
+@import '_imports';
+
+a {
+    display: block;
+    position: relative;
+
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    i.menu-icon {
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        background: $white;
+        border-radius: 5px;
+
+        &.mdi {
+            background: transparent;
+            position: relative;
+            top: 2px;
+            font-size: 26px;
+        }
+    }
+
+    i.mdi + span.menu-text {
+        bottom: 2px;
+    }
+
+    span.menu-text {
+        position: relative;
+        bottom: 5px;
+        padding-left: 10px;
+    }
+
+    &:hover {
+        font-weight: 500;
+
+        i.menu-icon {
+            background: $coral;
+
+            &.mdi {
+                background: $white;
+                color: $coral;
+                font-size: 26px;
+            }
+        }
+
+        &:after,
+        &:before {
+            content: "";
+            display: block;
+            height: 15px;
+            width: 15px;
+            position: absolute;
+            background: transparent;
+            border: 5px solid $white;
+        }
+
+        &:after {
+            top: -15px;
+            right: -5px;
+            border-radius: 0 0 50% 0;
+            border-top: 0;
+            border-left: 0;
+        }
+
+        &:before {
+            bottom: -15px;
+            right: -5px;
+            border-radius: 0 50% 0 0;
+            border-bottom: 0;
+            border-left: 0;
+        }
+    }
+}
