@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Web3 from 'web3';
+import { isAddress } from 'web3-validator';
 
 declare let window: any;
 
@@ -82,6 +83,17 @@ export class Web3WalletService {
     }
 
     return accounts;
+  }
+
+  public abridgeEthereumAddress(address: string, leadingChars: number = 4, trailingChars: number = 2) {
+    if (isAddress(address)) {
+      const leading = address.slice(2, 2 + leadingChars);
+      const trailing = address.slice(-trailingChars);
+
+      return `0x${leading}...${trailing}`;
+    }
+
+    return 'Invalid Address';
   }
 
   public isConnectedToWallet(): boolean {

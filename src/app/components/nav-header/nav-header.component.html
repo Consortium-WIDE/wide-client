@@ -1,0 +1,26 @@
+<div class="header">
+    <div class="title-bar">
+        <h1 class="title">{{title}}</h1>
+
+        <div class="wallet-connector">
+            <div class="connect-wallet" *ngIf="!isConnected">
+                <button class="btn-alt" (click)="connectWallet()">Connect wallet</button>
+            </div>
+            <div class="accounts" *ngIf="isConnected">
+                <i class="wallet-icon"><svg viewBox="0 0 24 24">
+                        <path [attr.d]="ethereumIcon.path"></path>
+                    </svg></i>
+                <span class="wallet-address" [title]="accounts ? accounts[0] : null">{{accounts ?
+                    abridgeEthereumAddress(accounts[0]) : null}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="nav-bar">
+        <ul *ngIf="breadcrumbs">
+            <ng-container *ngFor="let breadcrumb of breadcrumbs; let i = index">
+                <li [ngClass]="i == breadcrumbs.length - 1 ? 'active' : ''">{{ breadcrumb }}</li>
+                <li *ngIf="i < breadcrumbs.length - 1">/</li>
+            </ng-container>
+        </ul>
+    </div>
+</div>
