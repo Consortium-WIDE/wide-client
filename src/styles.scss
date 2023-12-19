@@ -11,9 +11,9 @@ html, body {
 body {
     font-family: 'Inter', sans-serif;
 
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 18px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
 
     background-color: $light-beige;
 
@@ -31,19 +31,19 @@ h1 {
 
 h2 {
     font-size: 24px;
-    line-height: 28px;
+    line-height: 29px;
     font-weight: 700;
 }
 
 h3 {
-    font-size: 16px;
-    line-height: 19px;
+    font-size: 18px;
+    line-height: 22px;
     font-weight: 700;
 }
 
 h4 {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .important {
@@ -52,16 +52,10 @@ h4 {
     line-height: 22px;
 }
 
-.active {
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 19px;
-}
-
-.info-text {
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 19px;
+.label, label {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
 }
 
 .text-white {
@@ -160,7 +154,7 @@ a.btn.btn-xs {
 }
 
 .btn-alt {
-    background: $white;
+    background: transparent;
     color: $coral;
     border: 2px solid $coral;
 }

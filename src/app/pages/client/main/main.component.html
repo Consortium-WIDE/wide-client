@@ -1,6 +1,56 @@
 <div class="main">
-    <div class="header">
-        {{accounts.join(',')}}
+    <h2>Your credentials</h2>
+    <div class="credentials">
+        <p *ngIf="!getWeb3WalletService().isConnectedToWallet()">Please connect your wallet</p>
+        <table *ngIf="getWeb3WalletService().isConnectedToWallet()">
+            <thead>
+                <tr>
+                    <th class="label">Name</th>
+                    <th class="label">Type</th>
+                    <th class="label">Date added</th>
+                    <th class="label">Valid until</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="!credentials || credentials.length <= 0">
+                    <tr>
+                        <td colspan="5"><i class="no-credential-icon mdi mdi-emoticon-sad-outline"></i>You do not have
+                            any
+                            credentials yet</td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="credentials && credentials.length > 0">
+                    <ng-container *ngFor="let cred of credentials">
+                        <tr *ngIf="cred.status == 1">
+                            <td>{{cred.name}}</td>
+                            <td>{{cred.type}}</td>
+                            <td>{{cred.dateadded | date:'dd-MMM-yyyy HH:mm'}}</td>
+                            <td>
+                                <span *ngIf="cred.datevaliduntil">{{cred.datevaliduntil | date:'dd-MMM-yyyy
+                                    HH:mm'}}</span>
+                                <span *ngIf="!cred.datevaliduntil"><i class="mdi mdi-infinity"></i></span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="cred.status == 0">
+                            <td>
+                                <app-encrypted-credential [isDecrypting]="cred.isDecrypting"></app-encrypted-credential>
+                            </td>
+                            <td>
+                                <app-encrypted-credential [isDecrypting]="cred.isDecrypting"></app-encrypted-credential>
+                            </td>
+                            <td>
+                                <app-encrypted-credential [isDecrypting]="cred.isDecrypting"></app-encrypted-credential>
+                            </td>
+                            <td>
+                                <app-encrypted-credential [isDecrypting]="cred.isDecrypting"></app-encrypted-credential>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </ng-container>
+            </tbody>
+        </table>
     </div>
-    <p>main works!</p>
+    <div class="buttons">
+        <button>Add Credentials</button>
+    </div>
 </div>

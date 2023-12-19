@@ -1,0 +1,47 @@
+@import '_imports';
+
+.main {
+    .credentials {
+        background: $white;
+        border-radius: 15px;
+        padding: 10px 25px 10px 25px;
+
+        min-height: 250px;
+
+        table {
+            width: 100%;
+
+            thead {
+                tr {
+                    th {
+                        &.label {
+                            text-align: left;
+                            color: $grey-dark;
+                        }
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    td {
+                        padding-top: 15px;
+                    }
+                }
+            }
+        }
+    }
+
+    .no-credential-icon {
+        padding: 10px;
+        background: $grey-light;
+        border-radius: 5px;
+
+        font-size: 24px;
+        margin-right: 10px;
+    }
+    
+    .buttons {
+        margin-top: 30px;
+    }
+}
