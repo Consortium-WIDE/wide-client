@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import Web3 from 'web3';
 import { isAddress } from 'web3-validator';
 
@@ -9,44 +10,45 @@ declare let window: any;
 })
 export class Web3WalletService {
   private web3: Web3 | null = null;
-  private connectedToWallet: boolean = false;
+  private connectedToWallet = new BehaviorSubject<boolean>(false);
+  connectedToWallet$ = this.connectedToWallet.asObservable();
 
   constructor() { }
 
   public async connect(): Promise<boolean> {
-    this.connectedToWallet = this.connectToMetamask();
+    this.connectedToWallet.next(this.connectToMetamask());
 
     if (!window.ethereum) {
       console.error('Ethereum object not found');
-      this.connectedToWallet = false;
-      return this.connectedToWallet;
+      this.connectedToWallet.next(false);
+      return this.connectedToWallet.value;
     }
 
-    if (!this.connectedToWallet) {
+    if (!this.connectedToWallet.value) {
       console.error('MetaMask is not installed!');
-      this.connectedToWallet = false;
-      return this.connectedToWallet;
+      this.connectedToWallet.next(false);
+      return this.connectedToWallet.value;
     }
 
     try {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
     } catch (error) {
-      this.connectedToWallet = false;
-      return this.connectedToWallet;
+      this.connectedToWallet.next(false);
+      return this.connectedToWallet.value;
     }
 
-    return this.connectedToWallet;
+    return this.connectedToWallet.value;
   }
 
   private connectToMetamask(): boolean {
     if (window.ethereum) {
       this.web3 = new Web3(window.ethereum);
-      this.connectedToWallet = true;
+      this.connectedToWallet.next(true);
     } else {
-      this.connectedToWallet = false;
+      this.connectedToWallet.next(false);
     }
 
-    return this.connectedToWallet;
+    return this.connectedToWallet.value;
   }
 
   public async signMessage(message: string): Promise<string | null> {
@@ -97,6 +99,6 @@ export class Web3WalletService {
   }
 
   public isConnectedToWallet(): boolean {
-    return this.connectedToWallet;
+    return this.connectedToWallet.value;
   }
 }
