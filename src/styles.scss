@@ -156,13 +156,15 @@ a.btn.btn-xs {
 .btn-alt {
     background: transparent;
     color: $coral;
-    border: 2px solid $coral;
+    outline: 2px solid $coral;
+    outline-offset: -2px;
 }
 
 .btn-white-outline {
     background: transparent;
     color: $white;
-    border: 2px solid $white;
+    outline: 2px solid $white;
+    outline-offset: -2px;
 }
 
 button.btn-white {
@@ -183,13 +185,15 @@ button.btn-grey-dark {
 button.btn-grey-alt {
     background: transparent;
     color: $grey-light;
-    border: 2px solid $grey-light;
+    outline: 2px solid $grey-light;
+    outline-offset: -2px;
 }
 
 button.btn-grey-dark-alt {
     background: transparent;
     color: $grey-dark;
-    border: 2px solid $grey-dark;
+    outline: 2px solid $grey-dark;
+    outline-offset: -2px;
 }
 
 a.btn.btn-grey {
@@ -246,7 +250,7 @@ input.text-input {
     padding-right: 15px;
 
     font-size: 15px;
-    font-weight: 400;
+    font-weight: 500;
 
     color: $brown;
 
@@ -261,11 +265,10 @@ input.text-input {
     }
 
     &:focus {
+        background: $white;
         outline: none;
         box-shadow: 0px 3px 8px rgba(62, 27, 7, 0.1);
         color: $brown;
-        font-weight: 500;
-        font-size: 16px;
     }
 
     +.error-message {

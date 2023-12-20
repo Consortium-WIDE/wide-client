@@ -2,10 +2,11 @@ import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, OnInit }
 import { CommonModule } from '@angular/common';
 import { NavMenuComponent } from '../../../components/nav-menu/nav-menu.component';
 import { NavHeaderComponent } from '../../../components/nav-header/nav-header.component';
-import { BreadcrumbService } from '../../../services/breadcrumb.service';
+import { NavMenuService } from '../../../services/nav-menu.service';
 import { Web3WalletService } from '../../../services/web3-wallet.service';
 import { Subscription } from 'rxjs';
 import { EncryptedCredentialComponent } from '../../../components/table/encrypted-credential/encrypted-credential.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -21,7 +22,7 @@ export class MainComponent implements OnInit {
   credentials: any[] = [];
 
 
-  constructor(private web3WalletService: Web3WalletService, private breadcrumbService: BreadcrumbService) {
+  constructor(private web3WalletService: Web3WalletService, private navMenuService: NavMenuService, private router: Router) {
     this.walletSubscription = this.web3WalletService.connectedToWallet$.subscribe(walletConnected => {
       console.log('Wallet connected:', walletConnected);
 
@@ -40,13 +41,14 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
-    //https://angular.io/errors/NG0100
-    Promise.resolve().then(() =>
-      this.breadcrumbService.setBreadcrumbs(['Your credentials', 'Add Credentials'])
-    );
+    this.navMenuService.setPageDetails('Home', ['Your credentials']);
   }
 
   getWeb3WalletService(): Web3WalletService {
     return this.web3WalletService;
+  }
+
+  goTo(uri: string): void {
+    this.router.navigate([uri]);
   }
 }

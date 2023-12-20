@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { BreadcrumbService } from './breadcrumb.service';
+import { GoogleOauthService } from './google-oauth.service';
 
-describe('BreadcrumbService', () => {
-  let service: BreadcrumbService;
+describe('GoogleOauthService', () => {
+  let service: GoogleOauthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(BreadcrumbService);
+    service = TestBed.inject(GoogleOauthService);
   });
 
   it('should be created', () => {

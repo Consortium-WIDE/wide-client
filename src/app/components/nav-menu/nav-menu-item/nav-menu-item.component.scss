@@ -51,11 +51,13 @@ a {
         font-weight: 500;
         margin-right: 0;
 
+        background: $light-beige;
+
         i.menu-icon {
             background: $coral;
 
             &.mdi {
-                background: $white;
+                background: $light-beige;
                 color: $coral;
                 font-size: 26px;
             }
@@ -69,7 +71,7 @@ a {
             width: 15px;
             position: absolute;
             background: transparent;
-            border: 5px solid $white;
+            border: 5px solid $light-beige;
         }
 
         &:after {
