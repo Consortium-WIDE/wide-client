@@ -1,0 +1,19 @@
+<div class="content">
+    <h2>Sign in with Google</h2>
+    <app-google-signin-procedure [activeStep]="4">
+        <div class="buttons">
+            <button (click)="encryptData()">Encrypt</button>
+            <button class="btn-alt" (click)="toggleProfileDetailModal()">View Credentials</button>
+        </div>
+    </app-google-signin-procedure>
+</div>
+<app-wide-modal [showModal]="showProfileDetailModal">
+    <div content class="google-crendtials">
+        <h3>Google Profile Data</h3>
+        <p>This is the raw data sent to us by Google.</p>
+        <p>{{profile | json}}</p>
+    </div>
+    <div buttons>
+        <button (click)="closeModal()">Close</button>
+    </div>
+</app-wide-modal>
