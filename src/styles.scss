@@ -439,8 +439,8 @@ select {
 
 .toast {
     position: fixed;
-    top: 5%;
-    left: 5%;
+    bottom: 5%;
+    right: 5%;
     width: 350px;
     z-index: 100;
     border-radius: 10px;
