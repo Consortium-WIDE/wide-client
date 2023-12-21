@@ -189,7 +189,8 @@
             </div>
             <div class="checkbox-group">
                 <h3>Large checkbox (.checkbox-lg)</h3>
-                <input type="checkbox" class="checkbox-lg" id="checkbox2" name="checkbox2" [(ngModel)]="form.checkboxValue2">
+                <input type="checkbox" class="checkbox-lg" id="checkbox2" name="checkbox2"
+                    [(ngModel)]="form.checkboxValue2">
             </div>
 
             <h3>Success indicator</h3>
@@ -199,12 +200,22 @@
 
             <h3>Dropdown</h3>
             <div class="dropdown">
-                <app-wide-dropdown [(ngModel)]="form.selectedOption" name="myDropdown" [options]="['WIDE', 'WIDER', 'WIDEST']" prompt="Custom prompt"></app-wide-dropdown>
+                <app-wide-dropdown [(ngModel)]="form.selectedOption" name="myDropdown"
+                    [options]="['WIDE', 'WIDER', 'WIDEST']" prompt="Custom prompt"></app-wide-dropdown>
             </div>
         </form>
         <h2>Form Results</h2>
         <div class="form-results">
             {{form | json}}
+        </div>
+    </div>
+    <div class="toasts">
+        <h1>Toast Messages</h1>
+        <div class="buttons">
+            <button (click)="showToast('info')">Info</button>
+            <button (click)="showToast('error')">Error</button>
+            <button (click)="showToast('warning')">Warning</button>
+            <button (click)="showToast('success')">Success</button>
         </div>
     </div>
 

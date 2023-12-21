@@ -17,10 +17,19 @@ $yellow: #FFC586;
 $peach: #FCAB90;
 $pink: #F57F9F;
 
+$light-yellow: #FFF8F0;
+$light-coral: #FFF2F1;
+
 /* GRADIENT */
 $gradient-3: linear-gradient(60deg, $yellow, 25%, $coral, 75%, $pink);
 $gradient-4: linear-gradient(60deg, $coral, 5%, $yellow, 40%, $peach, 80%, $pink);
 
 /* ACTIONS */
-$success: #77D058;
+$green: #77D058;
+$light-green: #EBFAE6;
+$blue: #8AB9FF;
+$light-blue: #F2F7FF;
+
+$info: $blue;
+$success: $green;
 $error: $coral;
