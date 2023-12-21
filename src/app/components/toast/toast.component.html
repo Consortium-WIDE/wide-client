@@ -1,0 +1,13 @@
+<!-- toast.component.html -->
+<div [@fadeInOut] *ngIf="show" class="toast" [ngClass]="type">
+    <div class="icon">
+        <i [class]="getIconClass()"></i>
+    </div>
+    <div class="content">
+        <h4>{{ title }}</h4>
+        <p>{{ message }}</p>
+    </div>
+    <div class="close-icon" (click)="closeToast()">
+        <i class="mdi mdi-window-close"></i>
+    </div>
+</div>
