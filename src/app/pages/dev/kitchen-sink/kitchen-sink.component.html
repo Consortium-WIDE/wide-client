@@ -156,14 +156,15 @@
     <div class="form-input-region">
         <form #myForm="ngForm">
             <h2>Input</h2>
+
             <div class="input">
-                <input type="text" id="textbox" class="text-input" name="textbox" placeholder="input text"
-                    [(ngModel)]="form.textboxValue">
+                <app-wide-input id="textbox" label="Default Textbox" name="textbox" [(ngModel)]="form.textboxValue1"></app-wide-input>
             </div>
             <div class="input">
-                <input type="text" id="textbox2" class="text-input invalid" name="textbox" placeholder="input text"
-                    [(ngModel)]="form.textboxValue">
-                <span class="error-message">Error Text</span>
+                <app-wide-input id="textbox_peach" label="Peach" name="textbox_peach" [style]="'peach'" [(ngModel)]="form.textboxValue2"></app-wide-input>
+            </div>
+            <div class="input">
+                <app-wide-input id="textbox_error" label="Error Textbox" name="textbox_error" [errorMessage]="'This is an error message. You\'ve done a whoopsie'" [(ngModel)]="form.textboxValue3"></app-wide-input>
             </div>
 
             <h2>Radio</h2>

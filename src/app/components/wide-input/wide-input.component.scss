@@ -1,0 +1,121 @@
+@import '_imports';
+
+
+.wide-input {
+    position: relative;
+
+    span.label {
+        position: absolute;
+        left: 15px;
+        font-size: 16px;
+        top: 14px;
+        opacity: 1;
+
+        transition: all 0.2s ease;
+    }
+
+    &:focus-within span.label, span.label.hasvalue {
+        top: 1px;
+        opacity: 1;
+        font-size: 12px;
+        color: $blue;
+    }
+
+    &.label-success {
+        &:focus-within span, span.hasvalue {
+            color: $success;
+        }
+
+        input {
+            &:focus {
+                border-bottom: 3px solid $success;
+            }
+        }
+    }
+
+    &.label-peach {
+        &:focus-within span, span.hasvalue {
+            color: $peach;
+        }
+
+        input {
+            &:focus {
+                border-bottom: 3px solid $peach;
+            }
+        }
+    }
+
+    &.label-error {
+        color: $coral;
+        
+        &:focus-within span, span.hasvalue {
+            color: $coral;
+        }
+
+        input {
+            &:focus {
+                border-bottom: 3px solid $coral;
+            }
+        }
+    }
+
+    .error-message {
+        position: relative;
+        display: block;
+        font-size: 14px;
+        top: 0;
+        left: 2px;
+        color: $coral;
+    }
+
+    input {
+        height: 24px;
+        line-height: 20px;
+        background: $light-beige;
+        outline: none;
+        border: 0;
+        border-bottom: 4px solid $light-beige;
+        
+        border-radius: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 16px;
+        padding-bottom:0;
+
+        font-size: 16px;
+        font-weight: 500;
+        color: $brown;
+
+        box-sizing: content-box;
+
+        &.error,
+        &.invalid {
+            border: 1px solid $coral;
+            color: $coral;
+        }
+
+        &:hover {
+            outline: none;
+            box-shadow: 0px 3px 8px rgba(62, 27, 7, 0.1);
+            color: $brown;
+        }
+
+        &:focus {
+            outline: none;
+            color: $brown;
+            border-bottom: 3px solid $blue;
+            box-shadow: none;
+        }
+
+        +.error-message {
+            margin-top: 5px;
+            display: block;
+            color: $coral;
+
+            //TODO: Fix once we identify an icon set
+            &:before {
+                content: "❌ ";
+            }
+        }
+    }
+}
