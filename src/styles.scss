@@ -239,50 +239,6 @@ $btn-white-border-width: 2px;
 
 
 /* FORMS */
-
-input.text-input {
-    height: 42px;
-    line-height: 20px;
-    background: $light-beige;
-    border: 1px solid $light-beige;
-    border-radius: 5px;
-    padding-left: 15px;
-    padding-right: 15px;
-
-    font-size: 15px;
-    font-weight: 500;
-
-    color: $brown;
-
-    &.error,
-    &.invalid {
-        border: 1px solid $coral;
-        color: $coral;
-    }
-
-    &::placeholder {
-        color: $brown-light;
-    }
-
-    &:focus {
-        background: $white;
-        outline: none;
-        box-shadow: 0px 3px 8px rgba(62, 27, 7, 0.1);
-        color: $brown;
-    }
-
-    +.error-message {
-        margin-top: 5px;
-        display: block;
-        color: $coral;
-
-        //TODO: Fix once we identify an icon set
-        &:before {
-            content: "❌ ";
-        }
-    }
-}
-
 input[type=radio] {
     appearance: none;
     width: 18px;
