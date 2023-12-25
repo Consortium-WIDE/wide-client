@@ -33,7 +33,7 @@
                         </tr>
                         <tr *ngIf="cred.status == 0">
                             <td>
-                                <app-encrypted-credential [isDecrypting]="cred.isDecrypting"></app-encrypted-credential>
+                                {{cred.name}}
                             </td>
                             <td>
                                 <app-encrypted-credential [isDecrypting]="cred.isDecrypting"></app-encrypted-credential>

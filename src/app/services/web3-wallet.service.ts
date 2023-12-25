@@ -16,39 +16,37 @@ export class Web3WalletService {
   constructor() { }
 
   public async connect(): Promise<boolean> {
-    this.connectedToWallet.next(this.connectToMetamask());
+    let connectSuccess = false;
 
-    if (!window.ethereum) {
-      console.error('Ethereum object not found');
-      this.connectedToWallet.next(false);
-      return this.connectedToWallet.value;
+    if (!this.isMetaMaskInstalled()) {
+      connectSuccess = false;
+    } else {
+
+      let ethRequestAccountsFailed = false;
+      try {
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+      } catch (error) {
+        ethRequestAccountsFailed = true;
+      }
+      
+      if (!ethRequestAccountsFailed) {
+        connectSuccess = true;
+      }
     }
-
-    if (!this.connectedToWallet.value) {
-      console.error('MetaMask is not installed!');
-      this.connectedToWallet.next(false);
-      return this.connectedToWallet.value;
-    }
-
-    try {
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-    } catch (error) {
-      this.connectedToWallet.next(false);
-      return this.connectedToWallet.value;
-    }
-
+    
+    this.connectedToWallet.next(connectSuccess);
     return this.connectedToWallet.value;
   }
 
-  private connectToMetamask(): boolean {
-    if (window.ethereum) {
+  public isMetaMaskInstalled(): boolean {
+    const metaMaskInstalled = (typeof window.ethereum !== 'undefined') && window.ethereum.isMetaMask;
+
+    if (metaMaskInstalled) {
       this.web3 = new Web3(window.ethereum);
-      this.connectedToWallet.next(true);
-    } else {
-      this.connectedToWallet.next(false);
     }
 
-    return this.connectedToWallet.value;
+    return metaMaskInstalled;
+
   }
 
   public async signMessage(message: string): Promise<string | null> {

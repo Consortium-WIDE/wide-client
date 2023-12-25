@@ -24,8 +24,6 @@ export class MainComponent implements OnInit {
 
   constructor(private web3WalletService: Web3WalletService, private navMenuService: NavMenuService, private router: Router) {
     this.walletSubscription = this.web3WalletService.connectedToWallet$.subscribe(walletConnected => {
-      console.log('Wallet connected:', walletConnected);
-
       if (walletConnected) {
         this.credentials = [
           { 'name': 'Google Profile', 'type': 'Google Oauth', 'dateadded': new Date(), 'datevaliduntil': null, 'status': 0, 'isDecrypting': false },
