@@ -4,6 +4,8 @@ a {
     display: block;
     position: relative;
 
+    color: $white;
+
     padding-left: 15px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -52,6 +54,8 @@ a {
         margin-right: 0;
 
         background: $light-beige;
+        
+        color: $coral;
 
         i.menu-icon {
             background: $coral;
