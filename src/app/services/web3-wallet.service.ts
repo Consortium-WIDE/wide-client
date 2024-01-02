@@ -1,7 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import Web3 from 'web3';
 import { isAddress } from 'web3-validator';
+import { environment } from '../../environments/environment';
+import { SiweMessage } from 'siwe';
 
 declare let window: any;
 
@@ -11,9 +14,11 @@ declare let window: any;
 export class Web3WalletService {
   private web3: Web3 | null = null;
   private connectedToWallet = new BehaviorSubject<boolean>(false);
+  private apiUrl = environment.wideServerApiUrl; // Replace with your actual API URL
+
   connectedToWallet$ = this.connectedToWallet.asObservable();
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   public async connect(): Promise<boolean> {
     let connectSuccess = false;
@@ -25,15 +30,42 @@ export class Web3WalletService {
       let ethRequestAccountsFailed = false;
       try {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        //TODO: Check if HttpsCookie is set and valid, otherwise, do SIWE procedure
+
+        const ethAddress = await this.getEthAddresses();
+        if (ethAddress != null && ethAddress.length > 0) {
+          await this.getSiweMessage(ethAddress[0]).subscribe({
+            next: async (siweMessageRaw) => {
+              const siweMessage = new SiweMessage(siweMessageRaw.message);
+              const msgToSign = siweMessage.prepareMessage();
+              
+              const signedMessage = await this.signMessage(msgToSign);
+              if (signedMessage) {
+                await this.verifySiweMessage(siweMessage, signedMessage).subscribe({
+                  next: async (siweResponse) => {
+                    console.log('siweResponse', siweResponse)
+                    alert(siweResponse.message);
+                  },
+                  error: (err) => console.error(err),
+                  complete: () => console.info('verifySiweMessage complete')
+                });
+              }
+            },
+            error: (err) => console.error(err),
+            complete: () => console.info('getSiweMessage complete')
+          });
+        }
+
       } catch (error) {
         ethRequestAccountsFailed = true;
       }
-      
+
       if (!ethRequestAccountsFailed) {
         connectSuccess = true;
       }
     }
-    
+
     this.connectedToWallet.next(connectSuccess);
     return this.connectedToWallet.value;
   }
@@ -47,6 +79,15 @@ export class Web3WalletService {
 
     return metaMaskInstalled;
 
+  }
+
+  public getSiweMessage(accountAddress: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/siwe/generate_message?ethereumAddress=${accountAddress}`);
+  }
+
+  public verifySiweMessage(siweMessage: SiweMessage, siweSignature: string): Observable<any> {
+    const payload = { "message": siweMessage, "signature": siweSignature };
+    return this.http.post(`${this.apiUrl}/siwe/verify_message`, payload);
   }
 
   public async signMessage(message: string): Promise<string | null> {

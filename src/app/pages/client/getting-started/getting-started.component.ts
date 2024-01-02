@@ -25,11 +25,13 @@ export class GettingStartedComponent {
         console.info('Connected to Metamask');
 
         await this.web3WalletService.getEthAddresses().then((accounts) => {
-          this.accounts = accounts;
-          this.refreshMessageToSign();
-          this.showSignMessageModal = true;
+          if (accounts != null && accounts.length > 0) {
+            this.accounts = accounts;
+            this.refreshMessageToSign(accounts[0]);
+            this.showSignMessageModal = true;
+          }
         })
-        .catch((err) => console.error(err))
+          .catch((err) => console.error(err))
       } else {
         console.error('Failed to connect to Metamask');
       }
@@ -51,14 +53,15 @@ export class GettingStartedComponent {
       });
   }
 
-  private refreshMessageToSign() {
-    //TODO: Get from server
-    this.messageToSign = `WIDE Message + SIWE tags: Lorem ipsum dolor sit amet consectetur. Nisi erat vel orci quis turpis malesuada. Bibendum pharetra tristique nisi odio. In amet senectus aenean scelerisque vivamus placerat eget ullamcorper quis. Ullamcorper vulputate morbi vel quam ut interdum. In eu mollis sit ullamcorper mattis.
-    <br/><br/>
-    Address: ${this.accounts?.join(',')}<br/>
-    Timestamp: XX/XX/XX XX:XX:XX<br/>
-    Nonce: abc123<br/>
-    domain: client.wid3.xyz<br/>`
+  private refreshMessageToSign(ethereumAddress: string) {
+    //TODO: Bit of a jerry rigged solution, consider a more elegant implementation.
+    this.web3WalletService.getSiweMessage(ethereumAddress).subscribe({
+      next: (msgToSign) => {
+        this.messageToSign = msgToSign.prepareMessage();
+      },
+      error: (err) => console.error(err),
+      complete: () => console.info('getSiweMessage complete')
+    });
   }
 
 }
