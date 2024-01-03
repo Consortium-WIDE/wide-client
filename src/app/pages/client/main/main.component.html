@@ -1,54 +1,61 @@
 <div class="main">
     <h2>Your credentials</h2>
     <div class="credentials">
-        <p *ngIf="!getWeb3WalletService().isConnectedToWallet()">Please connect your wallet</p>
-        <table *ngIf="getWeb3WalletService().isConnectedToWallet()">
-            <thead>
-                <tr>
-                    <th class="label">Name</th>
-                    <th class="label">Type</th>
-                    <th class="label">Date added</th>
-                    <th class="label">Valid until</th>
-                </tr>
-            </thead>
-            <tbody>
-                <ng-container *ngIf="!credentials || credentials.length <= 0">
-                    <tr>
-                        <td colspan="5"><i class="no-credential-icon mdi mdi-emoticon-sad-outline"></i>You do not have
-                            any
-                            credentials yet</td>
-                    </tr>
-                </ng-container>
-                <ng-container *ngIf="credentials && credentials.length > 0">
-                    <ng-container *ngFor="let cred of credentials">
-                        <tr *ngIf="cred.status == 1">
-                            <td>{{cred.name}}</td>
-                            <td>{{cred.type}}</td>
-                            <td>{{cred.dateadded | date:'dd-MMM-yyyy HH:mm'}}</td>
-                            <td>
-                                <span *ngIf="cred.datevaliduntil">{{cred.datevaliduntil | date:'dd-MMM-yyyy
-                                    HH:mm'}}</span>
-                                <span *ngIf="!cred.datevaliduntil"><i class="mdi mdi-infinity"></i></span>
-                            </td>
-                        </tr>
-                        <tr *ngIf="cred.status == 0">
-                            <td>
-                                {{cred.name}}
-                            </td>
-                            <td>
-                                <app-encrypted-credential [isDecrypting]="cred.isDecrypting"></app-encrypted-credential>
-                            </td>
-                            <td>
-                                <app-encrypted-credential [isDecrypting]="cred.isDecrypting"></app-encrypted-credential>
-                            </td>
-                            <td>
-                                <app-encrypted-credential [isDecrypting]="cred.isDecrypting"></app-encrypted-credential>
-                            </td>
-                        </tr>
-                    </ng-container>
-                </ng-container>
-            </tbody>
-        </table>
+        <div class="credentials-listing" *ngIf="getWeb3WalletService().isConnectedToWallet()">
+            <div class="header">
+                <div class="label w-5"></div>
+                <div class="label w-25">Name</div>
+                <div class="label w-15">Type</div>
+                <div class="label w-15">Date added</div>
+                <div class="label w-15">Valid until</div>
+                <div class="label w-25"></div>
+            </div>
+            <div class="credential" *ngFor="let cred of credentials" [ngClass]="cred.expanded ? 'expanded' : ''">
+                <div class="credential-header">
+                    <div class="w-5">
+                        <span class="cred-arrow" [ngClass]="cred.expanded ? 'expanded' : ''" (click)="expand(cred)">
+                            <img src="/assets/svg/arrow.svg" />
+                        </span>
+                    </div>
+                    <div class="w-25">{{cred.name}}</div>
+                    <div class="w-15">{{cred.type}}</div>
+                    <div class="w-15">{{cred.dateadded | date:'dd-MMM-yyyy HH:mm'}}</div>
+                    <div class="w-15">
+                        <span *ngIf="cred.datevaliduntil">{{cred.datevaliduntil |
+                            date:'dd-MMM-yyyyHH:mm'}}</span>
+                        <span *ngIf="!cred.datevaliduntil"><i class="mdi mdi-infinity"></i></span>
+                    </div>
+                    <div class="w-25">
+                        <button class="btn-xs" (click)="decryptCred(cred)" *ngIf="credHasDecryptPending(cred)">
+                            <span *ngIf="!cred.isDecrypting"><i class="mdi mdi-lock"></i> Decrypt</span>
+                            <span *ngIf="cred.isDecrypting"><i class="mdi mdi-loading rotate-mdi"></i> Waiting for Metamask</span>
+                        </button>
+                        <a href="#" class="btn btn-lg">Remove <i class="btn-icon"><i class="mdi mdi-delete"></i></i></a>
+                    </div>
+                </div>
+                <div class="credential-expanded" *ngIf="cred.expanded">
+                    <div class="credential-property" *ngFor="let prop of cred.props">
+                        <div class="w-5"></div>
+                        <div class="w-25">{{prop.name}}</div>
+                        <div class="w-70" *ngIf="prop.status == 2">
+                            {{prop.value}}
+                        </div>
+                        <div class="w-70" *ngIf="!prop.status || prop.status < 2">
+                            <button class="btn-xs" (click)="decryptProperty(cred, prop)">
+                                <span *ngIf="!prop.isDecrypting && prop.status == 0"><i class="mdi mdi-lock"></i> Decrypt</span>
+                                <span *ngIf="prop.isDecrypting && prop.status == 1"><i class="mdi mdi-loading rotate-mdi"></i> Waiting for Metamask</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!credentials || credentials.length <= 0" class="panel-message info">
+                <p class="error"> <i class="mdi mdi-alert-circle-outline"></i>It appears that you do not have any encrypted credentials stored with us.</p>
+            </div>
+        </div>
+        <div *ngIf="!getWeb3WalletService().isConnectedToWallet()" class="panel-message error">
+            <p class="error"> <i class="mdi mdi-alert-circle-outline"></i>Please connect your wallet!</p>
+        </div>
     </div>
     <div class="buttons">
         <button (click)="goTo('credentials/add')">Add Credentials</button>
