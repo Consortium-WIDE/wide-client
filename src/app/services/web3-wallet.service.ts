@@ -21,53 +21,101 @@ export class Web3WalletService {
   constructor(private http: HttpClient) { }
 
   public async connect(): Promise<boolean> {
-    let connectSuccess = false;
+    if (!this.connectedToWallet.value) {
+      let connectSuccess = false;
 
-    if (!this.isMetaMaskInstalled()) {
-      connectSuccess = false;
-    } else {
+      if (!this.isMetaMaskInstalled()) {
+        connectSuccess = false;
+      } else {
 
-      let ethRequestAccountsFailed = false;
-      try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        let ethRequestAccountsFailed = false;
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-        //TODO: Check if HttpsCookie is set and valid, otherwise, do SIWE procedure
+          //TODO: Check if HttpsCookie is set and valid, otherwise, do SIWE procedure
 
-        const ethAddress = await this.getEthAddresses();
-        if (ethAddress != null && ethAddress.length > 0) {
-          await this.getSiweMessage(ethAddress[0]).subscribe({
-            next: async (siweMessageRaw) => {
-              const siweMessage = new SiweMessage(siweMessageRaw.message);
-              const msgToSign = siweMessage.prepareMessage();
-              
-              const signedMessage = await this.signMessage(msgToSign);
-              if (signedMessage) {
-                await this.verifySiweMessage(siweMessage, signedMessage).subscribe({
-                  next: async (siweResponse) => {
-                    console.log('siweResponse', siweResponse)
-                    alert(siweResponse.message);
-                  },
-                  error: (err) => console.error(err),
-                  complete: () => console.info('verifySiweMessage complete')
-                });
-              }
-            },
-            error: (err) => console.error(err),
-            complete: () => console.info('getSiweMessage complete')
-          });
+          const ethAddress = await this.getEthAddresses();
+          if (ethAddress != null && ethAddress.length > 0) {
+            await this.getSiweSignInMessage(ethAddress[0]).subscribe({
+              next: async (siweMessageRaw) => {
+                const siweMessage = new SiweMessage(siweMessageRaw.message);
+                const msgToSign = siweMessage.prepareMessage();
+
+                const signedMessage = await this.signMessage(msgToSign);
+                if (signedMessage) {
+                  await this.verifySiweMessage(siweMessage, signedMessage).subscribe({
+                    next: async (siweResponse) => {
+                      console.log('siweResponse', siweResponse)
+
+                      if (!siweResponse.success && siweResponse.requiresSignup) {
+                        window.location.href = '/getting-started';
+                      }
+
+                      alert(siweResponse.message);
+                    },
+                    error: (err) => console.error(err),
+                    complete: () => console.info('verifySiweMessage complete')
+                  });
+                }
+              },
+              error: (err) => console.error(err),
+              complete: () => console.info('getSiweMessage complete')
+            });
+          }
+
+        } catch (error) {
+          ethRequestAccountsFailed = true;
         }
 
-      } catch (error) {
-        ethRequestAccountsFailed = true;
+        if (!ethRequestAccountsFailed) {
+          connectSuccess = true;
+        }
       }
 
-      if (!ethRequestAccountsFailed) {
-        connectSuccess = true;
-      }
+      this.connectedToWallet.next(connectSuccess);
+    }
+    return this.connectedToWallet.value;
+  }
+
+  public async signTermsOfService(): Promise<boolean> {
+    if (!this.isMetaMaskInstalled()) {
+      return false;
     }
 
-    this.connectedToWallet.next(connectSuccess);
-    return this.connectedToWallet.value;
+    try {
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const ethAddress = await this.getEthAddresses();
+
+      if (!ethAddress || ethAddress.length === 0) {
+        return false;
+      }
+
+      // Convert Observable to Promise
+      const siweMessageResponse = await this.getSiweSignUpMessage(ethAddress[0]).toPromise();
+      const siweMessage = new SiweMessage(siweMessageResponse.message);
+      const msgToSign = siweMessage.prepareMessage();
+
+      const signedMessage = await this.signMessage(msgToSign);
+      if (!signedMessage) {
+        return false;
+      }
+
+      // Convert Observable to Promise and await the response
+      const verifyResponse = await this.verifySiweMessage(siweMessage, signedMessage, true).toPromise();
+      console.log('verifyResponse', verifyResponse);
+      alert(verifyResponse.message);
+
+      //Update service status
+      this.connectedToWallet.next(verifyResponse.success);
+
+      // Return based on the response from verifySiweMessage
+      return verifyResponse.success;
+
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+
   }
 
   public isMetaMaskInstalled(): boolean {
@@ -81,13 +129,17 @@ export class Web3WalletService {
 
   }
 
-  public getSiweMessage(accountAddress: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/siwe/generate_message?ethereumAddress=${accountAddress}`);
+  public getSiweSignInMessage(accountAddress: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/siwe/generate_signin?ethereumAddress=${accountAddress}`);
   }
 
-  public verifySiweMessage(siweMessage: SiweMessage, siweSignature: string): Observable<any> {
-    const payload = { "message": siweMessage, "signature": siweSignature };
-    return this.http.post(`${this.apiUrl}/siwe/verify_message`, payload);
+  public getSiweSignUpMessage(accountAddress: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/siwe/generate_signup?ethereumAddress=${accountAddress}`);
+  }
+
+  public verifySiweMessage(siweMessage: SiweMessage, siweSignature: string, isOnboarding: boolean = false): Observable<any> {
+    const payload = { "message": siweMessage, "signature": siweSignature, "isOnboarding": isOnboarding };
+    return this.http.post(`${this.apiUrl}/siwe/verify_signin`, payload);
   }
 
   public async signMessage(message: string): Promise<string | null> {
