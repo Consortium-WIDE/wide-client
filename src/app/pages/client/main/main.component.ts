@@ -26,14 +26,32 @@ export class MainComponent implements OnInit {
     this.walletSubscription = this.web3WalletService.connectedToWallet$.subscribe(walletConnected => {
       if (walletConnected) {
         this.credentials = [
-          { 'name': 'Google Profile', 'type': 'Google Oauth', 'dateadded': new Date(), 'datevaliduntil': null, 'status': 0, 'isDecrypting': false },
-          { 'name': 'Drivers License', 'type': 'EUDIW', 'dateadded': new Date(), 'datevaliduntil': new Date().setMonth(6), 'status': 0, 'isDecrypting': false }
+          {
+            'name': 'Google Profile', 'type': 'Google Oauth', 'dateadded': new Date(), 'datevaliduntil': null, 'status': 0, 'isDecrypting': false,
+            'props': [
+              { 'name': 'Profile ID', 'value': 'abc123', 'status': 0, 'isDecrypting': false },
+              { 'name': 'Name', 'value': 'John', 'status': 0, 'isDecrypting': false },
+              { 'name': 'Surname', 'value': 'Doe', 'status': 0, 'isDecrypting': false },
+              { 'name': 'Email', 'value': 'john.doe@donotmessage.com', 'status': 0, 'isDecrypting': false },
+            ]
+          },
+          {
+            'name': 'Drivers License', 'type': 'EUDIW', 'dateadded': new Date(), 'datevaliduntil': new Date().setMonth(6), 'status': 0, 'isDecrypting': false,
+            'props': [
+              { 'name': 'Name', 'value': 'John', 'status': 0, 'isDecrypting': false },
+              { 'name': 'Surname', 'value': 'Doe', 'status': 0, 'isDecrypting': false },
+              { 'name': 'Address', 'value': '1, Road Street, Brussels, Belgium', 'status': 0, 'isDecrypting': false },
+              { 'name': 'Valid From', 'value': '5-May-2015', 'status': 0, 'isDecrypting': false },
+              { 'name': 'Valid To', 'value': '5-May-2025', 'status': 0, 'isDecrypting': false },
+              { 'name': 'Issued By', 'value': 'Belgium Road Authority', 'status': 0, 'isDecrypting': false },
+            ]
+          }
         ]
 
-        this.credentials.forEach((c) => {
-          c.isDecrypting = true;
-          setTimeout(() => c.status = 1, (Math.random() * 1000) + 2000)
-        });
+        // this.credentials.forEach((c) => {
+        //   c.isDecrypting = true;
+        //   setTimeout(() => c.status = 1, (Math.random() * 1000) + 2000)
+        // });
       }
     });
   }
@@ -48,5 +66,54 @@ export class MainComponent implements OnInit {
 
   goTo(uri: string): void {
     this.router.navigate([uri]);
+  }
+
+  //TODO: Define credential type for strong typing
+  expand(cred: any) {
+    if (cred.expanded === undefined) {
+      cred.expanded = true;
+    } else {
+      cred.expanded = !cred.expanded;
+    }
+  }
+
+  async decryptProperty(cred: any, prop: any) {
+    console.info('decrypting property', prop);
+    prop.isDecrypting = true;
+
+    prop.status = 1;
+    await this.web3WalletService.signMessage('User will not be asked to sign message, but decrypt. This is just to simulate the flow');
+
+    prop.status = 2;
+
+    console.info('decrypted successfully', prop);
+  }
+
+  async decryptCred(cred: any) {
+    console.info('decrypting credential', cred);
+
+    cred.isDecrypting = true;
+    cred.status = 1;
+    cred.props.forEach((prop: any) => {
+      prop.isDecrypting = true;
+      prop.status = 1;
+    });
+
+    await this.web3WalletService.signMessage('User will not be asked to sign message, but decrypt. This is just to simulate the flow');
+
+    cred.status = 2;
+    cred.props.forEach((prop: any) => {
+      prop.status = 2;
+    });
+
+    console.info('decrypted successfully', cred);
+  }
+
+  credHasDecryptPending(cred: any) {
+    if (cred.props && cred.props.length > 0) {
+      return cred.props.some( (p: any) => p.status != 2);
+    }
+
+    return false;
   }
 }
