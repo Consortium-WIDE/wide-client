@@ -35,9 +35,29 @@
         margin-bottom: 40px;
 
         ul {
+            padding: 0;
+            margin-top: 0;
             list-style-type: none;
+
+            li {
+                line-height: 30px;
+            }
         }
 
+        .separator {
+            position: relative;
+            margin-right: 10px;
+            app-tooltip {
+                position: absolute;
+                bottom: 10px;
+                left: 0;
+            }
+        }
+
+        .credential-enumeration {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
         .decrypt-message {
             background: $light-blue;
             padding: 10px;
