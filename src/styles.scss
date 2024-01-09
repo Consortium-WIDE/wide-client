@@ -239,7 +239,7 @@ $btn-white-border-width: 2px;
 
 
 /* FORMS */
-input[type=radio] {
+input[type=radio], input[type=checkbox].checkbox-tick {
     appearance: none;
     width: 18px;
     height: 18px;
@@ -254,7 +254,7 @@ input[type=radio] {
     }
 
 
-    &.radio-alt {
+    &.radio-alt, &.checkbox-tick-alt {
         &:checked {
             border: none;
             background: $gradient-3;
@@ -272,7 +272,7 @@ input[type=radio] {
     }
 }
 
-input[type=checkbox] {
+input[type=checkbox].switch {
     appearance: none;
     width: 36px;
     height: 20px;
@@ -302,7 +302,7 @@ input[type=checkbox] {
         }
     }
 
-    &.checkbox-lg {
+    &.switch-lg {
         width: 60px;
         height: 32px;
 

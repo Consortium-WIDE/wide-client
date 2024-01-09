@@ -1,0 +1,34 @@
+<div class="content">
+    <div class="logo-wrapper">
+        <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
+    </div>
+    <h2>Credentials Presentation Request</h2>
+    <p><b>Verifier Name</b> is requesting you to present your <b>Google Profile</b></p>
+    <p class="align-left">Here is what you are going to present:</p>
+    <div class="credentials-panel">
+        <ul class="credentials-header">
+            <li>Credential: Google Profile</li>
+            <li>Type: Google OAuth</li>
+            <li>Date added: XX</li>
+            <li>valid until: XX</li>
+        </ul>
+        <div class="decrypt-message">
+            <i class="label"><i class="mdi mdi-information"></i> Click Decrypt All to decrypt all credentials, alternatively click on each credential to
+                decrypt individually.</i>
+        </div>
+        <ul class="credentials-items">
+            <li (click)="decrypt('profileId')"><i class="encrypted mdi mdi-lock"></i> <span class="credential-item">Profile ID</span></li>
+            <li (click)="decrypt('name')"><i class="decrypted mdi mdi-check"></i> <span class="credential-item">Name</span> <span>: Joe</span></li>
+            <li (click)="decrypt('surname')"><i class="encrypted mdi mdi-lock"></i> <span class="credential-item">Surname</span></li>
+            <li (click)="decrypt('email')"><i class="encrypted mdi mdi-lock"></i> <span class="credential-item">Email</span></li>
+        </ul>
+        <div class="decrypt-panel">
+            <button class="btn btn-alt btn-xs">Decrypt All</button>
+
+        </div>
+    </div>
+    <div class="buttons vertical">
+        <button [routerLink]="['/presentation/confirm']">Continue</button>
+        <a class="btn btn-lg">Reject</a>
+    </div>
+</div>

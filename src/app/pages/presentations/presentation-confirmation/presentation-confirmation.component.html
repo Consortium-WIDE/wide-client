@@ -1,0 +1,18 @@
+<div class="content">
+    <div class="logo-wrapper">
+        <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
+    </div>
+    <h2>Credentials Presentation Request</h2>
+    <p class="align-left">Here is what you are about to present to <b>Verifier Name</b>:</p>
+    <div class="credentials-panel">
+        <ul class="credentials-header">
+            <li>Profile ID: 123456</li>
+            <li>Name: John</li>
+            <li>Surname: Doe</li>
+        </ul>
+    </div>
+    <div class="buttons vertical">
+        <button (click)="present()">Present Credentials</button>
+        <a class="btn btn-lg" (click)="reject()">Reject</a>
+    </div>
+</div>
