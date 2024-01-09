@@ -1,0 +1,35 @@
+@import 'imports';
+
+.tooltip {
+    cursor: pointer;
+    position: relative;
+    color: $peach;
+
+    span {
+        cursor: default;
+        min-width: 200px;
+        background: $peach;
+        color: $white;
+        padding: 5px 10px 5px 10px;
+        position: absolute;
+        display: none;
+        border-radius: 5px;
+        left: 0;
+        bottom: 25px;
+
+        font-size: 14px;
+        font-weight: 400;
+        font-style: normal;
+
+        &.bottom {
+            bottom: auto;
+            top: 25px;
+        }
+    }
+
+    &:hover {
+        span {
+            display: block;
+        }
+    }
+}
