@@ -4,7 +4,10 @@
 
         <div class="wallet-connector">
             <div class="connect-wallet" *ngIf="!isConnected">
-                <button class="btn-alt" (click)="connectWallet()">Connect wallet</button>
+                <button class="btn-alt" (click)="connectWallet()">
+                    <span *ngIf="!metaMaskCheckPending">Connect wallet</span>
+                    <i *ngIf="metaMaskCheckPending" class="spinner mdi mdi-loading rotate-mdi coral"></i>
+                </button>
             </div>
             <div class="accounts" *ngIf="isConnected">
                 <i class="wallet-icon"><svg viewBox="0 0 24 24">

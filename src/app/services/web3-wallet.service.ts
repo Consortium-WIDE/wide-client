@@ -38,6 +38,27 @@ export class Web3WalletService {
     return this.connectedToWallet.value;
   }
 
+  public isMetaMaskUnlocked(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      if ((window as any).ethereum) {
+        (window as any).ethereum.request({ method: 'eth_accounts' })
+          .then((accounts: string[]) => {
+            if (accounts.length > 0) {
+              resolve(true); // Wallet is unlocked
+            } else {
+              resolve(false); // Wallet is locked
+            }
+          })
+          .catch((error: Error) => {
+            console.error('Error checking MetaMask accounts:', error);
+            reject(error); // Handle or propagate the error as needed
+          });
+      } else {
+        resolve(false); // MetaMask is not installed
+      }
+    });
+  }
+
   public isMetaMaskInstalled(): boolean {
     const metaMaskInstalled = (typeof window.ethereum !== 'undefined') && window.ethereum.isMetaMask;
 
