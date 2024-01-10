@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 })
 export class MainComponent implements OnInit {
   private walletSubscription: Subscription;
-
+  
   //TODO: Strongly type
   credentials: any[] = [];
 
@@ -25,39 +25,40 @@ export class MainComponent implements OnInit {
   constructor(private web3WalletService: Web3WalletService, private navMenuService: NavMenuService, private router: Router) {
     this.walletSubscription = this.web3WalletService.connectedToWallet$.subscribe(walletConnected => {
       if (walletConnected) {
-        this.credentials = [
-          {
-            'name': 'Google Profile', 'type': 'Google Oauth', 'dateadded': new Date(), 'datevaliduntil': null, 'status': 0, 'isDecrypting': false,
-            'props': [
-              { 'name': 'Profile ID', 'value': 'abc123', 'status': 0, 'isDecrypting': false },
-              { 'name': 'Name', 'value': 'John', 'status': 0, 'isDecrypting': false },
-              { 'name': 'Surname', 'value': 'Doe', 'status': 0, 'isDecrypting': false },
-              { 'name': 'Email', 'value': 'john.doe@donotmessage.com', 'status': 0, 'isDecrypting': false },
-            ]
-          },
-          {
-            'name': 'Drivers License', 'type': 'EUDIW', 'dateadded': new Date(), 'datevaliduntil': new Date().setMonth(6), 'status': 0, 'isDecrypting': false,
-            'props': [
-              { 'name': 'Name', 'value': 'John', 'status': 0, 'isDecrypting': false },
-              { 'name': 'Surname', 'value': 'Doe', 'status': 0, 'isDecrypting': false },
-              { 'name': 'Address', 'value': '1, Road Street, Brussels, Belgium', 'status': 0, 'isDecrypting': false },
-              { 'name': 'Valid From', 'value': '5-May-2015', 'status': 0, 'isDecrypting': false },
-              { 'name': 'Valid To', 'value': '5-May-2025', 'status': 0, 'isDecrypting': false },
-              { 'name': 'Issued By', 'value': 'Belgium Road Authority', 'status': 0, 'isDecrypting': false },
-            ]
-          }
-        ]
+        //TODO: Fetch from server!
 
-        // this.credentials.forEach((c) => {
-        //   c.isDecrypting = true;
-        //   setTimeout(() => c.status = 1, (Math.random() * 1000) + 2000)
-        // });
+        // this.credentials = [
+        //   {
+        //     'name': 'Google Profile', 'type': 'Google Oauth', 'dateadded': new Date(), 'datevaliduntil': null, 'status': 0, 'isDecrypting': false,
+        //     'props': [
+        //       { 'name': 'Profile ID', 'value': 'abc123', 'status': 0, 'isDecrypting': false },
+        //       { 'name': 'Name', 'value': 'John', 'status': 0, 'isDecrypting': false },
+        //       { 'name': 'Surname', 'value': 'Doe', 'status': 0, 'isDecrypting': false },
+        //       { 'name': 'Email', 'value': 'john.doe@donotmessage.com', 'status': 0, 'isDecrypting': false },
+        //     ]
+        //   },
+        //   {
+        //     'name': 'Drivers License', 'type': 'EUDIW', 'dateadded': new Date(), 'datevaliduntil': new Date().setMonth(6), 'status': 0, 'isDecrypting': false,
+        //     'props': [
+        //       { 'name': 'Name', 'value': 'John', 'status': 0, 'isDecrypting': false },
+        //       { 'name': 'Surname', 'value': 'Doe', 'status': 0, 'isDecrypting': false },
+        //       { 'name': 'Address', 'value': '1, Road Street, Brussels, Belgium', 'status': 0, 'isDecrypting': false },
+        //       { 'name': 'Valid From', 'value': '5-May-2015', 'status': 0, 'isDecrypting': false },
+        //       { 'name': 'Valid To', 'value': '5-May-2025', 'status': 0, 'isDecrypting': false },
+        //       { 'name': 'Issued By', 'value': 'Belgium Road Authority', 'status': 0, 'isDecrypting': false },
+        //     ]
+        //   }
+        // ]
       }
     });
   }
 
   ngOnInit() {
     this.navMenuService.setPageDetails('Home', ['Your credentials']);
+
+    this.web3WalletService.metaMaskCheckStatus$.subscribe(status => {
+      // React to the check status
+    });
   }
 
   getWeb3WalletService(): Web3WalletService {

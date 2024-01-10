@@ -29,7 +29,6 @@ export class NavHeaderComponent implements OnInit {
 
   constructor(private web3WalletService: Web3WalletService, private sanitizer: DomSanitizer) { }
 
-  //TODO: handle edgecase when isConnected is true and accounts is null or empty: prompt user to connect an account
   async ngOnInit(): Promise<void> {
     setTimeout(async () => {
       if (this.web3WalletService.isMetaMaskInstalled()) {

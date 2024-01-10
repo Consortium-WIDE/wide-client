@@ -12,6 +12,8 @@ export class Web3WalletService {
   private web3: Web3 | null = null;
   private connectedToWallet = new BehaviorSubject<boolean>(false);
   connectedToWallet$ = this.connectedToWallet.asObservable();
+  private metaMaskCheckStatus = new BehaviorSubject<boolean>(true);
+  public metaMaskCheckStatus$ = this.metaMaskCheckStatus.asObservable();
 
   constructor() { }
 
@@ -39,24 +41,29 @@ export class Web3WalletService {
   }
 
   public isMetaMaskUnlocked(): Promise<boolean> {
+    this.metaMaskCheckStatus.next(true);
+
     return new Promise((resolve, reject) => {
       if ((window as any).ethereum) {
         (window as any).ethereum.request({ method: 'eth_accounts' })
           .then((accounts: string[]) => {
-            if (accounts.length > 0) {
-              resolve(true); // Wallet is unlocked
-            } else {
-              resolve(false); // Wallet is locked
-            }
+            this.metaMaskCheckStatus.next(false);
+            resolve(accounts.length > 0)
           })
           .catch((error: Error) => {
             console.error('Error checking MetaMask accounts:', error);
+            this.metaMaskCheckStatus.next(false);
             reject(error); // Handle or propagate the error as needed
           });
       } else {
+        this.metaMaskCheckStatus.next(false);
         resolve(false); // MetaMask is not installed
       }
     });
+  }
+
+  public updateMetaMaskCheckStatus(status: boolean): void {
+    this.metaMaskCheckStatus.next(status);
   }
 
   public isMetaMaskInstalled(): boolean {
@@ -119,5 +126,9 @@ export class Web3WalletService {
 
   public isConnectedToWallet(): boolean {
     return this.connectedToWallet.value;
+  }
+
+  public isCheckingMetaMask(): boolean {
+    return this.metaMaskCheckStatus.value;
   }
 }

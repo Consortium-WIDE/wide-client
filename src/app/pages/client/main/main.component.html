@@ -50,10 +50,13 @@
                 </div>
             </div>
             <div *ngIf="!credentials || credentials.length <= 0" class="panel-message info">
-                <p class="error"> <i class="mdi mdi-alert-circle-outline"></i>It appears that you do not have any encrypted credentials stored with us.</p>
+                <p class="info"> <i class="mdi mdi-alert-circle-outline"></i>It looks like you do not have any encrypted credentials stored with us yet. Click Add Credentials to get started!</p>
             </div>
         </div>
-        <div *ngIf="!getWeb3WalletService().isConnectedToWallet()" class="panel-message error">
+        <div *ngIf="getWeb3WalletService().isCheckingMetaMask()" class="panel-message info">
+            <p class="info"> <i class="spinner mdi mdi-loading rotate-mdi"></i> Please wait while initialising...</p>
+        </div>
+        <div *ngIf="!getWeb3WalletService().isConnectedToWallet() && !getWeb3WalletService().isCheckingMetaMask()" class="panel-message error">
             <p class="error"> <i class="mdi mdi-alert-circle-outline"></i>Please connect your wallet!</p>
         </div>
     </div>
