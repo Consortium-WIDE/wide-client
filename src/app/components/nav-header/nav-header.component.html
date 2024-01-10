@@ -6,7 +6,7 @@
             <div class="connect-wallet" *ngIf="!isConnected">
                 <button class="btn-alt" (click)="connectWallet()">
                     <span *ngIf="!metaMaskCheckPending">Connect wallet</span>
-                    <i *ngIf="metaMaskCheckPending" class="spinner mdi mdi-loading rotate-mdi coral"></i>
+                    <i *ngIf="metaMaskCheckPending" class="spinner mdi mdi-loading rotate-mdi text-coral"></i>
                 </button>
             </div>
             <div class="accounts" *ngIf="isConnected">
