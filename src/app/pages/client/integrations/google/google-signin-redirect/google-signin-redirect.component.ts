@@ -37,6 +37,7 @@ export class GoogleSigninRedirectComponent implements OnInit {
   }
 
   encryptData() {
+    //TODO: !!!
     alert('TODO: mocked for now...');
     const navigationExtras = {
       state: {

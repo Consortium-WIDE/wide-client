@@ -113,6 +113,21 @@ export class Web3WalletService {
     return accounts;
   }
 
+  public async getAccount(): Promise<string | null> {
+    if (!this.web3) {
+      console.error('MetaMask is not available');
+      return null;
+    }
+
+    const accounts = await this.web3.eth.getAccounts();
+    if (accounts.length === 0) {
+      console.error('No accounts found');
+      return null;
+    }
+
+    return accounts[0];
+  }
+
   public abridgeEthereumAddress(address: string, leadingChars: number = 4, trailingChars: number = 2) {
     if (isAddress(address)) {
       const leading = address.slice(2, 2 + leadingChars);
