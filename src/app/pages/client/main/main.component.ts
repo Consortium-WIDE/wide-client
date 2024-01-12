@@ -73,8 +73,9 @@ export class MainComponent implements OnInit {
   }
 
   async refreshAccountCredentials(account: string): Promise<void> {
-    await this.wideStorageService.getUserCredentials(account).subscribe({
+    await this.wideStorageService.getUserIssuedCredentials(account).subscribe({
       next: (response: HttpResponse<any>) => {
+        console.log('response', response);
         this.credentials = response.body;
 
         if (response.status == 204) {
@@ -82,8 +83,8 @@ export class MainComponent implements OnInit {
         }
       },
       error: (res) => {
-        this.toastNotificationService.error(`Failed to load credentials (${res.status})`, res.error ?? res.statusText, 5000000);
-        console.log('response-error', res.error ?? res.statusText);
+        this.toastNotificationService.error(res.statusText, `Failed to load credentials (${res.status})`);
+        console.error('Failed to load credentials', res);
       }
     });
   }

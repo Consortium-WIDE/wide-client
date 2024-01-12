@@ -12,8 +12,6 @@ export class WideStorageService {
 
   constructor(private http: HttpClient) { }
 
-  //TODO: generate hash of the keys before sending request to the server.
-  
   // Fetch the primary public key for a user
   getPublicKey(accountAddress: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/user/${accountAddress}/publicKey`);
@@ -24,12 +22,22 @@ export class WideStorageService {
     return this.http.post(`${this.apiUrl}/user/${accountAddress}/publicKey`, { publicKey });
   }
 
-  getUserCredentials(accountAddress: string): Observable<HttpResponse<any>> {
-    return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/credentials`, { observe: 'response' });
+  getUserIssuedCredentials(accountAddress: string): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/issued-credentials`, { observe: 'response' });
   }
 
-//OLD METHODS, DEPRECATED
-//TODO: Remove
+  storeUserCredentials(accountAddress: string, issuer: any, credential: any): Observable<any> {
+    console.log(`${this.apiUrl}/storage/user/${accountAddress}/credential`);
+
+    return this.http.post(`${this.apiUrl}/storage/user/${accountAddress}/credential`, {
+      'issuer': issuer,
+      'payload': credential.payload,
+      'credentials': credential.credentials
+    });
+  }
+
+  //OLD METHODS, DEPRECATED
+  //TODO: Remove
 
   // POST method: Add a VC ID for a user
   addVcId(accountAddress: string, vcId: string): Observable<any> {

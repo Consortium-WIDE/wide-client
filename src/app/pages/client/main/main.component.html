@@ -11,14 +11,17 @@
                 <div class="label w-25"></div>
             </div>
             <div class="credential" *ngFor="let cred of credentials" [ngClass]="cred.expanded ? 'expanded' : ''">
+                <!-- <div>
+                    {{cred | json}}
+                </div> -->
                 <div class="credential-header">
                     <div class="w-5">
                         <span class="cred-arrow" [ngClass]="cred.expanded ? 'expanded' : ''" (click)="expand(cred)">
                             <img src="/assets/svg/arrow.svg" />
                         </span>
                     </div>
-                    <div class="w-25">{{cred.name}}</div>
-                    <div class="w-15">{{cred.type}}</div>
+                    <div class="w-25">{{cred.issuer.label}}</div>
+                    <div class="w-15">{{cred.issuer.type | json}}</div>
                     <div class="w-15">{{cred.dateadded | date:'dd-MMM-yyyy HH:mm'}}</div>
                     <div class="w-15">
                         <span *ngIf="cred.datevaliduntil">{{cred.datevaliduntil |
@@ -61,6 +64,6 @@
         </div>
     </div>
     <div class="buttons">
-        <button (click)="goTo('credentials/add')">Add Credentials</button>
+        <button *ngIf="getWeb3WalletService().isConnectedToWallet() && !getWeb3WalletService().isCheckingMetaMask()" (click)="goTo('credentials/add')">Add Credentials</button>
     </div>
 </div>

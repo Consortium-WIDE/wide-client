@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import Web3 from 'web3';
 import { isAddress } from 'web3-validator';
+import { EncryptionService } from '../encryption.service';
+import { DataProcessingService } from '../data-processing.service';
 
 declare let window: any;
 
@@ -15,7 +17,7 @@ export class Web3WalletService {
   private metaMaskCheckStatus = new BehaviorSubject<boolean>(true);
   public metaMaskCheckStatus$ = this.metaMaskCheckStatus.asObservable();
 
-  constructor() { }
+  constructor(private encryptionService: EncryptionService, private dataProcessingSerivce: DataProcessingService) { }
 
   public async connect(): Promise<boolean> {
     let connectSuccess = false;
@@ -30,12 +32,12 @@ export class Web3WalletService {
       } catch (error) {
         ethRequestAccountsFailed = true;
       }
-      
+
       if (!ethRequestAccountsFailed) {
         connectSuccess = true;
       }
     }
-    
+
     this.connectedToWallet.next(connectSuccess);
     return this.connectedToWallet.value;
   }
@@ -98,6 +100,101 @@ export class Web3WalletService {
     }
   }
 
+  public async encryptPayload(payload: any): Promise<any | null> {
+    if (!this.web3) {
+      console.error('MetaMask is not available');
+      return null;
+    }
+
+    const account = await this.getAccount();
+
+    if (!account) {
+      return null;
+    }
+
+    try {
+      const pubKey = await this.getEncryptionPublicKey(account);
+      if (!pubKey) {
+        return null;
+      }
+
+      const separatedCredentials = this.dataProcessingSerivce.separateJson(payload);
+
+      const encryptedPayload = this.encryptionService.encryptData(pubKey, JSON.stringify(payload));
+      const encryptedCredentials = separatedCredentials.map((cred) => { return { 'name': Object.keys(cred)[0], 'val': this.encryptionService.encryptData(pubKey, JSON.stringify(cred)) } });
+
+      let response = {
+        'payload': encryptedPayload,
+        'credentials': encryptedCredentials ?? []
+      }
+
+      return response;
+
+    } catch (error) {
+      console.error('Error encrypting data', error);
+      return null;
+    }
+  }
+
+  //TODO: deprecate
+  public async encryptBatch(data: string[]): Promise<any[] | null> {
+    if (!this.web3) {
+      console.error('MetaMask is not available');
+      return null;
+    }
+
+    const account = await this.getAccount();
+
+    if (!account) {
+      return null;
+    }
+
+    try {
+      const pubKey = await this.getEncryptionPublicKey(account);
+
+      if (!pubKey) {
+        return null;
+      }
+
+      let encryptedDataBatched: any[] = [];
+
+      data.forEach((item) => {
+        encryptedDataBatched.push(this.encryptionService.encryptData(pubKey, JSON.stringify(item)))
+      });
+
+      return encryptedDataBatched;
+
+    } catch (error) {
+      console.error('Error encrypting data', error);
+      return null;
+    }
+  }
+
+  //TODO: deprecate
+  public async encryptData(data: string): Promise<any | null> {
+    if (!this.web3) {
+      console.error('MetaMask is not available');
+      return null;
+    }
+
+    const account = await this.getAccount();
+
+    if (!account) {
+      return null;
+    }
+
+    try {
+      const pubKey = await this.getEncryptionPublicKey(account);
+      if (pubKey) {
+        const encryptedData = this.encryptionService.encryptData(pubKey, JSON.stringify(data));
+        return encryptedData;
+      }
+    } catch (error) {
+      console.error('Error encrypting data', error);
+      return null;
+    }
+  }
+
   public async getEthAddresses(): Promise<string[] | null> {
     if (!this.web3) {
       console.error('MetaMask is not available');
@@ -126,6 +223,25 @@ export class Web3WalletService {
     }
 
     return accounts[0];
+  }
+
+  public async getEncryptionPublicKey(account: string): Promise<string | null> {
+    if (!window.ethereum) {
+      console.error('Ethereum object not found');
+      return null;
+    }
+
+    try {
+      // Request the encryption public key from MetaMask
+      const encryptionPublicKey = await window.ethereum.request({
+        method: 'eth_getEncryptionPublicKey',
+        params: [account], // The user's account/ Ethereum address
+      });
+      return encryptionPublicKey;
+    } catch (error) {
+      console.error('Error retrieving encryption public key', error);
+      return null;
+    }
   }
 
   public abridgeEthereumAddress(address: string, leadingChars: number = 4, trailingChars: number = 2) {
