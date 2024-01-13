@@ -27,13 +27,15 @@ export class WideStorageService {
   }
 
   storeUserCredentials(accountAddress: string, issuer: any, credential: any): Observable<any> {
-    console.log(`${this.apiUrl}/storage/user/${accountAddress}/credential`);
-
     return this.http.post(`${this.apiUrl}/storage/user/${accountAddress}/credential`, {
       'issuer': issuer,
       'payload': credential.payload,
       'credentials': credential.credentials
     });
+  }
+
+  getEncryptedCredentials(accountAddress: string, credentialKey: string): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/credentials/${credentialKey}`, { observe: 'response' });
   }
 
   //OLD METHODS, DEPRECATED

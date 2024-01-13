@@ -49,10 +49,17 @@ export class GoogleSigninRedirectComponent implements OnInit {
     }
 
     const issuerPayload: any = {
-      "issuer": {
-        "label": `${(this.profile.hd ?? "google")} Google OAuth`,
-        "id": this.profile.hd ?? "google",
-        "type": ["GoogleOAuth"]
+      "label": `${(this.profile.hd ?? "")} Google Profile`.trim(),
+      "id": "http://google.com/",
+      "type": ["WIDECredential", "GoogleOAuth"],
+      "issuer": this.profile.hd ?? "http://www.google.com",
+      "issuanceDate": new Date().toISOString(),
+      "credentialSubject": {
+        "id": accountAddress,
+        "socialProfile": {
+          "type": "OAuth",
+          "name": "Google"
+        }
       }
     }
 
@@ -67,7 +74,7 @@ export class GoogleSigninRedirectComponent implements OnInit {
         encryptedData: encryptedData
       }
     };
-    
+
     this.router.navigate(['credentials/add/google/store'], navigationExtras);
   }
 }

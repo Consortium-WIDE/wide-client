@@ -38,6 +38,7 @@
                 height: 60px;
     
                 .cred-arrow {
+
                     cursor: pointer;
     
                     &.expanded {
@@ -45,6 +46,10 @@
                             transform: rotate(180deg);
                         }
                     }
+                }
+
+                .issuer-label {
+                    cursor: pointer;
                 }
             }
 
@@ -83,79 +88,23 @@
     .buttons {
         margin-top: 30px;
     }
+}
 
-    // .credentials {
-    //     background: $white;
-    //     border-radius: 15px;
-    //     padding: 10px 25px 10px 25px;
+.issuer-details{
+    max-height: 600px;
 
-    //     min-height: 250px;
+    .scrollable {
+        width: 100%;
+        max-height: 400px;
+        overflow: auto;
+        background: $light-beige;
+        padding: 10px;
+        border-radius: 10px;;
 
-    //     table {
-    //         width: 100%;
+        p {
+            text-align: left;
+        }
+    }
 
-    //         thead {
-    //             tr {
-    //                 th {
-    //                     &.label {
-    //                         text-align: left;
-    //                         color: $grey-dark;
-    //                     }
-    //                 }
-    //             }
-    //         }
-
-    //         tbody {
-    //             tr {
-    //                 vertical-align: top;
-    //                 td {
-    //                     padding-top: 15px;
-    //                 }
-    //             }
-
-    //             &.credential-group {
-    //                 box-shadow: 0px 3px 8px 0px #3E1B071A;
-    //             }
-    //         }
-
-    //         .credential-props {
-    //             background-color: $light-beige; //TODO: add 50% opacity
-
-
-    //             &.top {
-    //                 td {
-    //                     padding-top: 20px;
-    //                 }
-    //             }
-
-    //             &.bottom {
-    //                 td {
-    //                     padding-bottom: 20px;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
-    // .cred-arrow {
-    //     cursor: pointer;
-
-    //     &.expanded {
-    //         img {
-    //             transform: rotate(180deg);
-    //         }
-
-    //         margin-bottom: 20px;
-    //         display: block;
-    //     }
-    // }
-
-    // .no-credential-icon {
-    //     padding: 10px;
-    //     background: $grey-light;
-    //     border-radius: 5px;
-
-    //     font-size: 24px;
-    //     margin-right: 10px;
-    // }
+    margin-bottom: 20px;
 }

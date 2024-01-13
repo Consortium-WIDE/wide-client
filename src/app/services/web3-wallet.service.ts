@@ -195,6 +195,35 @@ export class Web3WalletService {
     }
   }
 
+  public async decryptData(encryptedData: any): Promise<string | null> {
+    if (!window.ethereum) {
+      console.error('Ethereum object not found');
+      return null;
+    }
+
+    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+    if (accounts.length === 0) {
+      console.error('No accounts found');
+      return null;
+    }
+
+    try {
+      // Ensure the encrypted data is a JSON string
+      const encryptedDataString = JSON.stringify(encryptedData);
+
+      // Decrypt the data using MetaMask
+      const decryptedData = await window.ethereum.request({
+        method: 'eth_decrypt',
+        params: [encryptedDataString, accounts[0]]
+      });
+
+      return decryptedData;
+    } catch (error) {
+      console.error('Error decrypting data', error);
+      return null;
+    }
+  }
+  
   public async getEthAddresses(): Promise<string[] | null> {
     if (!this.web3) {
       console.error('MetaMask is not available');

@@ -10,11 +10,12 @@ import { Router } from '@angular/router';
 import { WideStorageService } from '../../../services/wide-storage.service';
 import { HttpResponse } from '@angular/common/http';
 import { ToastNotificationService } from '../../../services/toast-notification.service';
+import { WideModalComponent } from '../../../components/wide-modal/wide-modal.component';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [CommonModule, NavMenuComponent, NavHeaderComponent, EncryptedCredentialComponent],
+  imports: [CommonModule, NavMenuComponent, NavHeaderComponent, EncryptedCredentialComponent, WideModalComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
@@ -22,9 +23,12 @@ export class MainComponent implements OnInit {
   private walletSubscription: Subscription;
   private account: string | null = null;
 
-  //TODO: Strongly type
-  credentials: any[] = [];
+  showIssuerDetailsModal: boolean = false;
+  issuerDetailsModalData: any = null;
 
+  //TODO: Strongly type, include in presentation components etc...
+  issuedCredentials: any[] = [];
+  credentialDetailLookup: any = { };
 
   constructor(private web3WalletService: Web3WalletService, private wideStorageService: WideStorageService, private toastNotificationService: ToastNotificationService, private navMenuService: NavMenuService, private router: Router) {
     this.walletSubscription = this.web3WalletService.connectedToWallet$.subscribe(walletConnected => {
@@ -32,31 +36,7 @@ export class MainComponent implements OnInit {
         this.web3WalletService.getAccount()
           .then((account: any) => {
             this.account = account;
-
             this.refreshAccountCredentials(account);
-            //TODO: For reference while implementing, remove when ready
-            // this.credentials = [
-            //   {
-            //     'name': 'Google Profile', 'type': 'Google Oauth', 'dateadded': new Date(), 'datevaliduntil': null, 'status': 0, 'isDecrypting': false,
-            //     'props': [
-            //       { 'name': 'Profile ID', 'value': 'abc123', 'status': 0, 'isDecrypting': false },
-            //       { 'name': 'Name', 'value': 'John', 'status': 0, 'isDecrypting': false },
-            //       { 'name': 'Surname', 'value': 'Doe', 'status': 0, 'isDecrypting': false },
-            //       { 'name': 'Email', 'value': 'john.doe@donotmessage.com', 'status': 0, 'isDecrypting': false },
-            //     ]
-            //   },
-            //   {
-            //     'name': 'Drivers License', 'type': 'EUDIW', 'dateadded': new Date(), 'datevaliduntil': new Date().setMonth(6), 'status': 0, 'isDecrypting': false,
-            //     'props': [
-            //       { 'name': 'Name', 'value': 'John', 'status': 0, 'isDecrypting': false },
-            //       { 'name': 'Surname', 'value': 'Doe', 'status': 0, 'isDecrypting': false },
-            //       { 'name': 'Address', 'value': '1, Road Street, Brussels, Belgium', 'status': 0, 'isDecrypting': false },
-            //       { 'name': 'Valid From', 'value': '5-May-2015', 'status': 0, 'isDecrypting': false },
-            //       { 'name': 'Valid To', 'value': '5-May-2025', 'status': 0, 'isDecrypting': false },
-            //       { 'name': 'Issued By', 'value': 'Belgium Road Authority', 'status': 0, 'isDecrypting': false },
-            //     ]
-            //   }
-            // ]
           }).catch((error: any) => {
             console.error(error);
           });
@@ -76,7 +56,7 @@ export class MainComponent implements OnInit {
     await this.wideStorageService.getUserIssuedCredentials(account).subscribe({
       next: (response: HttpResponse<any>) => {
         console.log('response', response);
-        this.credentials = response.body;
+        this.issuedCredentials = response.body;
 
         if (response.status == 204) {
           this.toastNotificationService.info('Loading credentials', `No credentials found for ${account}`);
@@ -97,28 +77,57 @@ export class MainComponent implements OnInit {
     this.router.navigate([uri]);
   }
 
-  //TODO: Define credential type for strong typing
-  expand(cred: any) {
-    if (cred.expanded === undefined) {
-      cred.expanded = true;
+  expand(row: any) {
+    if (!this.account){
+      this.toastNotificationService.info('Unable to retrieve credential', 'Please make sure your wallet is connected first');
+      return;
+    }
+
+    if (row.expanded === undefined) {
+      if (!this.credentialDetailLookup[row.wideInternalId]){
+        this.wideStorageService.getEncryptedCredentials(this.account, row.wideInternalId).subscribe({
+          next: (response: HttpResponse<any>) => {
+            //TODO: Define credential type for strong typing
+            this.credentialDetailLookup[row.wideInternalId] = response.body;
+    
+            if (response.status == 204) {
+              this.toastNotificationService.info('Loading credentials', `No credentials found for ${this.account} with key ${row.wideInternalId}`);
+            }
+          },
+          error: (res) => {
+            this.toastNotificationService.error(res.statusText, `Failed to load credentials (${res.status})`);
+            console.error('Failed to load credentials', res);
+          }
+        });;
+      }
+      row.expanded = true;
     } else {
-      cred.expanded = !cred.expanded;
+      row.expanded = !row.expanded;
     }
   }
 
-  async decryptProperty(cred: any, prop: any) {
-    console.info('decrypting property', prop);
-    prop.isDecrypting = true;
+  async decryptProperty(cred: any) {
+    console.info('decrypting property', cred);
+    cred.isDecrypting = true;
 
-    prop.status = 1;
-    await this.web3WalletService.signMessage('User will not be asked to sign message, but decrypt. This is just to simulate the flow');
+    cred.status = 1;
+    const response: any = await this.web3WalletService.decryptData(cred.val);
+    const decryptedData: any = JSON.parse(response);
 
-    prop.status = 2;
-
-    console.info('decrypted successfully', prop);
+    if (decryptedData && decryptedData.hasOwnProperty(cred.name)){
+      cred.decryptedValue = decryptedData[cred.name];
+      cred.status = 2;
+      this.toastNotificationService.info('Decryption Complete', `Successfully decrypted data for ${cred.name}`)
+    } else {
+      cred.status = 0;
+      this.toastNotificationService.error('Failed Decrypting', `Unable to retrieve value from decrypted data for ${cred.name}`);
+      console.error('Unable to retrieve value from decrypted data. Returned value: ', decryptedData);
+    }
   }
 
   async decryptCred(cred: any) {
+
+    //TODO: Continue here
     console.info('decrypting credential', cred);
 
     cred.isDecrypting = true;
@@ -145,4 +154,22 @@ export class MainComponent implements OnInit {
 
     return false;
   }
+
+  getFaviconUrl(url: string): string {
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'http://' + url;
+    }
+
+    // Construct and return the favicon URL
+    const urlObj = new URL(url);
+    return `${urlObj.origin}/favicon.ico`;
+  }
+
+  showIssuerModal(issuer: any): any {
+    console.log(issuer);
+
+    this.issuerDetailsModalData = issuer;
+    this.showIssuerDetailsModal = true;
+  }
+
 }
