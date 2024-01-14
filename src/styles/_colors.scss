@@ -34,6 +34,20 @@ $info: $blue;
 $success: $green;
 $error: $coral;
 
-.coral {
+.text-coral {
     color: $coral;
+}
+
+.text-success {
+    color: $success;
+}
+
+.coral {
+    color: $light-beige;
+    background: $coral;
+}
+
+.success {
+    color: $light-beige;
+    background: $success;
 }

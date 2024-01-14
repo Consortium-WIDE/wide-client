@@ -18,6 +18,10 @@ export class ToastNotificationService {
     this.showToast(title, message, 'info', duration);
   }
 
+  public error(title: string, message: string, duration = 5000) {
+    this.showToast(title, message, 'error', duration);
+  }
+
   // ... similarly for other types like 'success', 'error', etc.
 
   public showToast(title: string, message: string, type: string, duration: number) {

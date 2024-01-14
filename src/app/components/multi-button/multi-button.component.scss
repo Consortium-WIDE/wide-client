@@ -1,0 +1,41 @@
+@import '_imports';
+
+.multi-button {
+    display: inline;
+    position: relative;
+
+    .menu-visible.main-btn {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .menu {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        z-index: 9;
+        width: 100%;
+
+        button {
+            background: $light-beige;
+            border-radius: 0;
+            border-left: 1px solid $coral;
+            border-right: 1px solid $coral;
+            border-bottom: 1px solid $coral;
+            color: $coral;
+
+            min-width: auto;
+            width: 100%;
+
+            &:hover {
+                background: $peach;
+                color: $light-beige;
+            }
+
+            &:last-child {
+                border-bottom-left-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+        }
+    }
+}

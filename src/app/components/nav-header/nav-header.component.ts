@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Web3WalletService } from '../../services/web3-wallet.service';
 import { siEthereum } from 'simple-icons';
@@ -12,12 +12,14 @@ import { WideModalComponent } from '../wide-modal/wide-modal.component';
   templateUrl: './nav-header.component.html',
   styleUrl: './nav-header.component.scss'
 })
-export class NavHeaderComponent {
+export class NavHeaderComponent implements OnInit {
   @Input() title: string | null = null;
   @Input() breadcrumbs: string[] | null = null;
 
   showMetaMaskWalletModal = false;
   showMetaMaskConnectModal = false;
+
+  metaMaskCheckPending = true;
 
   isConnected: boolean = false;
 
@@ -27,19 +29,25 @@ export class NavHeaderComponent {
 
   constructor(private web3WalletService: Web3WalletService, private sanitizer: DomSanitizer) { }
 
-  //TODO: handle edgecase when isConnected is true and accounts is null or empty: prompt user to connect an account
-  ngOnInit(): void {
-    if (this.web3WalletService.isMetaMaskInstalled()) {
-      this.connectWallet();
-    }
+  async ngOnInit(): Promise<void> {
+    setTimeout(async () => {
+      if (this.web3WalletService.isMetaMaskInstalled()) {
+        const isMetaMaskUnlocked = await this.web3WalletService.isMetaMaskUnlocked();
+        this.metaMaskCheckPending = false;
+        if (isMetaMaskUnlocked) {
+          await this.connectWallet();
+        }
+      } else {
+        this.showMetaMaskWalletModal = true;
+        this.metaMaskCheckPending = false;
+      }
+    }, 1500);
   }
 
   //TODO: Connect Wallet, check if already signed message. Check secure session/cookie, possibly ask to sign another message
   async connectWallet() {
     if (!this.web3WalletService.isMetaMaskInstalled()) {
-
       this.showMetaMaskWalletModal = true;
-
     } else {
       await this.web3WalletService.connect().then(async (connected) => {
         if (connected) {

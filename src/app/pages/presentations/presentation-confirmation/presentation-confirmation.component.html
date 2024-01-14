@@ -9,7 +9,7 @@
             <li>Verifier: {{ presentation.verifier.name }}</li>
             <li>Timestamp: {{ presentation.timestamp | date:'dd-MMM-yyyy HH:mm'}}</li>
             <li *ngFor="let cred of presentation.decrypted">{{cred.name}}: {{ cred.value }}</li>
-            <li *ngFor="let cred of presentation.encrypted">{{cred.name}}: <i class="mdi mdi-lock coral"></i> {{ cred.value | slice:0:12 }}...</li>
+            <li *ngFor="let cred of presentation.encrypted">{{cred.name}}: <i class="mdi mdi-lock text-coral"></i> {{ cred.value | slice:0:12 }}...</li>
         </ul>
     </div>
     <div class="buttons vertical">

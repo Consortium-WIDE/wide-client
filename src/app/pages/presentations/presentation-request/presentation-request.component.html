@@ -11,10 +11,10 @@
             <li>Type: {{presentationReq.credential.type}}</li>
         </ul>
         <div class="credential-enumeration decrypted-credentials">
-            <i class="mdi mdi-lock coral"></i> Decrypted<span class="separator">:<app-tooltip message="{{presentationReq.verifier.name}} require these credentials to be decrypted"></app-tooltip></span> {{presentationReq.request.decrypted.join(', ')}}
+            <i class="mdi mdi-lock-open-check text-success"></i> Decrypted<span class="separator">:<app-tooltip message="{{presentationReq.verifier.name}} require these credentials to be decrypted"></app-tooltip></span> {{presentationReq.request.decrypted.join(', ')}}
         </div>
         <div class="credential-enumeration encrypted-credentials">
-            <i class="mdi mdi-lock coral"></i> Encrypted<span class="separator">:<app-tooltip position="bottom" message="These credentials are only required in their encrypted form"></app-tooltip></span> {{presentationReq.request.encrypted.join(', ')}}
+            <i class="mdi mdi-lock text-coral"></i> Encrypted<span class="separator">:<app-tooltip position="bottom" message="These credentials are only required in their encrypted form"></app-tooltip></span> {{presentationReq.request.encrypted.join(', ')}}
         </div>
     </div>
     <div class="buttons vertical">

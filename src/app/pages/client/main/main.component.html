@@ -10,54 +10,95 @@
                 <div class="label w-15">Valid until</div>
                 <div class="label w-25"></div>
             </div>
-            <div class="credential" *ngFor="let cred of credentials" [ngClass]="cred.expanded ? 'expanded' : ''">
+            <div class="credential" *ngFor="let issuer of issuedCredentials"
+                [ngClass]="issuer.expanded ? 'expanded' : ''">
                 <div class="credential-header">
                     <div class="w-5">
-                        <span class="cred-arrow" [ngClass]="cred.expanded ? 'expanded' : ''" (click)="expand(cred)">
+                        <span class="cred-arrow" [ngClass]="issuer.expanded ? 'expanded' : ''" (click)="expand(issuer)">
                             <img src="/assets/svg/arrow.svg" />
                         </span>
                     </div>
-                    <div class="w-25">{{cred.name}}</div>
-                    <div class="w-15">{{cred.type}}</div>
-                    <div class="w-15">{{cred.dateadded | date:'dd-MMM-yyyy HH:mm'}}</div>
+                    <div class="w-25">
+                        <span (click)="showIssuerModal(issuer)" class="issuer-label">
+                            <img src="{{getFaviconUrl(issuer.issuer)}}" width="16" height="16" /> {{issuer.label}} <span *ngIf="!issuerHasDecryptPending(issuer)" class="pill text-success"><i class="mdi mdi-lock-open-check"></i></span>
+                        </span>
+                    </div>
+                    <div class="w-15">{{issuer.type.join(', ')}}</div>
+                    <div class="w-15">{{issuer.issuanceDate | date:'dd-MMM-yyyy HH:mm'}}</div>
                     <div class="w-15">
-                        <span *ngIf="cred.datevaliduntil">{{cred.datevaliduntil |
+                        <span *ngIf="issuer.datevaliduntil">{{issuer.datevaliduntil |
                             date:'dd-MMM-yyyyHH:mm'}}</span>
-                        <span *ngIf="!cred.datevaliduntil"><i class="mdi mdi-infinity"></i></span>
+                        <span *ngIf="!issuer.datevaliduntil"><i class="mdi mdi-infinity"></i></span>
                     </div>
                     <div class="w-25">
-                        <button class="btn-xs" (click)="decryptCred(cred)" *ngIf="credHasDecryptPending(cred)">
-                            <span *ngIf="!cred.isDecrypting"><i class="mdi mdi-lock"></i> Decrypt</span>
-                            <span *ngIf="cred.isDecrypting"><i class="mdi mdi-loading rotate-mdi"></i> Waiting for Metamask</span>
-                        </button>
+                        <app-multi-button btnSize="btn-xs" [buttons]="getActionMenuButtons(issuer)" (buttonClick)="issuerActionClick($event, issuer)"></app-multi-button>
+                        <!-- <button class="btn-xs" (click)="decryptCredential(issuer)" *ngIf="issuerHasDecryptPending(issuer)">
+                            <span *ngIf="!issuer.isDecrypting"><i class="mdi mdi-lock"></i> Decrypt</span>
+                            <span *ngIf="issuer.isDecrypting"><i class="mdi mdi-loading rotate-mdi"></i> Waiting for
+                                Metamask</span>
+                        </button> -->
                         <a href="#" class="btn btn-lg">Remove <i class="btn-icon"><i class="mdi mdi-delete"></i></i></a>
                     </div>
                 </div>
-                <div class="credential-expanded" *ngIf="cred.expanded">
-                    <div class="credential-property" *ngFor="let prop of cred.props">
+                <div class="credential-expanded" *ngIf="issuer.expanded && credentialDetailLookup[issuer.wideInternalId]?.credentials">
+                    <div class="credential-property" *ngFor="let cred of credentialDetailLookup[issuer.wideInternalId]?.credentials">
                         <div class="w-5"></div>
-                        <div class="w-25">{{prop.name}}</div>
-                        <div class="w-70" *ngIf="prop.status == 2">
-                            {{prop.value}}
+                        <div class="w-25">{{cred.name}}</div>
+                        <div class="w-70" *ngIf="cred.status == 2">
+                            {{cred.decryptedValue}}
                         </div>
-                        <div class="w-70" *ngIf="!prop.status || prop.status < 2">
-                            <button class="btn-xs" (click)="decryptProperty(cred, prop)">
-                                <span *ngIf="!prop.isDecrypting && prop.status == 0"><i class="mdi mdi-lock"></i> Decrypt</span>
-                                <span *ngIf="prop.isDecrypting && prop.status == 1"><i class="mdi mdi-loading rotate-mdi"></i> Waiting for Metamask</span>
+                        <div class="w-70" *ngIf="!cred.status || cred.status < 2">
+                            <button class="btn-xs" (click)="decryptProperty(cred)">
+                                <span *ngIf="!cred.isDecrypting && (cred.status == 0 || !cred.status)"><i class="mdi mdi-lock"></i>
+                                    Decrypt</span>
+                                <span *ngIf="cred.isDecrypting && cred.status == 1"><i
+                                        class="mdi mdi-loading rotate-mdi"></i> Waiting for Metamask</span>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div *ngIf="!credentials || credentials.length <= 0" class="panel-message info">
-                <p class="error"> <i class="mdi mdi-alert-circle-outline"></i>It appears that you do not have any encrypted credentials stored with us.</p>
+            <div *ngIf="!issuedCredentials || issuedCredentials.length <= 0" class="panel-message info">
+                <p class="info"> <i class="mdi mdi-alert-circle-outline"></i>It looks like you do not have any encrypted
+                    credentials stored with us yet. Click Add Credentials to get started!</p>
             </div>
         </div>
-        <div *ngIf="!getWeb3WalletService().isConnectedToWallet()" class="panel-message error">
+        <div *ngIf="getWeb3WalletService().isCheckingMetaMask()" class="panel-message info">
+            <p class="info"> <i class="spinner mdi mdi-loading rotate-mdi"></i> Please wait while initialising...</p>
+        </div>
+        <div *ngIf="!getWeb3WalletService().isConnectedToWallet() && !getWeb3WalletService().isCheckingMetaMask()"
+            class="panel-message error">
             <p class="error"> <i class="mdi mdi-alert-circle-outline"></i>Please connect your wallet!</p>
         </div>
     </div>
     <div class="buttons">
-        <button (click)="goTo('credentials/add')">Add Credentials</button>
+        <button *ngIf="getWeb3WalletService().isConnectedToWallet() && !getWeb3WalletService().isCheckingMetaMask()"
+            (click)="goTo('credentials/add')">Add Credentials</button>
     </div>
 </div>
+<app-wide-modal [showModal]="showIssuerDetailsModal">
+    <div content class="issuer-details" *ngIf="issuerDetailsModalData">
+        <h3><img src="{{getFaviconUrl(issuerDetailsModalData.issuer)}}" width="16" height="16" />
+            {{issuerDetailsModalData.label}}</h3>
+        <p>The details on the issuance of this data is listed below.</p>
+        <div class="scrollable align-left">
+            <pre><p>{{issuerDetailsModalData | json}}</p></pre>
+        </div>
+        <p class="label">To view the credentials associated to this, please expand the appropriate row in the main screen.</p>
+    </div>
+    <div buttons>
+        <button (click)="showIssuerDetailsModal = false">Close</button>
+    </div>
+</app-wide-modal>
+<app-wide-modal [showModal]="showVcModal">
+    <div content class="issuer-details" *ngIf="vcPreviewData">
+        <h3>Verifiable Presentation Preview</h3>
+        <p>The Verifiable Credential that will be presented to Relying Parties is displayed below.</p>
+        <div class="scrollable align-left">
+            <pre><p>{{vcPreviewData | json}}</p></pre>
+        </div>
+    </div>
+    <div buttons>
+        <button (click)="showVcModal = false">Close</button>
+    </div>
+</app-wide-modal>

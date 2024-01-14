@@ -120,11 +120,11 @@ a.btn {
     text-decoration-thickness: 2px;
 
     cursor: pointer;
+}
 
-    .btn-icon {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
+.btn-icon {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .btn-lg,
@@ -378,21 +378,16 @@ select {
     clip-path: $wide-tick-lg;
 }
 
-/* COLOURS */
-.success {
-    background-color: $success;
-}
-
 /* Toast */
 .toast {
     position: fixed;
     bottom: 5%;
     right: 5%;
-    width: 350px;
+    min-width: 350px;
     z-index: 100;
     border-radius: 10px;
     box-shadow: 0px 3px 8px rgba(62, 27, 7, 0.1);
-    padding: 10px 10px 10px 10px;
+    padding: 10px 25px 10px 10px;
 
     display: flex;
     align-items: center;
@@ -470,4 +465,11 @@ select {
             }
         }
     }
+
+}
+
+/* MISC*/
+.pill {
+    padding: 5px;
+    border-radius: 5px;
 }
