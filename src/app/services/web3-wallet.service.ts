@@ -22,7 +22,7 @@ export class Web3WalletService {
   private metaMaskCheckStatus = new BehaviorSubject<boolean>(true);
   public metaMaskCheckStatus$ = this.metaMaskCheckStatus.asObservable();
 
-  constructor(private encryptionService: EncryptionService, private dataProcessingSerivce: DataProcessingServiceprivate http: HttpClient) { }
+  constructor(private encryptionService: EncryptionService, private dataProcessingSerivce: DataProcessingService, private http: HttpClient) { }
 
   public async connect(): Promise<boolean> {
     if (!this.connectedToWallet.value) {
