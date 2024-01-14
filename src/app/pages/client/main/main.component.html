@@ -20,7 +20,7 @@
                     </div>
                     <div class="w-25">
                         <span (click)="showIssuerModal(issuer)" class="issuer-label">
-                            <img src="{{getFaviconUrl(issuer.issuer)}}" width="16" height="16" /> {{issuer.label}}
+                            <img src="{{getFaviconUrl(issuer.issuer)}}" width="16" height="16" /> {{issuer.label}} <span *ngIf="!issuerHasDecryptPending(issuer)" class="pill text-success"><i class="mdi mdi-lock-open-check"></i></span>
                         </span>
                     </div>
                     <div class="w-15">{{issuer.type.join(', ')}}</div>
@@ -31,12 +31,12 @@
                         <span *ngIf="!issuer.datevaliduntil"><i class="mdi mdi-infinity"></i></span>
                     </div>
                     <div class="w-25">
-                        <button class="btn-xs" (click)="decryptCredential(issuer)" *ngIf="issuerHasDecryptPending(issuer)">
+                        <app-multi-button btnSize="btn-xs" [buttons]="getActionMenuButtons(issuer)" (buttonClick)="issuerActionClick($event, issuer)"></app-multi-button>
+                        <!-- <button class="btn-xs" (click)="decryptCredential(issuer)" *ngIf="issuerHasDecryptPending(issuer)">
                             <span *ngIf="!issuer.isDecrypting"><i class="mdi mdi-lock"></i> Decrypt</span>
                             <span *ngIf="issuer.isDecrypting"><i class="mdi mdi-loading rotate-mdi"></i> Waiting for
                                 Metamask</span>
-                        </button>
-                        <span *ngIf="!issuerHasDecryptPending(issuer)" class="pill success"><i class="mdi mdi-lock-open-check"></i> Decrypted</span>
+                        </button> -->
                         <a href="#" class="btn btn-lg">Remove <i class="btn-icon"><i class="mdi mdi-delete"></i></i></a>
                     </div>
                 </div>
@@ -88,5 +88,17 @@
     </div>
     <div buttons>
         <button (click)="showIssuerDetailsModal = false">Close</button>
+    </div>
+</app-wide-modal>
+<app-wide-modal [showModal]="showVcModal">
+    <div content class="issuer-details" *ngIf="vcPreviewData">
+        <h3>Verifiable Presentation Preview</h3>
+        <p>The Verifiable Credential that will be presented to Relying Parties is displayed below.</p>
+        <div class="scrollable align-left">
+            <pre><p>{{vcPreviewData | json}}</p></pre>
+        </div>
+    </div>
+    <div buttons>
+        <button (click)="showVcModal = false">Close</button>
     </div>
 </app-wide-modal>

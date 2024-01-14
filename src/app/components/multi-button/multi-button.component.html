@@ -1,5 +1,5 @@
 <div class="multi-button">
-    <button class="btn main-btn {{btnSize}}" [ngClass]="menuVisible ? 'menu-visible' : ''" (click)="toggleMenu()">Main Button <i class="mdi" [ngClass]="menuVisible ? 'mdi-triangle-outline' : 'mdi-triangle-down-outline'"></i></button>
+    <button class="btn main-btn {{btnSize}}" [ngClass]="menuVisible ? 'menu-visible' : ''" (click)="toggleMenu()">{{label}} <i class="mdi" [ngClass]="menuVisible ? 'mdi-triangle-outline' : 'mdi-triangle-down-outline'"></i></button>
     <div *ngIf="menuVisible" class="menu">
         <button class="btn {{btnSize}}" *ngFor="let button of buttons" (click)="onButtonClick(button)">{{button.label}}</button>
     </div>

@@ -9,6 +9,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './multi-button.component.scss'
 })
 export class MultiButtonComponent {
+  @Input() label: string = 'Actions';
   @Input() buttons: ButtonConfig[] = [];
   @Input() btnSize: string = '';
   @Output() buttonClick = new EventEmitter<string>();

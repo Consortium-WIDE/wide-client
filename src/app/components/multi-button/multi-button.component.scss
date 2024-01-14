@@ -1,6 +1,7 @@
 @import '_imports';
 
 .multi-button {
+    display: inline;
     position: relative;
 
     .menu-visible.main-btn {

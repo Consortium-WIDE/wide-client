@@ -34,7 +34,8 @@ export class KitchenSinkComponent {
   handleMultiButtonClick(action: string) {
     console.log('Button action:', action);
     // Add logic to handle different actions
-}
+  }
+  
   showToast(type: string): void {
     this.toastNotificationService.showToast('Toast Title', 'Butter be prepared for some toasty puns!', type, 5000);
   }
