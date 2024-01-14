@@ -40,6 +40,8 @@ export class MainComponent implements OnInit {
       if (walletConnected) {
         this.web3WalletService.getAccount()
           .then((account: any) => {
+            console.info('this.web3WalletService.getAccount', account);
+            
             this.account = account;
             this.refreshAccountCredentials(account);
           }).catch((error: any) => {
