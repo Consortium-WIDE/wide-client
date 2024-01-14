@@ -31,13 +31,13 @@
                         <span *ngIf="!issuer.datevaliduntil"><i class="mdi mdi-infinity"></i></span>
                     </div>
                     <div class="w-25">
-                        <button class="btn-xs" (click)="decryptCred(issuer)" *ngIf="credHasDecryptPending(issuer)">
+                        <button class="btn-xs" (click)="decryptCredential(issuer)" *ngIf="issuerHasDecryptPending(issuer)">
                             <span *ngIf="!issuer.isDecrypting"><i class="mdi mdi-lock"></i> Decrypt</span>
                             <span *ngIf="issuer.isDecrypting"><i class="mdi mdi-loading rotate-mdi"></i> Waiting for
                                 Metamask</span>
                         </button>
+                        <span *ngIf="!issuerHasDecryptPending(issuer)" class="pill success"><i class="mdi mdi-lock-open-check"></i> Decrypted</span>
                         <a href="#" class="btn btn-lg">Remove <i class="btn-icon"><i class="mdi mdi-delete"></i></i></a>
-                        <button class="btn btn-sm"><i class="mdi mdi-lock"></i> Decrypt</button>
                     </div>
                 </div>
                 <div class="credential-expanded" *ngIf="issuer.expanded && credentialDetailLookup[issuer.wideInternalId]?.credentials">

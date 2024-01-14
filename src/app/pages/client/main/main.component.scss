@@ -40,10 +40,14 @@
                 .cred-arrow {
 
                     cursor: pointer;
+
+                    img {
+                        transform: rotate(180deg);
+                    }
     
                     &.expanded {
                         img {
-                            transform: rotate(180deg);
+                            transform: rotate(0deg);
                         }
                     }
                 }

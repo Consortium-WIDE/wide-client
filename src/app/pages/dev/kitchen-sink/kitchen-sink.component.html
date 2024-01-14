@@ -46,6 +46,13 @@
             <button class="btn-sm" (click)="buttonClick('btn-sm')">btn-sm</button>
             <button class="btn-xs" (click)="buttonClick('btn-xs')">btn-xs</button>
         </div>
+        <h2>Multi Button</h2>
+        <div class="button-set">
+            <app-multi-button btnSize="btn-lg" [buttons]="[{ label: 'Button 1', action: 'action1' },{ label: 'Button 2', action: 'action2' },{ label: 'Button 3', action: 'action3' }]" (buttonClick)="handleMultiButtonClick($event)"></app-multi-button>
+            <app-multi-button [buttons]="[{ label: 'Button 1', action: 'action1' },{ label: 'Button 2', action: 'action2' },{ label: 'Button 3', action: 'action3' }]" (buttonClick)="handleMultiButtonClick($event)"></app-multi-button>
+            <app-multi-button btnSize="btn-sm" [buttons]="[{ label: 'Button 1', action: 'action1' },{ label: 'Button 2', action: 'action2' },{ label: 'Button 3', action: 'action3' }]" (buttonClick)="handleMultiButtonClick($event)"></app-multi-button>
+            <app-multi-button btnSize="btn-xs"[buttons]="[{ label: 'Button 1', action: 'action1' },{ label: 'Button 2', action: 'action2' },{ label: 'Button 3', action: 'action3' }]" (buttonClick)="handleMultiButtonClick($event)"></app-multi-button>
+        </div>
         <h2>White Gradient</h2>
         <div class="button-set">
             <div class="btn-white-grad">
