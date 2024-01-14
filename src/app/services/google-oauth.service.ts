@@ -10,7 +10,7 @@ export class GoogleOauthService {
   constructor(private router: Router, private http: HttpClient) { }
 
   public initiateAuthFlow() {
-    const authUrl = `${environment.googleOAuth.oAuthUri}?response_type=token&client_id=${environment.googleOAuth.clientId}&redirect_uri=${encodeURIComponent(environment.googleOAuth.redirectUri)}&scope=email profile openid`;
+    const authUrl = `${environment.googleOAuth.oAuthUri}?response_type=token&client_id=${environment.googleOAuth.clientId}&redirect_uri=${encodeURIComponent(environment.googleOAuth.redirectUri)}&prompt=select_account&scope=email profile openid`;
 
     // Redirect to auth URL
     window.location.href = authUrl;

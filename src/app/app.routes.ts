@@ -13,6 +13,9 @@ import { AddCredentialsComponent } from './pages/client/add-credentials/add-cred
 import { GoogleSigninComponent } from './pages/client/integrations/google/google-signin/google-signin.component';
 import { GoogleSigninRedirectComponent } from './pages/client/integrations/google/google-signin-redirect/google-signin-redirect.component';
 import { GoogleStoreCredentialsComponent } from './pages/client/integrations/google/google-store-credentials/google-store-credentials.component';
+import { BeginPresentationComponent } from './pages/presentations/begin-presentation/begin-presentation.component';
+import { PresentationRequestComponent } from './pages/presentations/presentation-request/presentation-request.component';
+import { PresentationConfirmationComponent } from './pages/presentations/presentation-confirmation/presentation-confirmation.component';
 
 export const routes: Routes = [
     {
@@ -37,6 +40,12 @@ export const routes: Routes = [
         component: SimpleLayoutComponent,
         children: [
             { path: 'getting-started', component: GettingStartedComponent },
+
+            { path: 'presentation/begin', component: BeginPresentationComponent },
+            { path: 'presentation/request', component: PresentationRequestComponent },
+            { path: 'presentation/confirm', component: PresentationConfirmationComponent },
+
+            
             { path: '**', component: NotFoundComponent }
         ]
     }

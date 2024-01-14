@@ -46,6 +46,13 @@
             <button class="btn-sm" (click)="buttonClick('btn-sm')">btn-sm</button>
             <button class="btn-xs" (click)="buttonClick('btn-xs')">btn-xs</button>
         </div>
+        <h2>Multi Button</h2>
+        <div class="button-set">
+            <app-multi-button btnSize="btn-lg" [buttons]="[{ label: 'Button 1', action: 'action1' },{ label: 'Button 2', action: 'action2' },{ label: 'Button 3', action: 'action3' }]" (buttonClick)="handleMultiButtonClick($event)"></app-multi-button>
+            <app-multi-button [buttons]="[{ label: 'Button 1', action: 'action1' },{ label: 'Button 2', action: 'action2' },{ label: 'Button 3', action: 'action3' }]" (buttonClick)="handleMultiButtonClick($event)"></app-multi-button>
+            <app-multi-button btnSize="btn-sm" [buttons]="[{ label: 'Button 1', action: 'action1' },{ label: 'Button 2', action: 'action2' },{ label: 'Button 3', action: 'action3' }]" (buttonClick)="handleMultiButtonClick($event)"></app-multi-button>
+            <app-multi-button btnSize="btn-xs"[buttons]="[{ label: 'Button 1', action: 'action1' },{ label: 'Button 2', action: 'action2' },{ label: 'Button 3', action: 'action3' }]" (buttonClick)="handleMultiButtonClick($event)"></app-multi-button>
+        </div>
         <h2>White Gradient</h2>
         <div class="button-set">
             <div class="btn-white-grad">
@@ -185,12 +192,12 @@
 
             <h2>Checkbox</h2>
             <div class="checkbox-group">
-                <h3>Small Checkbox (default)</h3>
-                <input type="checkbox" id="checkbox" name="checkbox" [(ngModel)]="form.checkboxValue">
+                <h3>Small Checkbox (.switch)</h3>
+                <input type="checkbox" id="checkbox" name="checkbox" class="switch" [(ngModel)]="form.checkboxValue">
             </div>
             <div class="checkbox-group">
-                <h3>Large checkbox (.checkbox-lg)</h3>
-                <input type="checkbox" class="checkbox-lg" id="checkbox2" name="checkbox2"
+                <h3>Large checkbox (.switch .switch-lg)</h3>
+                <input type="checkbox" class="switch switch-lg" id="checkbox2" name="checkbox2"
                     [(ngModel)]="form.checkboxValue2">
             </div>
 

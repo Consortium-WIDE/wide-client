@@ -33,3 +33,21 @@ $light-blue: #F2F7FF;
 $info: $blue;
 $success: $green;
 $error: $coral;
+
+.text-coral {
+    color: $coral;
+}
+
+.text-success {
+    color: $success;
+}
+
+.coral {
+    color: $light-beige;
+    background: $coral;
+}
+
+.success {
+    color: $light-beige;
+    background: $success;
+}

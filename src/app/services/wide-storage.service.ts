@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -12,9 +12,7 @@ export class WideStorageService {
 
   constructor(private http: HttpClient) { }
 
-  //TODO: generate hash of the keys before sending request to the server.
-  
-  // Fetch the public key for a user
+  // Fetch the primary public key for a user
   getPublicKey(accountAddress: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/user/${accountAddress}/publicKey`);
   }
@@ -24,10 +22,24 @@ export class WideStorageService {
     return this.http.post(`${this.apiUrl}/user/${accountAddress}/publicKey`, { publicKey });
   }
 
-  // Fetch the list of VC IDs for a user
-  getVcIds(accountAddress: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/${accountAddress}/vcIds`);
+  getUserIssuedCredentials(accountAddress: string): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/issued-credentials`, { observe: 'response' });
   }
+
+  storeUserCredentials(accountAddress: string, issuer: any, credential: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/storage/user/${accountAddress}/credential`, {
+      'issuer': issuer,
+      'payload': credential.payload,
+      'credentials': credential.credentials
+    });
+  }
+
+  getEncryptedCredentials(accountAddress: string, credentialKey: string): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/credentials/${credentialKey}`, { observe: 'response' });
+  }
+
+  //OLD METHODS, DEPRECATED
+  //TODO: Remove
 
   // POST method: Add a VC ID for a user
   addVcId(accountAddress: string, vcId: string): Observable<any> {
