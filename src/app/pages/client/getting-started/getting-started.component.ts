@@ -30,8 +30,7 @@ export class GettingStartedComponent {
               this.messageToSign = siweMessage.message.statement;
               this.showSignMessageModal = true;
             },
-            error: (err) => console.error(err),
-            complete: () => console.info('getSiweMessage complete')
+            error: (err) => console.error(err)
           });
         }
       }).catch((err) => console.error(err))

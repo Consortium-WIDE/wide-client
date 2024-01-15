@@ -66,11 +66,10 @@ export class Web3WalletService {
                   } else if (siweResponse.success) {
                     connectSuccess = true;
                   }
-                  console.info(siweResponse.message);
+                  
                 }
               } catch (signError) {
-                // Handle the rejection of the signing process here
-                console.info('Signing process was rejected', signError);
+                console.error('Signing process was rejected', signError);
                 ethRequestAccountsFailed = true;
               }
             }

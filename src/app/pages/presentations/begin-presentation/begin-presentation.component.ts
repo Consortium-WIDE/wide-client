@@ -28,16 +28,10 @@ export class BeginPresentationComponent {
     } else {
       await this.web3WalletService.connect().then(async (connected) => {
         if (connected) {
-          console.info('Connected to Metamask');
-
           await this.web3WalletService.getEthAddresses().then((accounts) => {
             if (accounts && accounts?.length > 0) {
               this.accounts = accounts;
-
-              //TODO: Check if user has registered already
               this.router.navigateByUrl('presentation/request');
-
-              
             } else {
               this.showMetaMaskConnectModal = true;
             }
