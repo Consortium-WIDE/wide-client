@@ -47,27 +47,32 @@ export class Web3WalletService {
               this.router.navigateByUrl('/getting-started');
             }
 
-            const siweMessage = new SiweMessage(siweMessageRaw.message);
-            const msgToSign = siweMessage.prepareMessage();
+            if (siweMessageRaw.alreadyLoggedIn) {
+              connectSuccess = true;
+            } else {
 
-            try {
-              const signedMessage = await this.signMessage(msgToSign);
+              const siweMessage = new SiweMessage(siweMessageRaw.message);
+              const msgToSign = siweMessage.prepareMessage();
 
-              if (signedMessage) {
-                const siweResponse = await firstValueFrom(this.verifySiweMessage(siweMessage, signedMessage));
+              try {
+                const signedMessage = await this.signMessage(msgToSign);
 
-                if (!siweResponse.success && siweResponse.requiresSignup) {
-                  this.toastNotificationService.info('Terms of Service', 'Please accept the Terms of Service before logging into and using WIDE');
-                  this.router.navigateByUrl('/getting-started');
-                } else if (siweResponse.success) {
-                  connectSuccess = true;
+                if (signedMessage) {
+                  const siweResponse = await firstValueFrom(this.verifySiweMessage(siweMessage, signedMessage));
+
+                  if (!siweResponse.success && siweResponse.requiresSignup) {
+                    this.toastNotificationService.info('Terms of Service', 'Please accept the Terms of Service before logging into and using WIDE');
+                    this.router.navigateByUrl('/getting-started');
+                  } else if (siweResponse.success) {
+                    connectSuccess = true;
+                  }
+                  console.info(siweResponse.message);
                 }
-                console.info(siweResponse.message);
+              } catch (signError) {
+                // Handle the rejection of the signing process here
+                console.info('Signing process was rejected', signError);
+                ethRequestAccountsFailed = true;
               }
-            } catch (signError) {
-              // Handle the rejection of the signing process here
-              console.info('Signing process was rejected', signError);
-              ethRequestAccountsFailed = true;
             }
           }
 
@@ -164,7 +169,7 @@ export class Web3WalletService {
   }
 
   public getSiweSignInMessage(accountAddress: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/siwe/generate_signin?ethereumAddress=${accountAddress}`);
+    return this.http.get(`${this.apiUrl}/siwe/generate_signin?ethereumAddress=${accountAddress}`, { withCredentials: true });
   }
 
   public getSiweSignUpMessage(accountAddress: string): Observable<any> {
@@ -173,7 +178,7 @@ export class Web3WalletService {
 
   public verifySiweMessage(siweMessage: SiweMessage, siweSignature: string, isOnboarding: boolean = false): Observable<any> {
     const payload = { "message": siweMessage, "signature": siweSignature, "isOnboarding": isOnboarding };
-    return this.http.post(`${this.apiUrl}/siwe/verify_signin`, payload);
+    return this.http.post(`${this.apiUrl}/siwe/verify_signin`, payload, { withCredentials: true });
   }
 
   public async signMessage(message: string): Promise<string | null> {

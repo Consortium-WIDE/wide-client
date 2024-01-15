@@ -27,7 +27,6 @@ export class GettingStartedComponent {
           this.accounts = accounts;
           this.web3WalletService.getSiweSignUpMessage(accounts[0]).subscribe({
             next: (siweMessage) => {
-              console.log(siweMessage);
               this.messageToSign = siweMessage.message.statement;
               this.showSignMessageModal = true;
             },
