@@ -1,9 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 import Web3 from 'web3';
 import { isAddress } from 'web3-validator';
 import { EncryptionService } from '../encryption.service';
 import { DataProcessingService } from '../data-processing.service';
+import { environment } from '../../environments/environment';
+import { SiweMessage } from 'siwe';
+import { ToastNotificationService } from './toast-notification.service';
+import { Router } from '@angular/router';
 
 declare let window: any;
 
@@ -13,33 +18,116 @@ declare let window: any;
 export class Web3WalletService {
   private web3: Web3 | null = null;
   private connectedToWallet = new BehaviorSubject<boolean>(false);
+  private apiUrl = environment.wideServerApiUrl; // Replace with your actual API URL
+
   connectedToWallet$ = this.connectedToWallet.asObservable();
   private metaMaskCheckStatus = new BehaviorSubject<boolean>(true);
   public metaMaskCheckStatus$ = this.metaMaskCheckStatus.asObservable();
 
-  constructor(private encryptionService: EncryptionService, private dataProcessingSerivce: DataProcessingService) { }
+  constructor(private encryptionService: EncryptionService, private dataProcessingSerivce: DataProcessingService, private http: HttpClient, private toastNotificationService: ToastNotificationService, private router: Router) { }
 
   public async connect(): Promise<boolean> {
-    let connectSuccess = false;
+    if (!this.connectedToWallet.value) {
+      let connectSuccess = false;
 
-    if (!this.isMetaMaskInstalled()) {
-      connectSuccess = false;
-    } else {
+      if (!this.isMetaMaskInstalled()) {
+        connectSuccess = false;
+      } else {
+        let ethRequestAccountsFailed = false;
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-      let ethRequestAccountsFailed = false;
-      try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-      } catch (error) {
-        ethRequestAccountsFailed = true;
-      }
+          const ethAddress = await this.getEthAddresses();
 
-      if (!ethRequestAccountsFailed) {
-        connectSuccess = true;
+          if (ethAddress != null && ethAddress.length > 0) {
+            const siweMessageRaw = await firstValueFrom(this.getSiweSignInMessage(ethAddress[0]));
+
+            if (siweMessageRaw.requiresSignup) {
+              this.toastNotificationService.info('Terms of Service', 'Please accept the Terms of Service before logging into and using WIDE');
+              this.router.navigateByUrl('/getting-started');
+            }
+
+            if (siweMessageRaw.alreadyLoggedIn) {
+              connectSuccess = true;
+            } else {
+
+              const siweMessage = new SiweMessage(siweMessageRaw.message);
+              const msgToSign = siweMessage.prepareMessage();
+
+              try {
+                const signedMessage = await this.signMessage(msgToSign);
+
+                if (signedMessage) {
+                  const siweResponse = await firstValueFrom(this.verifySiweMessage(siweMessage, signedMessage));
+
+                  if (!siweResponse.success && siweResponse.requiresSignup) {
+                    this.toastNotificationService.info('Terms of Service', 'Please accept the Terms of Service before logging into and using WIDE');
+                    this.router.navigateByUrl('/getting-started');
+                  } else if (siweResponse.success) {
+                    connectSuccess = true;
+                  }
+                  
+                }
+              } catch (signError) {
+                console.error('Signing process was rejected', signError);
+                ethRequestAccountsFailed = true;
+              }
+            }
+          }
+
+        } catch (error) {
+          ethRequestAccountsFailed = true;
+        }
+
+        this.connectedToWallet.next(connectSuccess);
       }
     }
-
-    this.connectedToWallet.next(connectSuccess);
     return this.connectedToWallet.value;
+  }
+
+
+  public async signTermsOfService(): Promise<boolean> {
+    if (!this.isMetaMaskInstalled()) {
+      return false;
+    }
+
+    try {
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const ethAddress = await this.getEthAddresses();
+
+      if (!ethAddress || ethAddress.length === 0) {
+        return false;
+      }
+
+      // Convert Observable to Promise
+      const siweMessageResponse = await this.getSiweSignUpMessage(ethAddress[0]).toPromise();
+      const siweMessage = new SiweMessage(siweMessageResponse.message);
+      const msgToSign = siweMessage.prepareMessage();
+
+      const signedMessage = await this.signMessage(msgToSign);
+      if (!signedMessage) {
+        return false;
+      }
+
+      // Convert Observable to Promise and await the response
+      const verifyResponse = await this.verifySiweMessage(siweMessage, signedMessage, true).toPromise();
+
+      if (verifyResponse.success) {
+        this.toastNotificationService.info('Terms of Service', 'Successfully signed the WIDE Terms of Service.');
+      } else {
+        this.toastNotificationService.error('Terms of Service', 'Failed to sign the WIDE Terms of Service.');
+      }
+      //Update service status
+      this.connectedToWallet.next(verifyResponse.success);
+
+      // Return based on the response from verifySiweMessage
+      return verifyResponse.success;
+
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+
   }
 
   public isMetaMaskUnlocked(): Promise<boolean> {
@@ -77,6 +165,19 @@ export class Web3WalletService {
 
     return metaMaskInstalled;
 
+  }
+
+  public getSiweSignInMessage(accountAddress: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/siwe/generate_signin?ethereumAddress=${accountAddress}`, { withCredentials: true });
+  }
+
+  public getSiweSignUpMessage(accountAddress: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/siwe/generate_signup?ethereumAddress=${accountAddress}`);
+  }
+
+  public verifySiweMessage(siweMessage: SiweMessage, siweSignature: string, isOnboarding: boolean = false): Observable<any> {
+    const payload = { "message": siweMessage, "signature": siweSignature, "isOnboarding": isOnboarding };
+    return this.http.post(`${this.apiUrl}/siwe/verify_signin`, payload, { withCredentials: true });
   }
 
   public async signMessage(message: string): Promise<string | null> {
@@ -223,7 +324,7 @@ export class Web3WalletService {
       return null;
     }
   }
-  
+
   public async getEthAddresses(): Promise<string[] | null> {
     if (!this.web3) {
       console.error('MetaMask is not available');

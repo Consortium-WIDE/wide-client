@@ -39,7 +39,7 @@ export class MainComponent implements OnInit {
     this.walletSubscription = this.web3WalletService.connectedToWallet$.subscribe(walletConnected => {
       if (walletConnected) {
         this.web3WalletService.getAccount()
-          .then((account: any) => {
+          .then((account: any) => {            
             this.account = account;
             this.refreshAccountCredentials(account);
           }).catch((error: any) => {

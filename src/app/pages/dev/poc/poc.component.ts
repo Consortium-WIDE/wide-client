@@ -100,7 +100,6 @@ export class PocComponent {
         this.walletData.publicEncryptKey = pubKey;
       },
       error: (err) => console.error(err),
-      complete: () => console.info('fetchPublicEncryptKey complete')
     });
   }
 
@@ -112,8 +111,7 @@ export class PocComponent {
         if (encPubKey) {
           this.wideStorageService.setPublicKey(account, encPubKey).subscribe({
             next: (response) => console.log('response', response),
-            error: (err) => console.error(err),
-            complete: () => console.info('fetchPublicEncryptKey complete')
+            error: (err) => console.error(err)
           })
         }
       });

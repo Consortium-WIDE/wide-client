@@ -14,16 +14,16 @@ export class WideStorageService {
 
   // Fetch the primary public key for a user
   getPublicKey(accountAddress: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/${accountAddress}/publicKey`);
+    return this.http.get(`${this.apiUrl}/user/${accountAddress}/publicKey`, { withCredentials: true });
   }
 
   // POST method: Set a user's public key
   setPublicKey(accountAddress: string, publicKey: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/user/${accountAddress}/publicKey`, { publicKey });
+    return this.http.post(`${this.apiUrl}/user/${accountAddress}/publicKey`, { publicKey }, { withCredentials: true });
   }
 
   getUserIssuedCredentials(accountAddress: string): Observable<HttpResponse<any>> {
-    return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/issued-credentials`, { observe: 'response' });
+    return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/issued-credentials`, { observe: 'response', withCredentials: true });
   }
 
   storeUserCredentials(accountAddress: string, issuer: any, credential: any): Observable<any> {
@@ -31,71 +31,11 @@ export class WideStorageService {
       'issuer': issuer,
       'payload': credential.payload,
       'credentials': credential.credentials
-    });
+    }, { withCredentials: true });
   }
 
   getEncryptedCredentials(accountAddress: string, credentialKey: string): Observable<HttpResponse<any>> {
-    return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/credentials/${credentialKey}`, { observe: 'response' });
-  }
-
-  //OLD METHODS, DEPRECATED
-  //TODO: Remove
-
-  // POST method: Add a VC ID for a user
-  addVcId(accountAddress: string, vcId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/user/${accountAddress}/vcIds`, { vcId });
-  }
-
-  // Fetch a VC by ID for a user
-  getVcById(accountAddress: string, vcId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/${accountAddress}/vc/${vcId}`);
-  }
-
-  // POST method: Add a VC for a user
-  addVc(accountAddress: string, vcId: string, vcData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/user/${accountAddress}/vc/${vcId}`, vcData);
-  }
-
-  // Fetch a specific claim for a VC for a user
-  getClaimForVc(accountAddress: string, vcId: string, claimId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/${accountAddress}/vc/${vcId}/claim/${claimId}`);
-  }
-
-  // POST method: Add a claim for a specific VC for a user
-  addClaimToVc(accountAddress: string, vcId: string, claimId: string, claimData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/user/${accountAddress}/vc/${vcId}/claim/${claimId}`, claimData);
-  }
-
-
-  // Fetch a claim for a user
-  getClaim(accountAddress: string, claimId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/${accountAddress}/claim/${claimId}`);
-  }
-
-  // POST method: Add a claim for a user
-  addClaim(accountAddress: string, claimId: string, claimData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/user/${accountAddress}/claim/${claimId}`, claimData);
-  }
-
-  // Fetch secondary addresses for a user account
-  getSecondaryAddresses(accountAddress: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/${accountAddress}/secondaryAddresses`);
-  }
-
-  // POST method: Add secondary addresses for a user account
-  addSecondaryAddresses(accountAddress: string, secondaryAddresses: string[]): Observable<any> {
-    return this.http.post(`${this.apiUrl}/user/${accountAddress}/secondaryAddresses`, { secondaryAddresses });
-  }
-
-
-  // Fetch the primary address for a secondary user account
-  getPrimaryAddress(secondaryAddress: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/${secondaryAddress}/primaryAddress`);
-  }
-
-  // POST method: Set the primary address for a secondary user account
-  addPrimaryAddressForSecondary(secondaryAddress: string, primaryAddress: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/user/${secondaryAddress}/primaryAddress`, { primaryAddress });
+    return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/credentials/${credentialKey}`, { observe: 'response', withCredentials: true });
   }
 
 }
