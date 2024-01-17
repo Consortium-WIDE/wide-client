@@ -1,4 +1,10 @@
-<div class="content">
+<div *ngIf="getWeb3WalletService().isCheckingMetaMask()" class="content">
+    <p class="info"> <i class="spinner mdi mdi-loading rotate-mdi"></i> Please wait while initialising MetaMask...</p>
+</div>
+<div *ngIf="!getWeb3WalletService().isConnectedToWallet() && !getWeb3WalletService().isCheckingMetaMask()" class="content">
+    <p class="error"> <i class="mdi mdi-alert-circle-outline"></i>Please connect your wallet!</p>
+</div>
+<div class="content" *ngIf="getWeb3WalletService().isConnectedToWallet()">
     <h2>Sign in with Google</h2>
     <app-google-signin-procedure [activeStep]="4">
         <div class="buttons">

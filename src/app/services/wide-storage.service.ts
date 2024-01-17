@@ -26,11 +26,12 @@ export class WideStorageService {
     return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/issued-credentials`, { observe: 'response', withCredentials: true });
   }
 
-  storeUserCredentials(accountAddress: string, issuer: any, credential: any): Observable<any> {
+  storeUserCredentials(accountAddress: string, issuer: any, rawPayloadHash: string, credential: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/storage/user/${accountAddress}/credential`, {
-      'issuer': issuer,
-      'payload': credential.payload,
-      'credentials': credential.credentials
+      'issuer': issuer, //The dataset representing the Issuer and info on the issuance of the credentials
+      'payload': credential.payload, //The entire set of credentials ('payload') in encrypted format
+      'rawPayloadHash': rawPayloadHash,//The hash of the entire raw payload
+      'credentials': credential.credentials //The credentials encrypted separately
     }, { withCredentials: true });
   }
 

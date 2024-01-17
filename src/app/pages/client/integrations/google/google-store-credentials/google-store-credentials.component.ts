@@ -43,11 +43,12 @@ export class GoogleStoreCredentialsComponent implements OnInit {
     this.data = {
       accountAddress: state.accountAddress,
       issuer: state.issuer,
+      dataHash: state.rawDataHash,
       encryptedData: state.encryptedData
     }
   }
 
-  async uploadData() {
+  uploadData() {
     this.uploading = true;
 
     if (!this.data.accountAddress){
@@ -58,21 +59,25 @@ export class GoogleStoreCredentialsComponent implements OnInit {
       this.toastNotificationService.error('Error', 'Unable to retrieve Issuer Payload');
     }
 
+    if (!this.data.dataHash){
+      this.toastNotificationService.error('Error', 'Unable to retrieve Raw Data Hash');
+    }
+
     if (!this.data.encryptedData){
       this.toastNotificationService.error('Error', 'Unable to retrieve Encrypted Data');
     }
 
-    await this.wideStorageService.storeUserCredentials(this.data.accountAddress, this.data.issuer, this.data.encryptedData).subscribe(
+    this.wideStorageService.storeUserCredentials(this.data.accountAddress, this.data.issuer, this.data.dataHash, this.data.encryptedData).subscribe(
       response => {
         this.toastNotificationService.info('Success', 'Your encrypted data has been stored successfully')
+        this.router.navigate(['/']);
       },
       error => {
         this.toastNotificationService.error('Error', 'Failed to store your encrypted data');
         console.error(error);
+        this.router.navigate(['/']);
       }
     );
-
-    this.router.navigate(['/']);
   }
 
   toggleDataDetailModal() {

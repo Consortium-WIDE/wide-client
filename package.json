@@ -20,6 +20,7 @@
     "@angular/router": "^17.0.0",
     "@mdi/font": "^7.3.67",
     "ethers": "^5.7.2",
+    "json-canonicalize": "^1.0.6",
     "rxjs": "~7.8.0",
     "simple-icons": "^10.3.0",
     "siwe": "^2.1.4",
