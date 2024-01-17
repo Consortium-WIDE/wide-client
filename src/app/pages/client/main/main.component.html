@@ -90,15 +90,15 @@
         <button (click)="showIssuerDetailsModal = false">Close</button>
     </div>
 </app-wide-modal>
-<app-wide-modal [showModal]="showVcModal">
-    <div content class="issuer-details" *ngIf="vcPreviewData">
-        <h3>Verifiable Presentation Preview</h3>
-        <p>The Verifiable Credential that will be presented to Relying Parties is displayed below.</p>
+<app-wide-modal [showModal]="showCredentialPreviewModal">
+    <div content class="issuer-details" *ngIf="credentialPreviewData">
+        <h3>WIDE Credential Preview</h3>
+        <p>The WIDE Credential that will be presented to Relying Parties is displayed below.</p>
         <div class="scrollable align-left">
-            <pre><p>{{vcPreviewData | json}}</p></pre>
+            <pre><p>{{credentialPreviewData | json}}</p></pre>
         </div>
     </div>
     <div buttons>
-        <button (click)="showVcModal = false">Close</button>
+        <button (click)="showCredentialPreviewModal = false">Close</button>
     </div>
 </app-wide-modal>

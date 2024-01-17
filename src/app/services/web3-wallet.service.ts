@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, of, tap } from 'rxjs';
 import Web3 from 'web3';
 import { isAddress } from 'web3-validator';
 import { EncryptionService } from '../encryption.service';
@@ -9,6 +9,7 @@ import { environment } from '../../environments/environment';
 import { SiweMessage } from 'siwe';
 import { ToastNotificationService } from './toast-notification.service';
 import { Router } from '@angular/router';
+import { canonicalize } from 'json-canonicalize';
 
 declare let window: any;
 
@@ -19,6 +20,7 @@ export class Web3WalletService {
   private web3: Web3 | null = null;
   private connectedToWallet = new BehaviorSubject<boolean>(false);
   private apiUrl = environment.wideServerApiUrl; // Replace with your actual API URL
+  private serverPubKey: string | undefined;
 
   connectedToWallet$ = this.connectedToWallet.asObservable();
   private metaMaskCheckStatus = new BehaviorSubject<boolean>(true);
@@ -66,7 +68,7 @@ export class Web3WalletService {
                   } else if (siweResponse.success) {
                     connectSuccess = true;
                   }
-                  
+
                 }
               } catch (signError) {
                 console.error('Signing process was rejected', signError);
@@ -271,31 +273,6 @@ export class Web3WalletService {
     }
   }
 
-  //TODO: deprecate
-  public async encryptData(data: string): Promise<any | null> {
-    if (!this.web3) {
-      console.error('MetaMask is not available');
-      return null;
-    }
-
-    const account = await this.getAccount();
-
-    if (!account) {
-      return null;
-    }
-
-    try {
-      const pubKey = await this.getEncryptionPublicKey(account);
-      if (pubKey) {
-        const encryptedData = this.encryptionService.encryptData(pubKey, JSON.stringify(data));
-        return encryptedData;
-      }
-    } catch (error) {
-      console.error('Error encrypting data', error);
-      return null;
-    }
-  }
-
   public async decryptData(encryptedData: any): Promise<string | null> {
     if (!window.ethereum) {
       console.error('Ethereum object not found');
@@ -324,6 +301,18 @@ export class Web3WalletService {
       return null;
     }
   }
+
+
+  public async getServerPublicKey(): Promise<string | undefined> {
+    if (this.serverPubKey) {
+      return this.serverPubKey;
+    }
+  
+    const response = await this.http.get<any>(`${this.apiUrl}/siwe/publicKey`).toPromise();
+    this.serverPubKey = response.message;
+    return this.serverPubKey;
+  }
+  
 
   public async getEthAddresses(): Promise<string[] | null> {
     if (!this.web3) {
@@ -391,5 +380,15 @@ export class Web3WalletService {
 
   public isCheckingMetaMask(): boolean {
     return this.metaMaskCheckStatus.value;
+  }
+
+  public hashDataKeccak256(data: any): string | undefined {
+    const canonicalizedData = canonicalize(data);
+    const stringifiedData = JSON.stringify(canonicalizedData);
+    return this.web3?.utils.keccak256(stringifiedData);
+  }
+
+  public hashTextKeccak256(textData: string): string | undefined {
+    return this.web3?.utils.keccak256(textData);
   }
 }

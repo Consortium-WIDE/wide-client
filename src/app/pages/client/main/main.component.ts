@@ -22,31 +22,21 @@ import { consumerPollProducersForChange } from '@angular/core/primitives/signals
   styleUrl: './main.component.scss'
 })
 export class MainComponent implements OnInit {
-  private walletSubscription: Subscription;
+  private walletSubscription!: Subscription;
   private account: string | null = null;
 
   showIssuerDetailsModal: boolean = false;
   issuerDetailsModalData: any = null;
 
-  showVcModal: boolean = false;
-  vcPreviewData: any = null;
+  showCredentialPreviewModal: boolean = false;
+  credentialPreviewData: any = null;
 
   //TODO: Strongly type, include in presentation components etc...
   issuedCredentials: any[] = [];
   credentialDetailLookup: any = {};
 
   constructor(private web3WalletService: Web3WalletService, private wideStorageService: WideStorageService, private toastNotificationService: ToastNotificationService, private navMenuService: NavMenuService, private router: Router) {
-    this.walletSubscription = this.web3WalletService.connectedToWallet$.subscribe(walletConnected => {
-      if (walletConnected) {
-        this.web3WalletService.getAccount()
-          .then((account: any) => {            
-            this.account = account;
-            this.refreshAccountCredentials(account);
-          }).catch((error: any) => {
-            console.error(error);
-          });
-      }
-    });
+    this.subscribeToWalletConnection();
   }
 
   ngOnInit() {
@@ -55,6 +45,8 @@ export class MainComponent implements OnInit {
     this.web3WalletService.metaMaskCheckStatus$.subscribe(status => {
       // React to the check status
     });
+
+    this.subscribeToWalletConnection();
   }
 
   async refreshAccountCredentials(account: string): Promise<void> {
@@ -69,6 +61,20 @@ export class MainComponent implements OnInit {
       error: (res) => {
         this.toastNotificationService.error(res.statusText, `Failed to load credentials (${res.status})`);
         console.error('Failed to load credentials', res);
+      }
+    });
+  }
+
+  private subscribeToWalletConnection() {
+    this.walletSubscription = this.web3WalletService.connectedToWallet$.subscribe(walletConnected => {
+      if (walletConnected) {
+        this.web3WalletService.getAccount()
+          .then((account: any) => {
+            this.account = account;
+            this.refreshAccountCredentials(account);
+          }).catch((error: any) => {
+            console.error(error);
+          });
       }
     });
   }
@@ -186,8 +192,8 @@ export class MainComponent implements OnInit {
       case 'decrypt':
         await this.decryptCredential(issuer);
         break;
-      case 'preview-vc':
-        await this.showVerifiableCredentialPreviewModal(issuer);
+      case 'preview-cred':
+        await this.showWideCredentialPreviewModal(issuer);
         break;
       case 'download':
         alert('Do we need this? just a sample for now...');
@@ -210,39 +216,66 @@ export class MainComponent implements OnInit {
     this.showIssuerDetailsModal = true;
   }
 
-  async showVerifiableCredentialPreviewModal(issuer: any) {
+  async showWideCredentialPreviewModal(issuer: any) {
     const credentialDetails = this.credentialDetailLookup[issuer.wideInternalId];
 
     if (!credentialDetails) {
       this.toastNotificationService.error('Internal Error', 'An internal error has occurred');
     }
 
-    this.vcPreviewData = await this.generateVcPreview(issuer, credentialDetails);
-    this.showVcModal = true;
+    this.credentialPreviewData = await this.generateWideCredentialPreview(issuer, credentialDetails);
+    this.showCredentialPreviewModal = true;
   }
 
-  async generateVcPreview(issuer: any, credentialsContainer: any): Promise<any> {
+  async generateWideCredentialPreview(issuer: any, credentialsContainer: any): Promise<any> {
+    const serverPubKey = await this.web3WalletService.getServerPublicKey();
+
+    console.log('serverPubKey', serverPubKey);
+
+    console.log('issuer', issuer);
+    console.log('credentialsContainer', credentialsContainer);
+
     let vc = {
-      "@context": [
-        "https://www.w3.org/2018/credentials/v1",
-        "https://www.w3.org/2018/credentials/examples/v1"
-      ],
-      "id": issuer.id,
-      "type": issuer.type,
-      "issuer": issuer.issuer,
-      "issuanceDate": issuer.issuanceDate,
-      "credentialSubject": issuer.credentialSubject
-      // "proof": {
-      //   "type": "RsaSignature2018",
-      //   "created": "2020-01-01T19:23:24Z",
-      //   "proofPurpose": "assertionMethod",
-      //   "verificationMethod": "https://university.example.edu/keys/1",
-      //   "jws": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
-      // }
+      "id": "http://wid3.xyz",
+      "type": ["WIDECredential"],
+      "issuer": serverPubKey,
+      "issuanceDate": new Date().toISOString(),
+      "credentialSubject": {
+        "id": issuer.credentialSubject.id,
+        "dataTypes": {
+          "type": "credentialSources",
+          "name": "Original Credential Sources",
+          "value": [issuer.type]
+        },
+        "issuerDomains": [
+          {
+            "id": issuer.id,
+            "name": issuer.issuer,
+            "label": issuer.label,
+            "type": issuer.type,
+            "data": {
+              "payloadKeccak256CipherText": this.web3WalletService.hashTextKeccak256(credentialsContainer.payload.ciphertext),
+              "credentials": [] as any[]
+            }
+          }
+        ]
+      }
     }
 
     await credentialsContainer.credentials.forEach((c: any) => {
-      vc.credentialSubject[c.name] = c.decryptedValue;
+      if (c.decryptedValue) {
+        vc.credentialSubject.issuerDomains[0].data.credentials.push({
+          "name": c.name,
+          "value": c.decryptedValue,
+          "type": "plainText"
+        });
+      } else {
+        vc.credentialSubject.issuerDomains[0].data.credentials.push({
+          "name": c.name,
+          "value": this.web3WalletService.hashDataKeccak256(c.val.ciphertext),
+          "type": "keccak256CipherText"
+        });
+      }
     });
 
     return vc;
@@ -253,10 +286,9 @@ export class MainComponent implements OnInit {
 
     if (this.issuerHasDecryptPending(issuer)) {
       buttonConfig.push({ label: 'Decrypt', action: 'decrypt' });
-    } else {
-      buttonConfig.push({ label: 'Preview VC', action: 'preview-vc' });
     }
 
+    buttonConfig.push({ label: 'Preview Credential', action: 'preview-cred' });
     buttonConfig.push({ label: 'Download', action: 'download' });
 
     return buttonConfig;

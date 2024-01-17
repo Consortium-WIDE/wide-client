@@ -51,7 +51,7 @@ export class GoogleSigninRedirectComponent implements OnInit {
     const issuerPayload: any = {
       "label": `${(this.profile.hd ?? "")} Google Profile`.trim(),
       "id": "http://google.com/",
-      "type": ["WIDECredential", "GoogleOAuth"],
+      "type": ["GoogleOAuth"],
       "issuer": this.profile.hd ?? "http://www.google.com",
       "issuanceDate": new Date().toISOString(),
       "credentialSubject": {
@@ -71,10 +71,18 @@ export class GoogleSigninRedirectComponent implements OnInit {
       state: {
         accountAddress: accountAddress,
         issuer: issuerPayload,
+        rawDataHash: this.web3WalletService.hashDataKeccak256(this.profile),
         encryptedData: encryptedData
       }
     };
 
+    console.log('profile', JSON.stringify(this.profile));
+    console.log('profile Hash', this.web3WalletService.hashDataKeccak256(this.profile));
+
     this.router.navigate(['credentials/add/google/store'], navigationExtras);
+  }
+
+  getWeb3WalletService(): Web3WalletService {
+    return this.web3WalletService;
   }
 }
