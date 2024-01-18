@@ -1,14 +1,23 @@
 @import 'styles/_imports';
+@import '@mdi/font/css/materialdesignicons.min.css';
 
 /* STYLES */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: 'Inter', sans-serif;
 
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 18px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
 
     background-color: $light-beige;
+
+    color: $brown;
 
     margin: 0;
 }
@@ -21,21 +30,20 @@ h1 {
 }
 
 h2 {
-    font-size: 23px;
-    line-height: 28px;
+    font-size: 24px;
+    line-height: 29px;
     font-weight: 700;
 }
 
 h3 {
-    font-size: 16px;
-    line-height: 19px;
+    font-size: 18px;
+    line-height: 22px;
     font-weight: 700;
 }
 
 h4 {
-    font-size: 18px;
-    font-weight: 500;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .important {
@@ -44,16 +52,10 @@ h4 {
     line-height: 22px;
 }
 
-.active {
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 19px;
-}
-
-.info-text {
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 19px;
+.label, label {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
 }
 
 .text-white {
@@ -64,11 +66,22 @@ h4 {
     color: $black;
 }
 
+a {
+    padding: 0px 5px 0px 5px;
+    color: $peach;
+    text-decoration: underline;
+
+    &:hover {
+        text-decoration: none;
+        color: $coral;
+    }
+}
+
 /* BUTTONS */
 button {
     border: 0;
     border-radius: 5px;
-    background: $gradient-4;
+    background: $gradient-3;
 
     color: $white;
     font-weight: 700;
@@ -107,11 +120,11 @@ a.btn {
     text-decoration-thickness: 2px;
 
     cursor: pointer;
+}
 
-    .btn-icon {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
+.btn-icon {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .btn-lg,
@@ -141,15 +154,17 @@ a.btn.btn-xs {
 }
 
 .btn-alt {
-    background: $white;
+    background: transparent;
     color: $coral;
-    border: 2px solid $coral;
+    outline: 2px solid $coral;
+    outline-offset: -2px;
 }
 
 .btn-white-outline {
     background: transparent;
     color: $white;
-    border: 2px solid $white;
+    outline: 2px solid $white;
+    outline-offset: -2px;
 }
 
 button.btn-white {
@@ -170,13 +185,15 @@ button.btn-grey-dark {
 button.btn-grey-alt {
     background: transparent;
     color: $grey-light;
-    border: 2px solid $grey-light;
+    outline: 2px solid $grey-light;
+    outline-offset: -2px;
 }
 
 button.btn-grey-dark-alt {
     background: transparent;
     color: $grey-dark;
-    border: 2px solid $grey-dark;
+    outline: 2px solid $grey-dark;
+    outline-offset: -2px;
 }
 
 a.btn.btn-grey {
@@ -206,7 +223,7 @@ $btn-white-border-width: 2px;
 
     position: relative;
     display: block;
-    background: $gradient-4;
+    background: $gradient-3;
     padding: $btn-white-border-width;
     z-index: 1;
     border-radius: 5px;
@@ -218,4 +235,241 @@ $btn-white-border-width: 2px;
         -webkit-background-clip: text;
         background-clip: text;
     }
+}
+
+
+/* FORMS */
+input[type=radio], input[type=checkbox].checkbox-tick {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1px solid $brown-light;
+    border-radius: 18px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    background: $light-beige;
+
+    &:checked {
+        border: 5px solid $coral;
+    }
+
+
+    &.radio-alt, &.checkbox-tick-alt {
+        &:checked {
+            border: none;
+            background: $gradient-3;
+
+            &:after {
+                content: '';
+                display: block;
+                margin: 6px 4px;
+                width: 18px;
+                height: 18px;
+                background: $white;
+                clip-path: $wide-tick;
+            }
+        }
+    }
+}
+
+input[type=checkbox].switch {
+    appearance: none;
+    width: 36px;
+    height: 20px;
+    background: $grey-light;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:after {
+        content: '';
+        display: block;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background-color: $white;
+        margin-top: 3px;
+        position: relative;
+        left: 4px;
+        transition: all 0.3s;
+    }
+
+    &:checked {
+        background: $coral;
+
+        &:after {
+            left: 18px;
+        }
+    }
+
+    &.switch-lg {
+        width: 60px;
+        height: 32px;
+
+        &:after {
+            width: 26px;
+            height: 26px;
+        }
+
+        &:checked {
+            &:after {
+                left: 30px;
+            }
+        }
+    }
+}
+
+input:disabled {
+    color: $grey-light;
+    border-color: $grey-light;
+}
+
+.radio-group {
+    label {
+        font-size: 16px;
+        font-weight: 400;
+        color: $brown;
+        height: 18px;
+        position: relative;
+        top: -4px;
+    }
+
+    &.vertical {
+        label:after {
+            content: '';
+            display: block;
+        }
+    }
+}
+
+select {
+    appearance: none;
+    outline: none;
+    min-width: 250px;
+    height: 40px;
+    background: $light-beige;
+    font-size: 16px;
+    color: $brown;
+    font-weight: 600;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+    border: 1px solid $light-beige;
+    border-radius: 5px;
+    
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16px' height='16px' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6.1018 8C5.02785 8 4.45387 9.2649 5.16108 10.0731L10.6829 16.3838C11.3801 17.1806 12.6197 17.1806 13.3169 16.3838L18.8388 10.0731C19.5459 9.2649 18.972 8 17.898 8H6.1018Z' fill='%23212121'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+
+    line-height: 1.1;
+
+
+    &:focus{
+        border: 1px solid $peach;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16px' height='16px' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6.1018 8C5.02785 8 4.45387 9.2649 5.16108 10.0731L10.6829 16.3838C11.3801 17.1806 12.6197 17.1806 13.3169 16.3838L18.8388 10.0731C19.5459 9.2649 18.972 8 17.898 8H6.1018Z' fill='%23212121'/%3E%3C/svg%3E");
+    }
+}
+
+/* SHAPES */
+.wide-tick {
+    width: 20px;
+    height: 14px;
+    display: inline-block;
+    clip-path: $wide-tick-lg;
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    min-width: 350px;
+    z-index: 100;
+    border-radius: 10px;
+    box-shadow: 0px 3px 8px rgba(62, 27, 7, 0.1);
+    padding: 10px 25px 10px 10px;
+
+    display: flex;
+    align-items: center;
+
+    transition: all 1s ease;
+
+    .icon {
+        i.mdi {
+            width: fit-content;height: fit-content;
+            font-size: 42px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+    }
+
+    .close-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+
+        i.mdi {
+            font-size: 24px; // Adjust the size as needed
+            color: #333; // Adjust the color as needed
+        }
+    }
+
+    h4 {
+        margin-top: 8px;
+        margin-bottom: 0;
+    }
+
+    p {
+        margin-top: 2px;
+        font-size: 13px;
+        font-weight: 400;
+    }
+    
+    &.info {
+        background: $light-blue;
+
+        .icon {
+            i.mdi {
+                color: $info;
+            }
+        }
+    }
+
+    &.success {
+        background: $light-green;
+
+        .icon {
+            i.mdi {
+                color: $green;
+            }
+        }
+    }
+
+    &.warning {
+        background: $light-yellow;
+
+        .icon {
+            i.mdi {
+                color: $yellow;
+            }
+        }
+    }
+
+    &.error {
+        background: $light-coral;
+
+        .icon {
+            i.mdi {
+                color: $coral;
+            }
+        }
+    }
+
+}
+
+/* MISC*/
+.pill {
+    padding: 5px;
+    border-radius: 5px;
 }

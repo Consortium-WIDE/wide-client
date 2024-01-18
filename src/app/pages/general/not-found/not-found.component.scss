@@ -1,0 +1,15 @@
+.not-found-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+
+    img {
+        margin-top: 40px;
+    }
+
+    .buttons {
+        margin-top: 60px;
+    }
+}

@@ -1,0 +1,26 @@
+<div class="getting-started">
+    <div class="content">
+        <div class="left-content">
+            <div class="wide-logo">
+                <img src="assets/svg/wide_logo_white.svg" alt="WIDE logo" />
+            </div>
+            <div class="description">
+                A decentralised identity bridge between your skills and the opportunities available in Web3
+            </div>
+            <div class="buttons">
+                <button class="btn-white-outline" (click)="connect()">Connect Wallet</button>
+            </div>
+        </div>
+        <div class="right-content">
+            <img src="assets/svg/bridge_illustration.svg" alt="WIDE logo" />
+        </div>
+    </div>
+    <!--TODO: Replace with app-wide-modal component-->
+    <div class="modal" *ngIf="showSignMessageModal">
+        <div class="sign-message-prompt">
+            <h3>Verify your Web3 Identity</h3>
+            <p class="message" [innerHTML]="messageToSign"></p>
+            <button (click)="signTerms()">Sign</button>
+        </div>
+    </div>
+</div>

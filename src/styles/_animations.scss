@@ -1,0 +1,13 @@
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotate {
+    animation: rotate 1.5s linear infinite;
+}
+
+.rotate-mdi:before {
+    animation: rotate 1.5s linear infinite;
+}

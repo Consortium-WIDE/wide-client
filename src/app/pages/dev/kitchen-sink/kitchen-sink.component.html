@@ -1,14 +1,13 @@
 <div class="kitchen-sink">
     <h1>Fonts</h1>
     <hr>
-    <h1>Big Headline</h1>
-    <h2>Middle Headline</h2>
-    <h3>Mini Headline</h3>
-    <h4>Body 1</h4>
-    <p class="important">Body 2</p>
-    <p class="active">Body 3</p>
-    <p class="info-text">Body 4</p>
-    <p class="body-5">Body 5</p>
+    <h1>Heading 1</h1>
+    <h2>Heading 2</h2>
+    <h3>Heading 3</h3>
+    <h4>Heading 4</h4>
+    <p class="important">important</p>
+    <p class="label">label</p>
+    <p>default paragraph</p>
     <button>Buttons</button>
 
     <h1>Colours</h1>
@@ -46,6 +45,13 @@
             <button (click)="buttonClick('default')">default</button>
             <button class="btn-sm" (click)="buttonClick('btn-sm')">btn-sm</button>
             <button class="btn-xs" (click)="buttonClick('btn-xs')">btn-xs</button>
+        </div>
+        <h2>Multi Button</h2>
+        <div class="button-set">
+            <app-multi-button btnSize="btn-lg" [buttons]="[{ label: 'Button 1', action: 'action1' },{ label: 'Button 2', action: 'action2' },{ label: 'Button 3', action: 'action3' }]" (buttonClick)="handleMultiButtonClick($event)"></app-multi-button>
+            <app-multi-button [buttons]="[{ label: 'Button 1', action: 'action1' },{ label: 'Button 2', action: 'action2' },{ label: 'Button 3', action: 'action3' }]" (buttonClick)="handleMultiButtonClick($event)"></app-multi-button>
+            <app-multi-button btnSize="btn-sm" [buttons]="[{ label: 'Button 1', action: 'action1' },{ label: 'Button 2', action: 'action2' },{ label: 'Button 3', action: 'action3' }]" (buttonClick)="handleMultiButtonClick($event)"></app-multi-button>
+            <app-multi-button btnSize="btn-xs"[buttons]="[{ label: 'Button 1', action: 'action1' },{ label: 'Button 2', action: 'action2' },{ label: 'Button 3', action: 'action3' }]" (buttonClick)="handleMultiButtonClick($event)"></app-multi-button>
         </div>
         <h2>White Gradient</h2>
         <div class="button-set">
@@ -94,8 +100,7 @@
         <div class="button-set">
             <a class="btn btn-grey btn-lg">a.btn.btn-grey.btn-lg <i class="btn-icon"><img
                         src="assets/icons/pencil.svg" /></i></a>
-            <a class="btn btn-grey">a.btn.btn-grey <i class="btn-icon"><img
-                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-grey">a.btn.btn-grey <i class="btn-icon"><img src="assets/icons/pencil.svg" /></i></a>
             <a class="btn btn-grey btn-sm">a.btn.btn-grey.btn-sm <i class="btn-icon"><img
                         src="assets/icons/pencil.svg" /></i></a>
             <a class="btn btn-grey btn-xs">a.btn.btn-grey.btn-xs <i class="btn-icon"><img
@@ -121,8 +126,7 @@
         <div class="button-set">
             <a class="btn btn-white btn-lg">a.btn.btn-white.btn-lg <i class="btn-icon"><img
                         src="assets/icons/pencil.svg" /></i></a>
-            <a class="btn btn-white">a.btn.btn-white <i class="btn-icon"><img
-                        src="assets/icons/pencil.svg" /></i></a>
+            <a class="btn btn-white">a.btn.btn-white <i class="btn-icon"><img src="assets/icons/pencil.svg" /></i></a>
             <a class="btn btn-white btn-sm">a.btn.btn-white.btn-sm <i class="btn-icon"><img
                         src="assets/icons/pencil.svg" /></i></a>
             <a class="btn btn-white btn-xs">a.btn.btn-white.btn-xs <i class="btn-icon"><img
@@ -155,5 +159,72 @@
         </div>
     </div>
 
+    <h1>Form Inputs</h1>
+    <div class="form-input-region">
+        <form #myForm="ngForm">
+            <h2>Input</h2>
+
+            <div class="input">
+                <app-wide-input id="textbox" label="Default Textbox" name="textbox" [(ngModel)]="form.textboxValue1"></app-wide-input>
+            </div>
+            <div class="input">
+                <app-wide-input id="textbox_peach" label="Peach" name="textbox_peach" [style]="'peach'" [(ngModel)]="form.textboxValue2"></app-wide-input>
+            </div>
+            <div class="input">
+                <app-wide-input id="textbox_error" label="Error Textbox" name="textbox_error" [errorMessage]="'This is an error message. You\'ve done a whoopsie'" [(ngModel)]="form.textboxValue3"></app-wide-input>
+            </div>
+
+            <h2>Radio</h2>
+            <div class="radio-group">
+                <input type="radio" id="radioOption1" name="radioGroup" value="option1" [(ngModel)]="form.radioValue">
+                <label for="radioOption1">Option 1</label>
+                <input type="radio" id="radioOption2" name="radioGroup" value="option2" [(ngModel)]="form.radioValue">
+                <label for="radioOption2">Option 2</label>
+            </div>
+
+            <h3>Top-down, variant</h3>
+            <div class="radio-group vertical">
+                <input type="radio" id="radioOptionB1" class="radio-alt" name="radioGroupB" value="option1"
+                    [(ngModel)]="form.radioValueB"> <label for="radioOptionB1">Option 1</label>
+                <input type="radio" id="radioOptionB2" class="radio-alt" name="radioGroupB" value="option2"
+                    [(ngModel)]="form.radioValueB"> <label for="radioOptionB2">Option 2</label>
+            </div>
+
+            <h2>Checkbox</h2>
+            <div class="checkbox-group">
+                <h3>Small Checkbox (.switch)</h3>
+                <input type="checkbox" id="checkbox" name="checkbox" class="switch" [(ngModel)]="form.checkboxValue">
+            </div>
+            <div class="checkbox-group">
+                <h3>Large checkbox (.switch .switch-lg)</h3>
+                <input type="checkbox" class="switch switch-lg" id="checkbox2" name="checkbox2"
+                    [(ngModel)]="form.checkboxValue2">
+            </div>
+
+            <h3>Success indicator</h3>
+            <div class="success-indicator">
+                <i class="wide-tick success"></i> Success indicator
+            </div>
+
+            <h3>Dropdown</h3>
+            <div class="dropdown">
+                <app-wide-dropdown [(ngModel)]="form.selectedOption" name="myDropdown"
+                    [options]="['WIDE', 'WIDER', 'WIDEST']" prompt="Custom prompt"></app-wide-dropdown>
+            </div>
+        </form>
+        <h2>Form Results</h2>
+        <div class="form-results">
+            {{form | json}}
+        </div>
+    </div>
+    <div class="toasts">
+        <h1>Toast Messages</h1>
+        <div class="buttons">
+            <button (click)="showToast('info')">Info</button>
+            <button (click)="showToast('error')">Error</button>
+            <button (click)="showToast('warning')">Warning</button>
+            <button (click)="showToast('success')">Success</button>
+        </div>
+    </div>
 
 </div>

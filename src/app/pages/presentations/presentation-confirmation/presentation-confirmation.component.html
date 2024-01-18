@@ -1,0 +1,19 @@
+<div class="content">
+    <div class="logo-wrapper">
+        <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
+    </div>
+    <h2>Credentials Presentation Request</h2>
+    <p class="align-left">Here is what you are about to present to <b>{{ presentation.verifier.name }}</b>:</p>
+    <div class="credentials-panel">
+        <ul class="credentials-header">
+            <li>Verifier: {{ presentation.verifier.name }}</li>
+            <li>Timestamp: {{ presentation.timestamp | date:'dd-MMM-yyyy HH:mm'}}</li>
+            <li *ngFor="let cred of presentation.decrypted">{{cred.name}}: {{ cred.value }}</li>
+            <li *ngFor="let cred of presentation.encrypted">{{cred.name}}: <i class="mdi mdi-lock text-coral"></i> {{ cred.value | slice:0:12 }}...</li>
+        </ul>
+    </div>
+    <div class="buttons vertical">
+        <button (click)="present()">Present Credentials</button>
+        <a class="btn btn-lg" (click)="reject()">Reject</a>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="header">
+    <div class="title-bar">
+        <h1 class="title">{{title}}</h1>
+
+        <div class="wallet-connector">
+            <div class="connect-wallet" *ngIf="!isConnected">
+                <button class="btn-alt" (click)="connectWallet()">
+                    <span *ngIf="!metaMaskCheckPending">Connect wallet</span>
+                    <i *ngIf="metaMaskCheckPending" class="spinner mdi mdi-loading rotate-mdi text-coral"></i>
+                </button>
+            </div>
+            <div class="accounts" *ngIf="isConnected">
+                <i class="wallet-icon"><svg viewBox="0 0 24 24">
+                        <path [attr.d]="ethereumIcon.path"></path>
+                    </svg></i>
+                <span class="wallet-address" [title]="accounts ? accounts[0] : null">{{accounts ?
+                    abridgeEthereumAddress(accounts[0]) : null}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="nav-bar">
+        <ul *ngIf="breadcrumbs">
+            <ng-container *ngFor="let breadcrumb of breadcrumbs; let i = index">
+                <li [ngClass]="i == breadcrumbs.length - 1 ? 'active' : ''">{{ breadcrumb }}</li>
+                <li *ngIf="i < breadcrumbs.length - 1">/</li>
+            </ng-container>
+        </ul>
+    </div>
+</div>
+<app-wide-modal [showModal]="showMetaMaskWalletModal">
+    <div content class="metamask-modal">
+        <h3>Cannot detect MetaMask Wallet :(</h3>
+        <img src="assets/svg/MetaMask_Fox.svg" width="250" />
+        <p>Please make sure the <a href="https://metamask.io/" target="_blank">MetaMask wallet</a> is set up on this browser.</p>
+    </div>
+    <div buttons>
+        <button (click)="closeMetaMaskWalletModal()">Close</button>
+    </div>
+</app-wide-modal>
+<app-wide-modal [showModal]="showMetaMaskConnectModal">
+    <div content class="metamask-connect-modal">
+        <h3>Please connect your MetaMask Wallet</h3>
+        <img src="assets/svg/MetaMask_Fox.svg" width="250" />
+        <p>Please connect your MetaMask Wallet to WIDE.</p>
+        <p>If you already opened the wallet, make sure it has been unlocked, click "Connect To Wallet" again.</p>
+        <p>WIDE requires this to obtain your public Ethereum address.</p>
+    </div>
+    <div buttons>
+        <button (click)="closeMetaMaskConnectModal()">Close</button>
+    </div>
+</app-wide-modal>

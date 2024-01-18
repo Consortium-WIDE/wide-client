@@ -1,0 +1,75 @@
+@import '_imports';
+
+.header {
+    .title-bar {
+        display: flex;
+        align-items: center;
+        margin-top: 75px;
+
+        .title {
+            margin: 0;
+        }
+
+        .wallet-connector {
+            margin-left: auto;
+
+            .connect-wallet {
+                i.spinner {
+                    font-size: 24px;
+                }
+            }
+
+            .accounts {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+
+                i.wallet-icon {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 5px;
+                    display: block;
+                    background-color: $peach;
+                    line-height: 48px;
+                    color: $white;
+                    text-align: center;
+
+                    svg {
+                        margin-top: 7px;
+                        width: 32px;
+                        height: 32px;
+                        fill: $white;
+                    }
+                }
+
+                .wallet-address {
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: $peach;
+                }
+            }
+        }
+    }
+
+    .nav-bar {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        height: 40px;
+        box-sizing: border-box;
+        ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            display: flex;
+            gap: 10px;
+
+            li {
+                font-weight: 300;
+
+                &.active {
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+}
