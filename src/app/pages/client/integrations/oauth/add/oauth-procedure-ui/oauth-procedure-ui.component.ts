@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-oauth-procedure-ui',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './oauth-procedure-ui.component.html',
   styleUrl: './oauth-procedure-ui.component.scss'
 })

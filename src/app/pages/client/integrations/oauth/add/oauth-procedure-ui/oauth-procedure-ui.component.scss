@@ -1,0 +1,76 @@
+@import '_imports';
+
+@keyframes lightUp {
+    0%, 100% { background: $grey-light; }
+    25% { background: $peach; }
+  }
+
+.sign-in {
+    display: flex;
+    align-items: center;
+    background: $white;
+    border-radius: 15px;
+    text-align: center;
+    padding: 25px 25px 25px 25px;
+    justify-content: center;
+
+    .sign-in-steps {
+
+        ul {
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+
+            li {
+                margin-top: 15px;
+                .spacer {
+                    display: block;
+                    width: 4px;
+                    height: 4px;
+                    background: $grey-light;
+                    border-radius: 50%;
+                    margin-left: auto;
+                    margin-right: auto;
+                    margin-top: 2px;
+                }
+
+                &.completed {
+                    span {
+                        &:before {
+                            content: url('/assets/svg/wide_green_tick.svg');
+                            margin-right: 5px;
+                        }
+                    }
+
+                    .spacer {
+                        background: $success;
+                    }
+                }
+
+                &.active {
+                    color: $peach;
+
+                    .spacer {
+                        animation: lightUp 1.5s infinite;
+                    }
+
+                    .spacer-1 {
+                        animation-delay: 0s;
+                      }
+                      
+                      .spacer-2 {
+                        animation-delay: 0.25s;
+                      }
+                      
+                      .spacer-3 {
+                        animation-delay: 0.5s;
+                      }
+                      
+                      .spacer-4 {
+                        animation-delay: 0.75s;
+                      }
+                }
+            }
+        }
+    }
+}

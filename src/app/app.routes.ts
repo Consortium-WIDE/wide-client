@@ -10,12 +10,12 @@ import { GettingStartedComponent } from './pages/client/getting-started/getting-
 import { SupportComponent } from './pages/client/support/support.component';
 import { AboutComponent } from './pages/client/about/about.component';
 import { AddCredentialsComponent } from './pages/client/add-credentials/add-credentials.component';
-import { GoogleSigninComponent } from './pages/client/integrations/google/google-signin/google-signin.component';
-import { GoogleSigninRedirectComponent } from './pages/client/integrations/google/google-signin-redirect/google-signin-redirect.component';
-import { GoogleStoreCredentialsComponent } from './pages/client/integrations/google/google-store-credentials/google-store-credentials.component';
 import { BeginPresentationComponent } from './pages/presentations/begin-presentation/begin-presentation.component';
 import { PresentationRequestComponent } from './pages/presentations/presentation-request/presentation-request.component';
 import { PresentationConfirmationComponent } from './pages/presentations/presentation-confirmation/presentation-confirmation.component';
+import { OauthSigninComponent } from './pages/client/integrations/oauth/add/oauth-signin/oauth-signin.component';
+import { OauthRedirectComponent } from './pages/client/integrations/oauth/add/oauth-redirect/oauth-redirect.component';
+import { OauthStoreComponent } from './pages/client/integrations/oauth/add/oauth-store/oauth-store.component';
 
 export const routes: Routes = [
     {
@@ -26,9 +26,9 @@ export const routes: Routes = [
             { path: 'dev/poc', component: PocComponent },
             { path: 'credentials/add', component: AddCredentialsComponent },
 
-            { path: 'credentials/add/google/signin', component: GoogleSigninComponent },
-            { path: 'credentials/add/google/redirect', component: GoogleSigninRedirectComponent },
-            { path: 'credentials/add/google/store', component: GoogleStoreCredentialsComponent },
+            { path: 'credentials/oauth/signin', component: OauthSigninComponent },
+            { path: 'credentials/oauth/redirect', component: OauthRedirectComponent },
+            { path: 'credentials/oauth/store', component: OauthStoreComponent },
 
             { path: 'about', component: AboutComponent },
             { path: 'support', component: SupportComponent },
