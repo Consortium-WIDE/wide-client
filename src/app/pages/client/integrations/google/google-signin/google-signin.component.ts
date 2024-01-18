@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NavMenuService } from '../../../../../services/nav-menu.service';
 import { GoogleSigninProcedureComponent } from '../shared/google-signin-procedure/google-signin-procedure.component';
-import { GoogleOauthService } from '../../../../../services/google-oauth.service';
+import { OauthService } from '../../../../../services/oauth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-google-signin',
@@ -13,9 +14,10 @@ import { GoogleOauthService } from '../../../../../services/google-oauth.service
   styleUrl: './google-signin.component.scss'
 })
 export class GoogleSigninComponent implements OnInit {
+  private oauthService!: OauthService;
 
-  constructor(private router: Router, private navMenuService: NavMenuService, private googleOauthService: GoogleOauthService) {
-
+  constructor(private router: Router, private httpClient: HttpClient, private navMenuService: NavMenuService) {
+    this.oauthService = new OauthService(this.router, this.httpClient, 'google');
   }
 
   ngOnInit() {
@@ -23,6 +25,6 @@ export class GoogleSigninComponent implements OnInit {
   }
 
   startGoogleAuthProcess() {
-    this.googleOauthService.initiateAuthFlow();
+    this.oauthService.initiateAuthFlow();
   }
 }

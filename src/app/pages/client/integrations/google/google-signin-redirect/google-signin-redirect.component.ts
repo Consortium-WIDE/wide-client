@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { GoogleSigninProcedureComponent } from '../shared/google-signin-procedure/google-signin-procedure.component';
 import { Router } from '@angular/router';
 import { NavMenuService } from '../../../../../services/nav-menu.service';
-import { GoogleOauthService } from '../../../../../services/google-oauth.service';
 import { WideModalComponent } from '../../../../../components/wide-modal/wide-modal.component';
-import { DataProcessingService } from '../../../../../data-processing.service';
 import { Web3WalletService } from '../../../../../services/web3-wallet.service';
 import { WideStorageService } from '../../../../../services/wide-storage.service';
 import { ToastNotificationService } from '../../../../../services/toast-notification.service';
+import { OauthService } from '../../../../../services/oauth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-google-signin-redirect',
@@ -18,16 +18,17 @@ import { ToastNotificationService } from '../../../../../services/toast-notifica
   styleUrl: './google-signin-redirect.component.scss'
 })
 export class GoogleSigninRedirectComponent implements OnInit {
+  private oauthService!: OauthService;
   showProfileDetailModal: boolean = false;
   profile: any = null;
 
-  constructor(private router: Router, private navMenuService: NavMenuService, private googleOauthService: GoogleOauthService, private wideStorageService: WideStorageService, private web3WalletService: Web3WalletService, private toastNotificationService: ToastNotificationService) {
-
+  constructor(private router: Router, private httpClient: HttpClient, private navMenuService: NavMenuService, private web3WalletService: Web3WalletService, private toastNotificationService: ToastNotificationService) {
+    this.oauthService = new OauthService(this.router, this.httpClient, 'google');
   }
 
   ngOnInit() {
     this.navMenuService.setPageDetails('Signed in with Google', ['Your credentials', 'Add credentials', 'Google sign-in']);
-    this.googleOauthService.handleRedirect().then((response) => {
+    this.oauthService.handleRedirect().then((response) => {
       this.profile = response.profile;
     }).catch((err) => console.error(err));
   }
@@ -48,22 +49,8 @@ export class GoogleSigninRedirectComponent implements OnInit {
       return;
     }
 
-    const issuerPayload: any = {
-      "label": `${(this.profile.hd ?? "")} Google Profile`.trim(),
-      "id": "http://google.com/",
-      "type": ["GoogleOAuth"],
-      "issuer": this.profile.hd ?? "http://www.google.com",
-      "issuanceDate": new Date().toISOString(),
-      "credentialSubject": {
-        "id": accountAddress,
-        "socialProfile": {
-          "type": "OAuth",
-          "name": "Google"
-        }
-      }
-    }
-
-    const encryptedData = await this.web3WalletService.encryptPayload(this.profile);
+    const issuerPayload = this.oauthService.getWideTransformedData({accountAddress: accountAddress});
+    const encryptedData = await this.web3WalletService.encryptPayload(this.oauthService.getData());
 
     this.toastNotificationService.info('Success', 'Successfully encrypted your data');
 
