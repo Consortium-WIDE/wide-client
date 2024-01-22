@@ -23,7 +23,6 @@ export class GoogleOAuthProvider extends BaseOAuthProvider {
     }
     
     override async handleRedirect(): Promise<{ data: any; }> {
-        debugger;
         const fragment = new URLSearchParams(window.location.hash.slice(1));
         const accessToken = fragment.get('access_token') || this.extractTokenFromCallback();
 
@@ -59,7 +58,7 @@ export class GoogleOAuthProvider extends BaseOAuthProvider {
         const issuerPayload: any = {
             "label": `${(profile.hd ?? "")} Google Profile`.trim(),
             "id": "http://google.com/",
-            "type": ["GoogleOAuth"],
+            "type": ["Google", "OAuth"],
             "issuer": profile.hd ?? "http://www.google.com",
             "issuanceDate": new Date().toISOString(),
             "credentialSubject": {

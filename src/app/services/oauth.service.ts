@@ -4,21 +4,25 @@ import { Router } from '@angular/router';
 import { BaseOAuthProvider } from '../providers/oauth/BaseOAuthProvider';
 import { GoogleOAuthProvider } from '../providers/oauth/GoogleOAuthProvider';
 import { MicrosoftOAuthProvider } from '../providers/oauth/MicrosoftOAuthProvider';
-import { OAUTH_PROVIDER_TOKEN } from '../providers/oauth/injectionToken/oauth-provider.token';
+import { MSAL_INSTANCE } from '@azure/msal-angular';
+import { IPublicClientApplication } from '@azure/msal-browser';
+import { MsalWrapperService } from './msal-wrapper.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OauthService {
-  private oauthProvider: BaseOAuthProvider;
+  private oauthProvider: BaseOAuthProvider | undefined;
 
-  constructor(private router: Router, private http: HttpClient, @Inject(OAUTH_PROVIDER_TOKEN) oauthProvider: string) {
-    switch (oauthProvider) {
+  constructor(private router: Router, private http: HttpClient, private msalWrapperService: MsalWrapperService) { }
+
+  setProviderType(oauthProviderType: string) {
+    switch (oauthProviderType) {
       case 'google':
         this.oauthProvider = new GoogleOAuthProvider(this.http);
         break;
       case 'microsoft':
-        this.oauthProvider = new MicrosoftOAuthProvider(this.http);
+        this.oauthProvider = new MicrosoftOAuthProvider(this.http, this.router, this.msalWrapperService);
         break;
       default:
         throw new Error('Unsupported OAuth provider');
@@ -27,6 +31,7 @@ export class OauthService {
 
   public GetName(): string {
     if (!this.oauthProvider) {
+      this.router.navigateByUrl('/');
       throw new Error('OAuth provider is not set');
     }
     return this.oauthProvider.getName();

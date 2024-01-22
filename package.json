@@ -18,6 +18,8 @@
     "@angular/platform-browser": "^17.0.0",
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/router": "^17.0.0",
+    "@azure/msal-angular": "^3.0.10",
+    "@azure/msal-browser": "^3.7.0",
     "@mdi/font": "^7.3.67",
     "ethers": "^5.7.2",
     "json-canonicalize": "^1.0.6",

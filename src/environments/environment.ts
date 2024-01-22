@@ -10,7 +10,12 @@ export const environment = {
       redirectUri: 'http://localhost:4200/credentials/oauth/redirect?source=github'
     },
     microsoftOAuth: {
-      clientId: 'c3a12b3c-23fd-4660-b119-cbc9f38bdb1e',
-      redirectUri: 'http://localhost:4200/credentials/oauth/redirect?source=microsoft'
+      msalConfig : {
+        auth: {
+          clientId: 'c3a12b3c-23fd-4660-b119-cbc9f38bdb1e', // This is your client ID
+          authority: 'https://login.microsoftonline.com/common/', // This is your authority
+          redirectUri: 'http://localhost:4200/credentials/oauth/redirect?source=microsoft'
+        }
+      }
     },
   };

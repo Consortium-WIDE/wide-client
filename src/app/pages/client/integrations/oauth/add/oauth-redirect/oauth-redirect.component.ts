@@ -17,18 +17,17 @@ import { CommonModule } from '@angular/common';
   styleUrl: './oauth-redirect.component.scss'
 })
 export class OauthRedirectComponent {
-  private oauthService!: OauthService;
   showProfileDetailModal: boolean = false;
   profile: any = null;
   oauthName!: string;
 
-  constructor(private router: Router, private route: ActivatedRoute, private httpClient: HttpClient, private navMenuService: NavMenuService, private web3WalletService: Web3WalletService, private toastNotificationService: ToastNotificationService) {
+  constructor(private router: Router, private route: ActivatedRoute, private oauthService: OauthService, private httpClient: HttpClient, private navMenuService: NavMenuService, private web3WalletService: Web3WalletService, private toastNotificationService: ToastNotificationService) {
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       const oauthServiceType = params['source'];
-      this.oauthService = new OauthService(this.router, this.httpClient, oauthServiceType);
+      this.oauthService.setProviderType(oauthServiceType);
       this.oauthName = this.oauthService.GetName();
 
       this.navMenuService.setPageDetails(`Signed in with ${this.oauthName}`, ['Your credentials', 'Add credentials', `${this.oauthName} sign-in`]);

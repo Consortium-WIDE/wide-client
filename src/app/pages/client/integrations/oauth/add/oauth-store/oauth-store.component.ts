@@ -6,6 +6,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { WideStorageService } from '../../../../../../services/wide-storage.service';
 import { NavMenuService } from '../../../../../../services/nav-menu.service';
 import { ToastNotificationService } from '../../../../../../services/toast-notification.service';
+import { OauthService } from '../../../../../../services/oauth.service';
 
 @Component({
   selector: 'app-oauth-store',
@@ -19,11 +20,13 @@ export class OauthStoreComponent {
   activeStep: number = 5;
   uploading: boolean = false;
   data: any | null = null;
+  oauthName!: string;
 
-  constructor(private router: Router, private route: ActivatedRoute, private wideStorageService: WideStorageService, private navMenuService: NavMenuService, private toastNotificationService: ToastNotificationService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private wideStorageService: WideStorageService, private navMenuService: NavMenuService, private toastNotificationService: ToastNotificationService, private oauthService: OauthService) { }
 
   ngOnInit() {
-    this.navMenuService.setPageDetails('Sign in with Google', ['Your credentials', 'Add credentials', 'Google sign-in']);
+    this.oauthName = this.oauthService.GetName();
+    this.navMenuService.setPageDetails(`Sign in with ${this.oauthName}`, ['Your credentials', 'Add credentials', `${this.oauthName} sign-in`])
 
     let state = null;
 

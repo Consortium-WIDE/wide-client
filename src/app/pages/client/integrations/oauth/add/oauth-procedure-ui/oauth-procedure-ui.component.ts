@@ -10,6 +10,7 @@ import { Component, Input } from '@angular/core';
 })
 export class OauthProcedureUiComponent {
   @Input() activeStep = 0;
+  @Input({ required: true }) provider!: string;
 
   getClassForStep(step: number): string {
     if (step < this.activeStep) { return 'completed' }

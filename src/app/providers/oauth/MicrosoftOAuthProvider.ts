@@ -1,11 +1,18 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { BaseOAuthProvider } from "./BaseOAuthProvider"; // Adjust the import path as needed
 import { environment } from "../../../environments/environment";
+import { IPublicClientApplication, PopupRequest } from "@azure/msal-browser";
+import { Inject, Injectable } from "@angular/core";
+import { MSAL_INSTANCE } from "@azure/msal-angular";
+import { MsalWrapperService } from "../../services/msal-wrapper.service";
+import { Router } from "@angular/router";
 
+@Injectable()
 export class MicrosoftOAuthProvider extends BaseOAuthProvider {
     private rawData: any = {};
+    private msalResponse: any;
 
-    constructor(http: HttpClient) {
+    constructor(http: HttpClient, private router: Router, private msalWrapperService: MsalWrapperService) {
         super(http);
     }
 
@@ -15,55 +22,39 @@ export class MicrosoftOAuthProvider extends BaseOAuthProvider {
 
     // Override to handle Microsoft specific OAuth flow
     public override async initiateAuthFlow(): Promise<void> {
-        const codeVerifier = this.generateCodeVerifier(); // Generate a code verifier
-        const codeChallenge = await this.generateCodeChallenge(codeVerifier); // Generate a code challenge
+        await this.msalWrapperService.waitForInitialization();
+        const msalInstance = this.msalWrapperService.instance;
 
-        console.log('this.codeVerifier', codeVerifier);
-        console.log('codeChallenge', codeChallenge);
-
-        localStorage.setItem('codeVerifier', codeVerifier);
-
-        console.log()
-        const clientId = environment.microsoftOAuth.clientId; // Replace with your actual client ID
-        const redirectUri = encodeURIComponent(environment.microsoftOAuth.redirectUri); // Replace with your actual redirect URI
-        const authUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=User.Read openid email profile offline_access&code_challenge=${codeChallenge}&code_challenge_method=S256`;
-
-        super.redirectToOAuthProvider(authUrl);
+        const loginRequest: PopupRequest = {
+            scopes: ["openid", "profile", "User.Read"],
+        };
+        
+        msalInstance.loginPopup(loginRequest)
+            .then(response => {
+                
+                this.msalWrapperService.msalResponse = response;
+                //This goes to handleRedirect. Since MSAL loads in a popup `this.msalResponse` remains filled.
+                const url = new URL(environment.microsoftOAuth.msalConfig.auth.redirectUri);
+                const relativeUri = url.pathname + url.search;
+                this.router.navigateByUrl(relativeUri);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 
     override async handleRedirect(): Promise<{ data: any; }> {
-        const queryParams = new URLSearchParams(window.location.search);
-        const code = queryParams.get('code');
+        const response = this.msalWrapperService.msalResponse;
 
-        const codeVerifier = localStorage.getItem('codeVerifier');
-        localStorage.removeItem('codeVerifier');
-
-        if (code) {
-            return await this.exchangeCodeForToken(code, codeVerifier ?? '');
+        if (response && response.accessToken) {
+            return await this.OAuthCallback(response.accessToken);
         }
 
-        throw new Error('Failed to retrieve authorization code');
+        this.router.navigateByUrl('credentials/add');
+        
+        throw new Error('Failed to retrieve access token');
     }
     
-    private async exchangeCodeForToken(code: string, codeVerifier: string): Promise<{ data: any }> {
-        const tokenUrl = 'https://login.microsoftonline.com/common/oauth2/v2.0/token';
-        const clientId = environment.microsoftOAuth.clientId;
-        const redirectUri = encodeURIComponent(environment.microsoftOAuth.redirectUri);
-
-        const payload = `client_id=${clientId}&redirect_uri=${redirectUri}&scope=${encodeURIComponent('User.Read openid email profile offline_access')}&code=${code}&code_verifier=${codeVerifier}&grant_type=authorization_code`;
-
-        try {
-            const response = await this.http.post<any>(tokenUrl, payload, { headers: new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'}) })
-            .toPromise();
-
-            const accessToken = response.access_token;
-            return this.fetchMicrosoftUserInfo(accessToken);
-        } catch (error) {
-            console.error('Error exchanging code for token:', error);
-            throw error;
-        }
-    }
-
     // Override to handle the redirect and exchange code for token
     protected async OAuthCallback(accessToken: string): Promise<{ data: any }> {
         // Here, exchange the code for an access token
@@ -89,17 +80,28 @@ export class MicrosoftOAuthProvider extends BaseOAuthProvider {
         }
     }
 
-    // // Override this if Microsoft uses a different method to extract the token
-    // protected extractTokenFromCallback(): string | null {
-    //     // Implement the logic to extract the access token
-    //     return super.extractTokenFromCallback();
-    // }
-
     public override getRawData() {
-        return {};
+        return this.rawData;
     }
 
     public override getWideTransformedData(config: any) {
-        return {};
+        const profile = this.rawData;
+
+        const issuerPayload: any = {
+            "label": 'Microsoft Profile',
+            "id": "http://www.microsoft.com/",
+            "type": ["Microsoft", "OAuth"],
+            "issuer": "http://www.microsoft.com/",
+            "issuanceDate": new Date().toISOString(),
+            "credentialSubject": {
+                "id": config.accountAddress,
+                "socialProfile": {
+                    "type": "OAuth",
+                    "name": "Microsoft"
+                }
+            }
+        }
+
+        return issuerPayload;
     }
 }

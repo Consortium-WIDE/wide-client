@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NavMenuService } from '../../../../../../services/nav-menu.service';
 import { OauthProcedureUiComponent } from '../oauth-procedure-ui/oauth-procedure-ui.component';
+import { MsalWrapperService } from '../../../../../../services/msal-wrapper.service';
 
 @Component({
   selector: 'app-oauth-signin',
@@ -14,16 +15,15 @@ import { OauthProcedureUiComponent } from '../oauth-procedure-ui/oauth-procedure
   styleUrl: './oauth-signin.component.scss'
 })
 export class OauthSigninComponent {
-  private oauthService!: OauthService;
   oauthName!: string;
 
-  constructor(private router: Router, private route: ActivatedRoute, private httpClient: HttpClient, private navMenuService: NavMenuService) {
+  constructor(private router: Router, private route: ActivatedRoute, private navMenuService: NavMenuService, private oauthService: OauthService) {
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       const oauthServiceType = params['type'];
-      this.oauthService = new OauthService(this.router, this.httpClient, oauthServiceType);
+      this.oauthService.setProviderType(oauthServiceType);
       this.oauthName = this.oauthService.GetName();
       
       this.navMenuService.setPageDetails(`Sign in with ${this.oauthName}`, ['Your credentials', 'Add credentials', `${this.oauthName} sign-in`])

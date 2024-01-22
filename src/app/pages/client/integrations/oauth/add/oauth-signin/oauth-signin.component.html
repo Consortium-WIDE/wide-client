@@ -1,6 +1,6 @@
 <div class="content">
     <h2>Sign in with {{oauthName}}</h2>
-    <app-oauth-procedure-ui [activeStep]="1">
+    <app-oauth-procedure-ui [activeStep]="1" [provider]="oauthName">
         <div class="buttons">
             <button (click)="startOAuthProcess()">Take me to {{oauthName}}</button>
         </div>
