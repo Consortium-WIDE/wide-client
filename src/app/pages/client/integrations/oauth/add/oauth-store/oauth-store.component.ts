@@ -1,29 +1,32 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { OauthProcedureUiComponent } from '../oauth-procedure-ui/oauth-procedure-ui.component';
+import { WideModalComponent } from '../../../../../../components/wide-modal/wide-modal.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { NavMenuService } from '../../../../../services/nav-menu.service';
-import { GoogleSigninProcedureComponent } from '../shared/google-signin-procedure/google-signin-procedure.component';
-import { WideModalComponent } from '../../../../../components/wide-modal/wide-modal.component';
-import { WideStorageService } from '../../../../../services/wide-storage.service';
-import { ToastNotificationService } from '../../../../../services/toast-notification.service';
+import { WideStorageService } from '../../../../../../services/wide-storage.service';
+import { NavMenuService } from '../../../../../../services/nav-menu.service';
+import { ToastNotificationService } from '../../../../../../services/toast-notification.service';
+import { OauthService } from '../../../../../../services/oauth.service';
 
 @Component({
-  selector: 'app-google-store-credentials',
+  selector: 'app-oauth-store',
   standalone: true,
-  imports: [CommonModule, GoogleSigninProcedureComponent, WideModalComponent, RouterLink],
-  templateUrl: './google-store-credentials.component.html',
-  styleUrl: './google-store-credentials.component.scss'
+  imports: [CommonModule, OauthProcedureUiComponent, WideModalComponent, RouterLink],
+  templateUrl: './oauth-store.component.html',
+  styleUrl: './oauth-store.component.scss'
 })
-export class GoogleStoreCredentialsComponent implements OnInit {
+export class OauthStoreComponent {
   showDataDetailModal: boolean = false;
   activeStep: number = 5;
   uploading: boolean = false;
   data: any | null = null;
+  oauthName!: string;
 
-  constructor(private router: Router, private route: ActivatedRoute, private wideStorageService: WideStorageService, private navMenuService: NavMenuService, private toastNotificationService: ToastNotificationService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private wideStorageService: WideStorageService, private navMenuService: NavMenuService, private toastNotificationService: ToastNotificationService, private oauthService: OauthService) { }
 
   ngOnInit() {
-    this.navMenuService.setPageDetails('Sign in with Google', ['Your credentials', 'Add credentials', 'Google sign-in']);
+    this.oauthName = this.oauthService.GetName();
+    this.navMenuService.setPageDetails(`Sign in with ${this.oauthName}`, ['Your credentials', 'Add credentials', `${this.oauthName} sign-in`])
 
     let state = null;
 
@@ -38,7 +41,7 @@ export class GoogleStoreCredentialsComponent implements OnInit {
     if (!state) {
       this.toastNotificationService.error('Catastrophic Error', 'Unable to retrieve state');
     }
-    
+
     //This is a quick and dirty way to get rid of unnecessary additional properties that may be injected by the router for UI
     this.data = {
       accountAddress: state.accountAddress,
@@ -51,19 +54,19 @@ export class GoogleStoreCredentialsComponent implements OnInit {
   uploadData() {
     this.uploading = true;
 
-    if (!this.data.accountAddress){
+    if (!this.data.accountAddress) {
       this.toastNotificationService.error('Error', 'Unable to retrieve Account Address');
     }
 
-    if (!this.data.issuer){
+    if (!this.data.issuer) {
       this.toastNotificationService.error('Error', 'Unable to retrieve Issuer Payload');
     }
 
-    if (!this.data.dataHash){
+    if (!this.data.dataHash) {
       this.toastNotificationService.error('Error', 'Unable to retrieve Raw Data Hash');
     }
 
-    if (!this.data.encryptedData){
+    if (!this.data.encryptedData) {
       this.toastNotificationService.error('Error', 'Unable to retrieve Encrypted Data');
     }
 
