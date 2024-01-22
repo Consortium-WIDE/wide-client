@@ -10,6 +10,10 @@ export class GoogleOAuthProvider extends BaseOAuthProvider {
         super(http); // Call the base class constructor
     }
 
+    override getName(): string {
+        return 'Google';
+    }
+
     public override initiateAuthFlow(): void {
         const clientId = environment.googleOAuth.clientId; // Replace with your actual client ID
         const redirectUri = encodeURIComponent(environment.googleOAuth.redirectUri); // Replace with your actual redirect URI
@@ -17,8 +21,20 @@ export class GoogleOAuthProvider extends BaseOAuthProvider {
 
         super.redirectToOAuthProvider(authUrl);
     }
+    
+    override async handleRedirect(): Promise<{ data: any; }> {
+        debugger;
+        const fragment = new URLSearchParams(window.location.hash.slice(1));
+        const accessToken = fragment.get('access_token') || this.extractTokenFromCallback();
 
-    async OAuthCallback(accessToken: string): Promise<{ email: string, profile: any }> {
+        if (accessToken) {
+            return await this.OAuthCallback(accessToken);
+        }
+
+        throw new Error('Failed to retrieve access token');
+    }
+
+    async OAuthCallback(accessToken: string): Promise<{ data: any }> {
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${accessToken}`
         });
@@ -26,7 +42,7 @@ export class GoogleOAuthProvider extends BaseOAuthProvider {
         try {
             const userInfo = await this.http.get<any>('https://www.googleapis.com/oauth2/v3/userinfo', { headers }).toPromise();
             this.rawData = userInfo;
-            return { email: userInfo.email, profile: userInfo };
+            return userInfo;
         } catch (error: any) { // If you know the error structure, replace 'any' with a more specific type
             console.error('Error fetching Google user info:', error);
             throw error;

@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BaseOAuthProvider } from '../providers/oauth/BaseOAuthProvider';
 import { GoogleOAuthProvider } from '../providers/oauth/GoogleOAuthProvider';
-import { GitHubOAuthProvider } from '../providers/oauth/GitHubOAuthProvider';
 import { MicrosoftOAuthProvider } from '../providers/oauth/MicrosoftOAuthProvider';
 import { OAUTH_PROVIDER_TOKEN } from '../providers/oauth/injectionToken/oauth-provider.token';
 
@@ -18,15 +17,19 @@ export class OauthService {
       case 'google':
         this.oauthProvider = new GoogleOAuthProvider(this.http);
         break;
-      case 'github':
-        this.oauthProvider = new GitHubOAuthProvider(this.http);
-        break;
       case 'microsoft':
         this.oauthProvider = new MicrosoftOAuthProvider(this.http);
         break;
       default:
         throw new Error('Unsupported OAuth provider');
     }
+  }
+
+  public GetName(): string {
+    if (!this.oauthProvider) {
+      throw new Error('OAuth provider is not set');
+    }
+    return this.oauthProvider.getName();
   }
 
   public initiateAuthFlow(): void {
@@ -36,18 +39,25 @@ export class OauthService {
     this.oauthProvider.initiateAuthFlow();
   }
 
-  public async handleRedirect(): Promise<{ email: string, profile: any }> {
+  public async handleRedirect(): Promise<{ data: any }> {
     if (!this.oauthProvider) {
       throw new Error('OAuth provider is not set');
     }
-    return this.oauthProvider.handleRedirect();
+    return await this.oauthProvider.handleRedirect();
   }
 
   public getData(): any {
+    if (!this.oauthProvider) {
+      throw new Error('OAuth provider is not set');
+    }
+
     return this.oauthProvider.getRawData();
   }
 
   public getWideTransformedData(config: any): any {
+    if (!this.oauthProvider) {
+      throw new Error('OAuth provider is not set');
+    }
     return this.oauthProvider.getWideTransformedData(config);
   }
 

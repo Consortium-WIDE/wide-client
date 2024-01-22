@@ -3,33 +3,51 @@ import { Router } from "@angular/router";
 import { IOAuthProvider } from "../IOAuthProvider";
 
 export abstract class BaseOAuthProvider implements IOAuthProvider {
-    constructor(protected http: HttpClient) { }
+  constructor(protected http: HttpClient) { }
 
-    abstract initiateAuthFlow(): void;
+  abstract getName(): string;
 
-    protected redirectToOAuthProvider(authUrl: string): void {
-        window.location.href = authUrl;
+  abstract initiateAuthFlow(): void;
+
+  protected redirectToOAuthProvider(authUrl: string): void {
+    window.location.href = authUrl;
+  }
+
+  abstract handleRedirect(): Promise<{ data: any }>;
+
+  protected abstract OAuthCallback(accessToken: string): Promise<{ data: any }>;
+
+  protected extractTokenFromCallback(): string | null {
+    // This method can be overridden if the token is not in the URL fragment
+    return null;
+  }
+
+  abstract getRawData(): any;
+
+  abstract getWideTransformedData(config: any): any;
+
+  // Helper function to generate a random string
+  protected generateRandomString(length: number): string {
+    const possibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomString = '';
+    for (let i = 0; i < length; i++) {
+      const randomPoz = Math.floor(Math.random() * possibleChars.length);
+      randomString += possibleChars.substring(randomPoz, randomPoz + 1);
     }
+    return randomString;
+  }
 
-    public async handleRedirect(): Promise<{ email: string, profile: any }> {
-        const fragment = new URLSearchParams(window.location.hash.slice(1));
-        const accessToken = fragment.get('access_token') || this.extractTokenFromCallback();
-    
-        if (accessToken) {
-          return await this.OAuthCallback(accessToken);
-        }
-    
-        throw new Error('Failed to retrieve access token');
-      }
+  // Function to generate a code verifier
+  protected generateCodeVerifier(): string {
+    return this.generateRandomString(128); // Length should be between 43 and 128 characters
+  }
 
-      protected abstract OAuthCallback(accessToken: string): Promise<{ email: string, profile: any }>;
-
-      protected extractTokenFromCallback(): string | null {
-        // This method can be overridden if the token is not in the URL fragment
-        return null;
-      }
-
-      abstract getRawData(): any;
-
-      abstract getWideTransformedData(config: any): any;
+  // Function to generate a code challenge from the verifier
+  protected async generateCodeChallenge(codeVerifier: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(codeVerifier);
+    const digest = await crypto.subtle.digest('SHA-256', data);
+    return btoa(String.fromCharCode(...new Uint8Array(digest)))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+  }
 }
