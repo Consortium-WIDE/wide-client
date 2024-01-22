@@ -50,12 +50,6 @@ export class MicrosoftOAuthProvider extends BaseOAuthProvider {
         const clientId = environment.microsoftOAuth.clientId;
         const redirectUri = encodeURIComponent(environment.microsoftOAuth.redirectUri);
 
-        console.log('client_id', clientId);
-        console.log('redirect_uri', encodeURIComponent('openid email profile offline_access'))
-        console.log('code', code);
-        console.log('codeVerifier', codeVerifier)
-
-        //const payload = `client_id=${clientId}&redirect_uri=${redirectUri}&scope=${encodeURIComponent('openid email profile offline_access')}&code=${code}&x-client-SKU=msal.js.browser&x-client-VER=2.30.0&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|862,0,,,|,&x-client-last-telemetry=5|0|||0,0&code_verifier=${codeVerifier}&grant_type=authorization_code&client_info=1&client-request-id=de113600-ed2f-4210-a3d8-1e0373aab815`;
         const payload = `client_id=${clientId}&redirect_uri=${redirectUri}&scope=${encodeURIComponent('User.Read openid email profile offline_access')}&code=${code}&code_verifier=${codeVerifier}&grant_type=authorization_code`;
 
         try {
