@@ -11,7 +11,7 @@ export const environment = {
       auth: {
         clientId: 'c3a12b3c-23fd-4660-b119-cbc9f38bdb1e', // This is your client ID
         authority: 'https://login.microsoftonline.com/common/', // This is your authority
-        redirectUri: 'http://localhost:4200/credentials/oauth/redirect?source=microsoft'
+        redirectUri: 'https://test.wid3.app/credentials/oauth/redirect?source=microsoft'
       }
     }
   },
