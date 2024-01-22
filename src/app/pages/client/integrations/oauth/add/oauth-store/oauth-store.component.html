@@ -1,6 +1,6 @@
 <div class="content">
-    <h2>Sign in with Google</h2>
-    <app-oauth-procedure-ui [activeStep]="activeStep">
+    <h2>Sign in with {{oauthName}}</h2>
+    <app-oauth-procedure-ui [activeStep]="activeStep" [provider]="oauthName">
         <div class="buttons">
             <button (click)="uploadData()" *ngIf="activeStep == 5"><i *ngIf="uploading"
                     class="mdi mdi-loading rotate-mdi"></i> <span *ngIf="!uploading">Upload to WIDE</span></button>

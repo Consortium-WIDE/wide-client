@@ -5,8 +5,8 @@
     <p class="error"> <i class="mdi mdi-alert-circle-outline"></i>Please connect your wallet!</p>
 </div>
 <div class="content" *ngIf="getWeb3WalletService().isConnectedToWallet()">
-    <h2>Sign in with Google</h2>
-    <app-oauth-procedure-ui [activeStep]="4">
+    <h2>Sign in with {{oauthName}}</h2>
+    <app-oauth-procedure-ui [activeStep]="4" [provider]="oauthName">
         <div class="buttons">
             <button *ngIf="profile" (click)="encryptData()">Encrypt</button>
             <button *ngIf="profile" class="btn-alt" (click)="toggleProfileDetailModal()">View Credentials</button>
