@@ -41,9 +41,9 @@ export const routes: Routes = [
         children: [
             { path: 'getting-started', component: GettingStartedComponent },
 
-            { path: 'presentation/begin', component: BeginPresentationComponent },
-            { path: 'presentation/request', component: PresentationRequestComponent },
-            { path: 'presentation/confirm', component: PresentationConfirmationComponent },
+            { path: 'present', component: BeginPresentationComponent },
+            { path: 'present/request', component: PresentationRequestComponent },
+            { path: 'present/confirm', component: PresentationConfirmationComponent },
 
             
             { path: '**', component: NotFoundComponent }
