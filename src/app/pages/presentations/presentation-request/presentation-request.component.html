@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="buttons vertical">
-        <button [routerLink]="['/present/confirm']">Approve</button>
+        <button (click)="prepareRequest()"><i *ngIf="isProcessing" class="spinner mdi mdi-loading rotate-mdi"></i> Approve</button>
         <a class="btn btn-lg" (click)="reject()">Reject</a>
     </div>
 </div>
