@@ -270,7 +270,7 @@ export class MainComponent implements OnInit {
         vc.credentialSubject.issuerDomains[0].data.credentials.push({
           "name": c.name,
           "value": this.web3WalletService.hashDataKeccak256(c.val.ciphertext),
-          "type": "keccak256CipherText"
+          "type": "proof"
         });
       }
     });
