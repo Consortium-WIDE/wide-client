@@ -23,8 +23,6 @@ export class PresentationConfirmationComponent implements OnInit {
   constructor(private httpClient: HttpClient, private web3WalletService: Web3WalletService, private toastNotificationService: ToastNotificationService) { }
 
   ngOnInit(): void {
-    console.log('history.state', history.state);
-
     const { processedCredential, presentationConfig, domainOrigin } = history.state;
     this.processedCredential = processedCredential;
     this.presentationConfig = presentationConfig;
@@ -50,10 +48,6 @@ export class PresentationConfirmationComponent implements OnInit {
         // Handle the error here
         console.error('Error uploading data', error);
         this.toastNotificationService.error(error.statusText, `Failed to present credentials (${error.status})`);
-      },
-      complete: () => {
-        // Code to run on completion (if needed)
-        console.log('Request completed');
       }
     });
   }

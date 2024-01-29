@@ -230,11 +230,6 @@ export class MainComponent implements OnInit {
   async generateWideCredentialPreview(issuer: any, credentialsContainer: any): Promise<any> {
     const serverPubKey = await this.web3WalletService.getServerPublicKey();
 
-    console.log('serverPubKey', serverPubKey);
-
-    console.log('issuer', issuer);
-    console.log('credentialsContainer', credentialsContainer);
-
     let vc = {
       "id": "http://wid3.xyz",
       "type": ["WIDECredential"],
