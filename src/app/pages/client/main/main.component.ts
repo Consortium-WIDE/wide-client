@@ -156,6 +156,8 @@ export class MainComponent implements OnInit {
 
     const credentials = this.credentialDetailLookup[issuer.wideInternalId].credentials;
 
+    console.log('credentials', credentials);
+    
     if (credentials && credentials.length > 0) {
       return credentials.some((c: any) => c.status != 2);
     }

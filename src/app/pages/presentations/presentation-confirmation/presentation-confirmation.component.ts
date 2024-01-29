@@ -5,6 +5,7 @@ import { WideModalComponent } from '../../../components/wide-modal/wide-modal.co
 import { HttpClient } from '@angular/common/http';
 import { Web3WalletService } from '../../../services/web3-wallet.service';
 import { ToastNotificationService } from '../../../services/toast-notification.service';
+import { canonicalize } from 'json-canonicalize';
 
 @Component({
   selector: 'app-presentation-confirmation',
@@ -31,9 +32,16 @@ export class PresentationConfirmationComponent implements OnInit {
     this.pageLoaded = true;
   }
 
-  present() {
+  async present() {
     //1. Generate a token
     const token = this.generateSecureToken(32);
+    let signedMessage = null;
+
+    if (this.presentationConfig.requireMessageSignature ?? false) {
+      const messageSignature = this.generatePresentationSignature(this.processedCredential, this.presentationConfig.rpName);
+      signedMessage = await this.web3WalletService.signMessage(messageSignature);
+      this.processedCredential.signedMessage = signedMessage;
+    }
 
     //2. Log on RP Api
     this.httpClient.post(this.presentationConfig.serverApiEndpoint, {
@@ -54,6 +62,22 @@ export class PresentationConfirmationComponent implements OnInit {
 
   reject() {
     window.location.href = this.presentationConfig.sourceUri;
+  }
+
+  //TODO: place in a shared library
+  generatePresentationSignature(processedCredential: any, rpName: string): string {
+    processedCredential = JSON.parse(canonicalize(processedCredential)); //We do this to have issuerDomains and credentials in order
+
+    let msg = `I, holder of account '${processedCredential.credentialSubject.id}' declare that the information below being presented to '${rpName}' is true and correct:\r\n`;
+
+    processedCredential.credentialSubject.issuerDomains.forEach((issuerDomain: any) => {
+      msg += `\r\nSource: ${issuerDomain.label}\r\n`;
+      issuerDomain.data.credentials.forEach((credential: any) => {
+        msg += `- ${credential.name}: ${credential.value}\r\n`;
+      });
+    });
+
+    return msg;
   }
 
   //TODO: place in a dedicated service
