@@ -12,7 +12,7 @@
         <ul class="items bottom">
             <li><app-nav-menu-item url="/about" text="About WIDE" [class]="'mdi mdi-information'"></app-nav-menu-item></li>
             <li><app-nav-menu-item url="/support" text="Support" [class]="'mdi mdi-lifebuoy'"></app-nav-menu-item></li>
-            <li class="m-t-25"><app-nav-menu-item url="/" (menuItemClickEvent)="logout($event)" [class]="'mdi mdi-logout'" text="Log Out"></app-nav-menu-item></li>
+            <li class="m-t-25"><app-nav-menu-item (menuItemClickEvent)="logout($event)" [class]="'mdi mdi-logout'" text="Log Out"></app-nav-menu-item></li>
         </ul>
     </div>
 </div>
