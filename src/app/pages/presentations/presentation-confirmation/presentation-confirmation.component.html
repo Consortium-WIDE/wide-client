@@ -3,17 +3,39 @@
         <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
     </div>
     <h2>Credentials Presentation Request</h2>
-    <p class="align-left">Here is what you are about to present to <b>{{ presentation.verifier.name }}</b>:</p>
-    <div class="credentials-panel">
+    <div class="logo-wrapper" *ngIf="presentationConfig.logoUri">
+        <img class="logo logo-rp" [src]="presentationConfig.logoUri" />
+    </div>
+    <p class="align-left">Here is what you are about to present to <b>{{ presentationConfig.rpName }}</b>:</p>
+    <div class="credentials-panel" *ngIf="pageLoaded">
         <ul class="credentials-header">
-            <li>Verifier: {{ presentation.verifier.name }}</li>
-            <li>Timestamp: {{ presentation.timestamp | date:'dd-MMM-yyyy HH:mm'}}</li>
-            <li *ngFor="let cred of presentation.decrypted">{{cred.name}}: {{ cred.value }}</li>
-            <li *ngFor="let cred of presentation.encrypted">{{cred.name}}: <i class="mdi mdi-lock text-coral"></i> {{ cred.value | slice:0:12 }}...</li>
+            <li>Verifier: {{ processedCredential.credentialSubject.requestedBy }}</li>
+            <li>Timestamp: {{ processedCredential.issuanceDate | date:'dd-MMM-yyyy HH:mm'}}</li>
+            <li *ngFor="let cred of processedCredential.credentialSubject.issuerDomains[0].data.credentials">
+                <i *ngIf="cred.type === 'plainText'" class="mdi mdi-lock-open-check text-coral"></i>
+                <i *ngIf="cred.type === 'proof'" class="mdi mdi-lock text-coral"></i>
+                <i *ngIf="cred.type === 'predicate'" class="mdi mdi-function-variant text-coral"></i>
+                <span>{{cred.name}}: {{ truncatePredicateValue(cred) }}</span>
+            </li>
         </ul>
     </div>
     <div class="buttons vertical">
-        <button (click)="present()">Present Credentials</button>
+        <div class="buttons">
+            <button (click)="present()">Present Credentials</button>
+            <button class="btn-alt" (click)="showModal = true">View Raw Data</button>
+        </div>
         <a class="btn btn-lg" (click)="reject()">Reject</a>
     </div>
 </div>
+<app-wide-modal [showModal]="showModal">
+    <div content class="processed-credential-details" *ngIf="processedCredential">
+        <h3>WIDE Credential Preview</h3>
+        <p>The WIDE Credential that will be presented to Relying Parties is displayed below.</p>
+        <div class="scrollable align-left">
+            <pre><p>{{processedCredential | json}}</p></pre>
+        </div>
+    </div>
+    <div buttons>
+        <button (click)="showModal = false">Close</button>
+    </div>
+</app-wide-modal>

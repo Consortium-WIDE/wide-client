@@ -16,6 +16,7 @@ import { PresentationConfirmationComponent } from './pages/presentations/present
 import { OauthSigninComponent } from './pages/client/integrations/oauth/add/oauth-signin/oauth-signin.component';
 import { OauthRedirectComponent } from './pages/client/integrations/oauth/add/oauth-redirect/oauth-redirect.component';
 import { OauthStoreComponent } from './pages/client/integrations/oauth/add/oauth-store/oauth-store.component';
+import { HistoryComponent } from './pages/client/history/history.component';
 
 export const routes: Routes = [
     {
@@ -30,6 +31,8 @@ export const routes: Routes = [
             { path: 'credentials/oauth/redirect', component: OauthRedirectComponent },
             { path: 'credentials/oauth/store', component: OauthStoreComponent },
 
+            { path: 'history', component: HistoryComponent },
+
             { path: 'about', component: AboutComponent },
             { path: 'support', component: SupportComponent },
             { path: '', component: MainComponent },
@@ -41,9 +44,9 @@ export const routes: Routes = [
         children: [
             { path: 'getting-started', component: GettingStartedComponent },
 
-            { path: 'presentation/begin', component: BeginPresentationComponent },
-            { path: 'presentation/request', component: PresentationRequestComponent },
-            { path: 'presentation/confirm', component: PresentationConfirmationComponent },
+            { path: 'present', component: BeginPresentationComponent },
+            { path: 'present/request', component: PresentationRequestComponent },
+            { path: 'present/confirm', component: PresentationConfirmationComponent },
 
             
             { path: '**', component: NotFoundComponent }

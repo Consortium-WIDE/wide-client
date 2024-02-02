@@ -16,9 +16,12 @@
 
     .logo-wrapper {
         margin-top: 20px;
-        margin-bottom: 60px;
-    }
+        margin-bottom: 20px;
 
+        .logo-rp {
+            max-height: 80px;
+        }
+    }
     p.align-left {
         width: 100%;
     }

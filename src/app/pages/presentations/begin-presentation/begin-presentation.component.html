@@ -1,52 +1,78 @@
 <div class="content">
-    <div class="logo-wrapper">
-        <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
+    <div *ngIf="!pageLoaded">
+        Connecting to server to fetch config...
     </div>
-    <h2>Credentials Presentation Request</h2>
-    <p><b>Verifier Name</b> is requesting you to present your <b>Google Profile</b></p>
-    <p>Please connect your wallet associated with WIDE to proceed or click 'Get Started' to get on board.</p>
-    <div class="buttons">
-        <button (click)="connectWallet()">Connect wallet</button>
-        <button (click)="showGettingStartedModal = true" target="_blank" class="btn-alt">Get started</button>
+    <div *ngIf="pageLoaded">
+        <div class="logo-wrapper">
+            <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
+        </div>
+        <h2>Credentials Presentation Request</h2>
+        <div class="logo-wrapper" *ngIf="presentationConfig.logoUri">
+            <img class="logo logo-rp" [src]="presentationConfig.logoUri" />
+        </div>
+        <p><b>{{presentationConfig.rpName}}</b> is requesting you to present your
+            <b>{{presentationConfig.credential.join(', ')}}</b> credential </p>
+        <p>Please connect your wallet associated with WIDE to proceed or click 'Get Started' to get on board.</p>
+        <div class="buttons">
+            <button (click)="connectWallet()">Connect wallet</button>
+            <button (click)="showGettingStartedModal = true" target="_blank" class="btn-alt">Get started</button>
+        </div>
     </div>
 </div>
-<app-wide-modal [showModal]="showMetaMaskWalletModal">
-    <div content class="metamask-modal">
-        <h3>Cannot detect MetaMask Wallet :(</h3>
-        <img src="assets/svg/MetaMask_Fox.svg" width="250" />
-        <p>Please make sure the <a href="https://metamask.io/" target="_blank">MetaMask wallet</a> is set up on this
-            browser.</p>
-    </div>
-    <div buttons>
-        <button (click)="showMetaMaskWalletModal = false">Close</button>
-    </div>
-</app-wide-modal>
-<app-wide-modal [showModal]="showMetaMaskConnectModal">
-    <div content class="metamask-connect-modal">
-        <h3>Please connect your MetaMask Wallet</h3>
-        <img src="assets/svg/MetaMask_Fox.svg" width="250" />
-        <p>Please connect your MetaMask Wallet to WIDE.</p>
-        <p>If you already opened the wallet, make sure it has been unlocked, click "Connect To Wallet" again.</p>
-        <p>WIDE requires this to obtain your public Ethereum address.</p>
-    </div>
-    <div buttons>
-        <button (click)="showMetaMaskConnectModal = false">Close</button>
-    </div>
-</app-wide-modal>
-<app-wide-modal [showModal]="showGettingStartedModal">
-    <div content class="metamask-get-started-modal">
-        <h3>New to WIDE?</h3>
-        <img src="assets/svg/wide_logo_gradient.svg" width="250" />
-        <p>WIDE is a Digital Identity bridge, allowing you to manage your digital credentials safely, securely and in
-            complete privacy.</p>
-        <p>To sign up to WIDE, please click Get Started. To go back to <b>Verifier Name</b> click Return to <b>Verifier
-                Name</b>.</p>
-        <p>If you choose to sign up to WIDE, you will need to re-start the credential presentation process from
-            <b>Verifier Name</b> (but we're working hard so that you don't have to in the near future).</p>
-    </div>
-    <div buttons class="modal-buttons">
-        <button [routerLink]="['/getting-started']">Sign me up!</button>
-        <button (click)="returnToRequestor()" class="btn-alt">Return to Verifier Name</button>
-        <button (click)="showGettingStartedModal = false" class="btn-alt">Close</button>
-    </div>
-</app-wide-modal>
+<div *ngIf="pageLoaded">
+    <app-wide-modal [showModal]="showMetaMaskWalletModal">
+        <div content class="metamask-modal">
+            <h3>Cannot detect MetaMask Wallet :(</h3>
+            <img src="assets/svg/MetaMask_Fox.svg" width="250" />
+            <p>Please make sure the <a href="https://metamask.io/" target="_blank">MetaMask wallet</a> is set up on this
+                browser.</p>
+        </div>
+        <div buttons>
+            <button (click)="showMetaMaskWalletModal = false">Close</button>
+        </div>
+    </app-wide-modal>
+    <app-wide-modal [showModal]="showMetaMaskConnectModal">
+        <div content class="metamask-connect-modal">
+            <h3>Please connect your MetaMask Wallet</h3>
+            <img src="assets/svg/MetaMask_Fox.svg" width="250" />
+            <p>Please connect your MetaMask Wallet to WIDE.</p>
+            <p>If you already opened the wallet, make sure it has been unlocked, click "Connect To Wallet" again.</p>
+            <p>WIDE requires this to obtain your public Ethereum address.</p>
+        </div>
+        <div buttons>
+            <button (click)="showMetaMaskConnectModal = false">Close</button>
+        </div>
+    </app-wide-modal>
+    <app-wide-modal [showModal]="showSetHistoryKeyModal">
+        <div content class="metamask-connect-modal">
+            <h3>Set up your History Key</h3>
+            <p>Click Setup Key below to generate a unique History Key derived from a message signature.</p>
+            <p>This will store the history of presentations on the blockchain, without disclosing your address.</p>
+        </div>
+        <div buttons>
+            <button (click)="setupHistoryKey()">Setup Key</button>
+        </div>
+    </app-wide-modal>
+    <app-wide-modal [showModal]="showGettingStartedModal">
+        <div content class="metamask-get-started-modal">
+            <h3>New to WIDE?</h3>
+            <img src="assets/svg/wide_logo_gradient.svg" width="250" />
+            <p>WIDE is a Digital Identity bridge, allowing you to manage your digital credentials safely, securely and
+                in
+                complete privacy.</p>
+            <p>To sign up to WIDE, please click Get Started. To go back to <b>{{presentationConfig.rpName}}</b> click
+                Return to
+                <b>{{presentationConfig.rpName}}</b>.
+            </p>
+            <p>If you choose to sign up to WIDE, you will need to re-start the credential presentation process from
+                <b>{{presentationConfig.rpName}}</b> (but we're working hard so that you don't have to in the near
+                future).
+            </p>
+        </div>
+        <div buttons class="modal-buttons">
+            <button [routerLink]="['/getting-started']">Sign me up!</button>
+            <button (click)="returnToRequestor()" class="btn-alt">Return to {{presentationConfig.rpName}}</button>
+            <button (click)="showGettingStartedModal = false" class="btn-alt">Close</button>
+        </div>
+    </app-wide-modal>
+</div>

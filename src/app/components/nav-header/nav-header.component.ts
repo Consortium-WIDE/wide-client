@@ -27,7 +27,9 @@ export class NavHeaderComponent implements OnInit {
 
   accounts: string[] | null = [];
 
-  constructor(private web3WalletService: Web3WalletService, private sanitizer: DomSanitizer) { }
+  constructor(private web3WalletService: Web3WalletService, private sanitizer: DomSanitizer) {
+    this.subscribeToWalletConnection();
+  }
 
   async ngOnInit(): Promise<void> {
     setTimeout(async () => {
@@ -42,6 +44,13 @@ export class NavHeaderComponent implements OnInit {
         this.metaMaskCheckPending = false;
       }
     }, 1500);
+    this.subscribeToWalletConnection();
+  }
+
+  private subscribeToWalletConnection() {
+    this.web3WalletService.connectedToWallet$.subscribe(walletConnected => {
+      this.isConnected = walletConnected;
+    });
   }
 
   //TODO: Connect Wallet, check if already signed message. Check secure session/cookie, possibly ask to sign another message
