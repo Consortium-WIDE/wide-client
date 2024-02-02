@@ -1,0 +1,37 @@
+<div class="main">
+    <h2>Presentation History</h2>
+    <div class="message" *ngIf="!hasKey">
+        <p>Your private history key as not yet been configured.</p>
+        <button (click)="setupHistoryKey()" class="btn-white-outline btn-xs">Click here to Setup</button>
+    </div>
+    <div class="history-records">
+        <div class="history-listing">
+            <div class="header">
+                <div class="label w-5"></div>
+                <div class="label w-20">Name</div>
+                <div class="label w-40">Credential Type</div>
+                <div class="label w-15">Presented On</div>
+                <div class="label w-25"></div>
+            </div>
+        </div>
+        <div class="history" *ngFor="let record of historyRecords">
+            <div class="history-header">
+                <div class="w-5">
+                    <img _ngcontent-ng-c3367166150="" width="32" height="32" [src]="getRpIcon(record.jsonData)">
+                </div>
+                <div class="w-20">
+                    {{record.jsonData.name}}
+                </div>
+                <div class="w-40">
+                    {{record.jsonData.credential.join(', ')}}
+                </div>
+                <div class="w-15">{{record.timestamp | date:'dd-MMM-yyyy HH:mm'}}</div>
+                <div class="w-25">
+                </div>
+            </div>
+        </div>
+        <div *ngIf="historyRecords.length <= 0" class="panel-message info">
+            <p class="info"> <i class="mdi mdi-alert-circle-outline"></i>It looks like your history is empty!</p>
+        </div>
+    </div>
+</div>

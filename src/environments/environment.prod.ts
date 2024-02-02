@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   wideServerApiUrl: 'https://api.test.wid3.app',
   googleOAuth: {
     clientId: '708493994076-rlpvffondu5hee5vgmkfpn0b50fkl4ti.apps.googleusercontent.com',

@@ -3,6 +3,9 @@
         <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
     </div>
     <h2>Credentials Presentation Request</h2>
+    <div class="logo-wrapper" *ngIf="presentationConfig.logoUri">
+        <img class="logo logo-rp" [src]="presentationConfig.logoUri" />
+    </div>
     <p class="align-left">Here is what you are about to present to <b>{{ presentationConfig.rpName }}</b>:</p>
     <div class="credentials-panel" *ngIf="pageLoaded">
         <ul class="credentials-header">

@@ -3,6 +3,9 @@
         <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
     </div>
     <h2>Credentials Presentation Request</h2>
+    <div class="logo-wrapper" *ngIf="presentationConfig.logoUri">
+        <img class="logo logo-rp" [src]="presentationConfig.logoUri" />
+    </div>
     <p class="align-justify"><b>{{presentationConfig.rpName}}</b> is requesting you to present credentials</p>
     <p class="align-left">Here is what <b>{{presentationConfig.rpName}}</b> are requesting:</p>
     <div class="credentials-panel">

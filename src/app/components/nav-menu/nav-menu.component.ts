@@ -22,7 +22,7 @@ export class NavMenuComponent implements OnInit {
 
   ngOnInit(): void {
     if (!environment.production) {
-      this.menuItems.concat(
+      this.menuItems = this.menuItems.concat(
         [
           { url: '/dev/kitchen-sink', text: 'Kitchen Sink', iconClass: 'mdi mdi-countertop' },
           { url: '/dev/poc', text: 'Dev POC', iconClass: 'mdi mdi-memory' }

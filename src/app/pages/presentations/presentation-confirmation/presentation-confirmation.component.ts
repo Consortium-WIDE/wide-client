@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Web3WalletService } from '../../../services/web3-wallet.service';
 import { ToastNotificationService } from '../../../services/toast-notification.service';
 import { canonicalize } from 'json-canonicalize';
+import { HistoryService } from '../../../services/history.service';
 
 @Component({
   selector: 'app-presentation-confirmation',
@@ -21,7 +22,7 @@ export class PresentationConfirmationComponent implements OnInit {
   domainOrigin: string = '';
   showModal: boolean = false;
 
-  constructor(private httpClient: HttpClient, private web3WalletService: Web3WalletService, private toastNotificationService: ToastNotificationService) { }
+  constructor(private httpClient: HttpClient, private web3WalletService: Web3WalletService, private toastNotificationService: ToastNotificationService, private historyService: HistoryService) { }
 
   ngOnInit(): void {
     const { processedCredential, presentationConfig, domainOrigin } = history.state;
@@ -49,8 +50,23 @@ export class PresentationConfirmationComponent implements OnInit {
       data: this.processedCredential
     }).subscribe({
       next: (response) => {
-        //3. Redirect to redirectUri and include token
-        window.location.href = `${this.presentationConfig.redirectUri}?token=${token}`
+        //3. Register in History
+        this.historyService.logPresentation({
+          name: this.presentationConfig.rpName,
+          domain: this.presentationConfig.sourceUri,
+          credential: this.presentationConfig.credential,
+          iconUri: this.presentationConfig.iconUri ?? '',
+        }).subscribe({
+          next: (response) => {
+            //4. Redirect to redirectUri and include token
+            window.location.href = `${this.presentationConfig.redirectUri}?token=${token}`
+          },
+          error: (error) => {
+            // Handle the error here
+            console.error('Error registering presentation', error);
+            this.toastNotificationService.error(error.statusText, `Failed to register presentation (${error.status})`);
+          }
+        })
       },
       error: (error) => {
         // Handle the error here

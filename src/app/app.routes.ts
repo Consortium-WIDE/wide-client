@@ -16,6 +16,7 @@ import { PresentationConfirmationComponent } from './pages/presentations/present
 import { OauthSigninComponent } from './pages/client/integrations/oauth/add/oauth-signin/oauth-signin.component';
 import { OauthRedirectComponent } from './pages/client/integrations/oauth/add/oauth-redirect/oauth-redirect.component';
 import { OauthStoreComponent } from './pages/client/integrations/oauth/add/oauth-store/oauth-store.component';
+import { HistoryComponent } from './pages/client/history/history.component';
 
 export const routes: Routes = [
     {
@@ -29,6 +30,8 @@ export const routes: Routes = [
             { path: 'credentials/oauth/signin', component: OauthSigninComponent },
             { path: 'credentials/oauth/redirect', component: OauthRedirectComponent },
             { path: 'credentials/oauth/store', component: OauthStoreComponent },
+
+            { path: 'history', component: HistoryComponent },
 
             { path: 'about', component: AboutComponent },
             { path: 'support', component: SupportComponent },

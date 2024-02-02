@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CredentialPresentationService {
-  private apiUrl = environment.wideServerApiUrl; // Replace with your actual API URL
+  private apiUrl = environment.wideServerApiUrl;
 
   constructor(private http: HttpClient) { }
 
