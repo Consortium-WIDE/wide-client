@@ -3,7 +3,7 @@ export const environment = {
   wideServerApiUrl: 'https://api.test.wid3.app',
   googleOAuth: {
     clientId: '708493994076-rlpvffondu5hee5vgmkfpn0b50fkl4ti.apps.googleusercontent.com',
-    redirectUri: 'https://test.wid3.app/credentials/add/google/redirect'
+    redirectUri: 'https://test.wid3.app/credentials/oauth/redirect?source=google'
   },
   microsoftOAuth: {
     msalConfig : {
