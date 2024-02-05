@@ -13,6 +13,7 @@ import { ToastNotificationService } from '../../../services/toast-notification.s
 import { WideModalComponent } from '../../../components/wide-modal/wide-modal.component';
 import { ButtonConfig, MultiButtonComponent } from '../../../components/multi-button/multi-button.component';
 import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-main',
@@ -284,7 +285,10 @@ export class MainComponent implements OnInit {
     }
 
     buttonConfig.push({ label: 'Preview Credential', action: 'preview-cred' });
-    buttonConfig.push({ label: 'Download', action: 'download' });
+    
+    if (!environment.production) {
+      buttonConfig.push({ label: 'Download', action: 'download' });
+    }
 
     return buttonConfig;
   }
