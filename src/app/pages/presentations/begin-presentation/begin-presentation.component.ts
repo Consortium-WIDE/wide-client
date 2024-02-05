@@ -36,7 +36,6 @@ export class BeginPresentationComponent implements OnInit {
       this.credentialPresentationService.getDomainConfig(this.domainOrigin).subscribe({
         next: (config) => {
           this.presentationConfig = config;
-          console.log(this.presentationConfig);
           this.pageLoaded = true;
         },
         error: (err) => console.error(err),
