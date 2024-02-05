@@ -1,0 +1,105 @@
+@import '_imports';
+
+.main {
+
+    .message {
+        padding: 15px;
+        background: $gradient-3;
+        color: $light-beige;
+        border-radius: 15px;
+        margin-bottom: 15px;
+        display: flex;
+        gap: 20px;
+    }
+
+    .history-records {
+        position: relative;
+        background: $white;
+        border-radius: 15px;
+        padding: 10px 25px 10px 25px;
+        min-height: 250px;
+
+        .header,
+        .history-header,
+        .history-property {
+            color: $grey-dark;
+            display: flex;
+            align-items: center;
+            height: 40px;
+
+            padding-left: 15px;
+            padding-right: 15px;
+
+            .label {
+                text-align: left;
+            }
+        }
+
+        .history {
+            border-radius: 10px;
+            &.expanded {
+                box-shadow: 0px 3px 8px 0px #3E1B071A;
+                margin-bottom: 15px;
+            }
+
+            .history-header {
+                color: $black;
+    
+                height: 60px;
+    
+                .cred-arrow {
+
+                    cursor: pointer;
+
+                    img {
+                        transform: rotate(180deg);
+                    }
+    
+                    &.expanded {
+                        img {
+                            transform: rotate(0deg);
+                        }
+                    }
+                }
+
+                .issuer-label {
+                    cursor: pointer;
+                }
+            }
+
+            .history-expanded {
+                color: $black;
+                background: #FAF7F680;
+                padding-top: 25px;
+                padding-bottom: 25px;
+
+                .history-property {
+                    color: $black;
+                }
+            }
+        }
+
+        .panel-message {
+            width: 100%;
+            position: relative;
+            display: inline-block;
+            text-align: center;
+            top: 90px;
+            border-radius: 5px;
+
+            &.info {
+                background: $info;
+                color: $white;
+            }
+
+            &.error {
+                background: $error;
+                color: $white;
+            }
+        }
+    }
+
+    .buttons {
+        margin-top: 30px;
+    }
+}

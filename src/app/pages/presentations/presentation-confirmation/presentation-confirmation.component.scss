@@ -16,7 +16,11 @@
 
     .logo-wrapper {
         margin-top: 20px;
-        margin-bottom: 60px;
+        margin-bottom: 20px;
+
+        .logo-rp {
+            max-height: 80px;
+        }
     }
 
     p.align-left {
@@ -48,4 +52,23 @@
 
 .buttons.vertical {
     flex-direction: column;
+}
+
+.processed-credential-details{
+    max-height: 600px;
+
+    .scrollable {
+        width: 100%;
+        max-height: 400px;
+        overflow: auto;
+        background: $light-beige;
+        padding: 10px;
+        border-radius: 10px;;
+
+        p {
+            text-align: left;
+        }
+    }
+
+    margin-bottom: 20px;
 }

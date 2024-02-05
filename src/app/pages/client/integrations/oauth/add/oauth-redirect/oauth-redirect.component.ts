@@ -67,9 +67,6 @@ export class OauthRedirectComponent {
       }
     };
 
-    console.log('profile', JSON.stringify(this.profile));
-    console.log('profile Hash', this.web3WalletService.hashDataKeccak256(this.profile));
-
     this.router.navigate(['credentials/oauth/store'], navigationExtras);
   }
 

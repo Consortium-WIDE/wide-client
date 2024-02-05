@@ -58,7 +58,7 @@ export class GoogleOAuthProvider extends BaseOAuthProvider {
         const issuerPayload: any = {
             "label": `${(profile.hd ?? "")} Google Profile`.trim(),
             "id": "http://google.com/",
-            "type": ["Google", "OAuth"],
+            "type": (profile.hd ? [profile.hd] : []).concat(["Google", "OAuth"]),
             "issuer": profile.hd ?? "http://www.google.com",
             "issuanceDate": new Date().toISOString(),
             "credentialSubject": {

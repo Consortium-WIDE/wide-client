@@ -87,7 +87,6 @@ export class Web3WalletService {
     return this.connectedToWallet.value;
   }
 
-
   public async signTermsOfService(): Promise<boolean> {
     if (!this.isMetaMaskInstalled()) {
       return false;
@@ -203,6 +202,10 @@ export class Web3WalletService {
     }
   }
 
+  public signOutSiwe(accountAddress: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/siwe/signout?ethereumAddress=${accountAddress}`, { withCredentials: true });
+  }
+
   public async encryptPayload(payload: any): Promise<any | null> {
     if (!this.web3) {
       console.error('MetaMask is not available');
@@ -307,12 +310,12 @@ export class Web3WalletService {
     if (this.serverPubKey) {
       return this.serverPubKey;
     }
-  
+
     const response = await this.http.get<any>(`${this.apiUrl}/siwe/publicKey`).toPromise();
     this.serverPubKey = response.message;
     return this.serverPubKey;
   }
-  
+
 
   public async getEthAddresses(): Promise<string[] | null> {
     if (!this.web3) {
@@ -362,6 +365,29 @@ export class Web3WalletService {
       return null;
     }
   }
+
+  public async logout(): Promise<void> {
+    // Disconnect from MetaMask
+    if (window.ethereum) {
+      window.ethereum.request({ method: 'eth_requestAccounts', params: [{ eth_accounts: {} }] })
+        .then(async () => {
+          const ethAddress = await this.getEthAddresses();
+
+          if (ethAddress != null && ethAddress.length > 0) {
+            await firstValueFrom(this.signOutSiwe(ethAddress[0]));
+            this.connectedToWallet.next(false);
+            this.toastNotificationService.info('Wallet Connection', 'Disconnected WIDE application and MetaMask');
+          }
+        })
+        .catch((error: Error) => {
+          this.toastNotificationService.error('Wallet Connection', 'Error disconnecting MetaMask wallet');
+          console.error('Error disconnecting MetaMask wallet:', error);
+        });
+    } else {
+      this.toastNotificationService.error('Wallet Connection', 'MetaMask is not available');
+    }
+  }
+
 
   public abridgeEthereumAddress(address: string, leadingChars: number = 4, trailingChars: number = 2) {
     if (isAddress(address)) {
