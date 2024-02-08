@@ -22,18 +22,25 @@ export class GettingStartedComponent {
 
   async connect() {
     if (this.web3WalletService.isMetaMaskInstalled()) {
-      await this.web3WalletService.getEthAddresses().then((accounts) => {
-        if (accounts != null && accounts.length > 0) {
-          this.accounts = accounts;
-          this.web3WalletService.getSiweSignUpMessage(accounts[0]).subscribe({
-            next: (siweMessage) => {
-              this.messageToSign = siweMessage.message.statement;
-              this.showSignMessageModal = true;
-            },
-            error: (err) => console.error(err)
-          });
+      await this.web3WalletService.connect().then(async (connected) => {
+        if (connected) {
+          await this.web3WalletService.getEthAddresses().then((accounts) => {
+            if (accounts != null && accounts.length > 0) {
+              this.accounts = accounts;
+              this.web3WalletService.getSiweSignUpMessage(accounts[0]).subscribe({
+                next: (siweMessage) => {
+                  this.messageToSign = siweMessage.message.statement;
+                  this.showSignMessageModal = true;
+                },
+                error: (err) => console.error(err)
+              });
+            }
+          }).catch((err) => console.error(err));
+        } else {
+          console.error('Failed to connect to Metamask');
+          this.toastNotificationService.error('Failed to connect to Metamask', 'Failed to connect to Metamask', 5000);
         }
-      }).catch((err) => console.error(err))
+      });
     } else {
       this.toastNotificationService.showToast('Cannot find Metamask', 'Metamask wallet is required to use WIDE', 'warning', 5000);
     }

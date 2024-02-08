@@ -4,7 +4,7 @@
         <div class="buttons">
             <button (click)="uploadData()" *ngIf="activeStep == 5"><i *ngIf="uploading"
                     class="mdi mdi-loading rotate-mdi"></i> <span *ngIf="!uploading">Upload to WIDE</span></button>
-            <button class="btn-alt" *ngIf="activeStep == 5" (click)="toggleDataDetailModal()">View Data</button>
+            <button class="btn-alt" *ngIf="activeStep == 5" (click)="toggleDataDetailModal()">View Encrypted Data</button>
             <button [routerLink]="['/']" *ngIf="activeStep == 6">Return to Home</button>
         </div>
     </app-oauth-procedure-ui>
