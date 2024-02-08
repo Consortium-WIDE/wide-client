@@ -34,4 +34,5 @@ export class HistoryService {
   logPresentation(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/history/logPresentation`, data, { withCredentials: true });
   }
+  
 }
