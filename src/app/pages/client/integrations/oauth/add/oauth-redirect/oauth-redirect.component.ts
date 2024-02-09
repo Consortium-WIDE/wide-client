@@ -46,6 +46,7 @@ export class OauthRedirectComponent {
   }
 
   async encryptData() {
+    debugger;
     const accountAddress = await this.web3WalletService.getAccount();
 
     if (!accountAddress) {
@@ -54,20 +55,27 @@ export class OauthRedirectComponent {
     }
 
     const issuerPayload = this.oauthService.getWideTransformedData({ accountAddress: accountAddress });
+
     const encryptedData = await this.web3WalletService.encryptPayload(this.oauthService.getData());
 
-    this.toastNotificationService.info('Success', 'Successfully encrypted your data');
+    if (!encryptedData) {
+      console.log('Unable to decrypt');
+      this.toastNotificationService.error('Error', 'Unable to encrypt your data');
+    } else {
 
-    const navigationExtras = {
-      state: {
-        accountAddress: accountAddress,
-        issuer: issuerPayload,
-        rawDataHash: this.web3WalletService.hashDataKeccak256(this.profile),
-        encryptedData: encryptedData
-      }
-    };
+      this.toastNotificationService.info('Success', 'Successfully encrypted your data');
 
-    this.router.navigate(['credentials/oauth/store'], navigationExtras);
+      const navigationExtras = {
+        state: {
+          accountAddress: accountAddress,
+          issuer: issuerPayload,
+          rawDataHash: this.web3WalletService.hashDataKeccak256(this.profile),
+          encryptedData: encryptedData
+        }
+      };
+
+      this.router.navigate(['credentials/oauth/store'], navigationExtras);
+    }
   }
 
   getWeb3WalletService(): Web3WalletService {
