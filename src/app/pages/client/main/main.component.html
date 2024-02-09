@@ -37,7 +37,7 @@
                             <span *ngIf="issuer.isDecrypting"><i class="mdi mdi-loading rotate-mdi"></i> Waiting for
                                 Metamask</span>
                         </button> -->
-                        <a href="#" class="btn btn-lg">Remove <i class="btn-icon"><i class="mdi mdi-delete"></i></i></a>
+                        <a href="#" class="btn btn-lg" title="Remove Credential"><i class="btn-icon"><i class="mdi mdi-delete"></i></i></a>
                     </div>
                 </div>
                 <div class="credential-expanded" *ngIf="issuer.expanded && credentialDetailLookup[issuer.wideInternalId]?.credentials">
@@ -58,7 +58,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="!issuedCredentials || issuedCredentials.length <= 0" class="panel-message info">
+            <div *ngIf="!getWeb3WalletService().isCheckingMetaMask() && (!issuedCredentials || issuedCredentials.length <= 0)" class="panel-message info">
                 <p class="info"> <i class="mdi mdi-alert-circle-outline"></i>It looks like you do not have any encrypted
                     credentials stored with us yet. Click Add Credentials to get started!</p>
             </div>

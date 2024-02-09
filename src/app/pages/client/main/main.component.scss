@@ -55,6 +55,14 @@
                 .issuer-label {
                     cursor: pointer;
                 }
+
+                .btn-icon {
+                    i.mdi {
+                        font-size: 22px;
+                        top: 3px;
+                        position: relative;
+                    }
+                }
             }
 
             .credential-expanded {
