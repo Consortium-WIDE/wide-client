@@ -167,7 +167,7 @@ export class Web3WalletService {
     return metaMaskInstalled;
 
   }
-
+  
   public getSiweSignInMessage(accountAddress: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/siwe/generate_signin?ethereumAddress=${accountAddress}`, { withCredentials: true });
   }
