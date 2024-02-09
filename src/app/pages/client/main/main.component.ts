@@ -41,7 +41,7 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.navMenuService.setPageDetails('Home', ['Your credentials']);
+    this.navMenuService.setPageDetails('Home', []);
 
     this.web3WalletService.metaMaskCheckStatus$.subscribe(status => {
       // React to the check status

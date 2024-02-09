@@ -15,6 +15,6 @@ export class OauthProcedureUiComponent {
   getClassForStep(step: number): string {
     if (step < this.activeStep) { return 'completed' }
     if (step == this.activeStep) { return 'active' }
-    return '';
+    return 'pending';
   }
 }

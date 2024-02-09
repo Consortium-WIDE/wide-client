@@ -46,7 +46,6 @@ export class OauthRedirectComponent {
   }
 
   async encryptData() {
-    debugger;
     const accountAddress = await this.web3WalletService.getAccount();
 
     if (!accountAddress) {

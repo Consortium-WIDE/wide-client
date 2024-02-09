@@ -4,6 +4,7 @@ import { HistoryService } from '../../../services/history.service';
 import { firstValueFrom } from 'rxjs';
 import { Web3WalletService } from '../../../services/web3-wallet.service';
 import { ToastNotificationService } from '../../../services/toast-notification.service';
+import { NavMenuService } from '../../../services/nav-menu.service';
 
 @Component({
   selector: 'app-history',
@@ -16,11 +17,12 @@ export class HistoryComponent implements OnInit {
   historyRecords: any[] = [];
   hasKey: boolean = false;
 
-  constructor(private historyService: HistoryService, private web3WalletService: Web3WalletService, private toastNotificationService: ToastNotificationService) {
+  constructor(private historyService: HistoryService, private web3WalletService: Web3WalletService, private toastNotificationService: ToastNotificationService, private navMenuService: NavMenuService) {
     this.subscribeToWalletConnection();
   }
 
   async ngOnInit(): Promise<void> {
+    this.navMenuService.setPageDetails('History', []);
     await this.subscribeToWalletConnection();
   }
 

@@ -104,6 +104,6 @@ export class BeginPresentationComponent implements OnInit {
   }
 
   returnToRequestor() {
-    window.location.href = "https://google.com"
+    window.location.href = this.presentationConfig.sourceUri;
   }
 }
