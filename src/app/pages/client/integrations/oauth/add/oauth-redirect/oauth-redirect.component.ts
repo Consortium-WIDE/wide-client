@@ -25,7 +25,7 @@ export class OauthRedirectComponent {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.params.subscribe(params => {
       const oauthServiceType = params['source'];
       this.oauthService.setProviderType(oauthServiceType);
       this.oauthName = this.oauthService.GetName();

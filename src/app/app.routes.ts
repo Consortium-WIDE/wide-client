@@ -28,7 +28,7 @@ export const routes: Routes = [
             { path: 'credentials/add', component: AddCredentialsComponent },
 
             { path: 'credentials/oauth/signin', component: OauthSigninComponent },
-            { path: 'credentials/oauth/redirect', component: OauthRedirectComponent },
+            { path: 'credentials/oauth/redirect/:source', component: OauthRedirectComponent },
             { path: 'credentials/oauth/store', component: OauthStoreComponent },
 
             { path: 'history', component: HistoryComponent },
