@@ -25,19 +25,32 @@ export class GettingStartedComponent {
   async connect() {
     if (this.web3WalletService.isMetaMaskInstalled()) {
       await this.web3WalletService.connect().then(async (connected) => {
-        //Connect will always be false at this stage, since the user has not yet signed the TOS.
-        await this.web3WalletService.getEthAddresses().then((accounts) => {
-          if (accounts != null && accounts.length > 0) {
-            this.accounts = accounts;
-            this.web3WalletService.getSiweSignUpMessage(accounts[0]).subscribe({
-              next: (siweMessage) => {
-                this.messageToSign = siweMessage.message.statement;
-                this.showSignMessageModal = true;
-              },
-              error: (err) => console.error(err)
-            });
-          }
-        }).catch((err) => console.error(err));
+        if (connected) {
+          this.historyService.hasHistoryKey().subscribe({
+            next: async (response) => {
+              if (response.hasKey) {
+                this.router.navigateByUrl('/');
+              } else {
+                await this.setupHistoryKey();
+              }
+            }
+          });
+        } else {
+          //Connect will be false if the user has not yet signed the TOS.
+          await this.web3WalletService.getEthAddresses().then((accounts) => {
+            if (accounts != null && accounts.length > 0) {
+              this.accounts = accounts;
+              //TODO: Check if user has signed TOS
+              this.web3WalletService.getSiweSignUpMessage(accounts[0]).subscribe({
+                next: (siweMessage) => {
+                  this.messageToSign = siweMessage.message.statement;
+                  this.showSignMessageModal = true;
+                },
+                error: (err) => console.error(err)
+              });
+            }
+          }).catch((err) => console.error(err));
+        }
       });
     } else {
       this.toastNotificationService.showToast('Cannot find Metamask', 'Metamask wallet is required to use WIDE', 'warning', 5000);
