@@ -1,9 +1,8 @@
 <div class="sign-in">
     <div class="sign-in-steps">
-        <h3>Sign in with {{provider}}</h3>
         <ul>
             <li [ngClass]="getClassForStep(1)">
-                <span>Start the {{provider}} sign in process</span>
+                <span>Start with the {{provider}} sign in process</span>
             </li>
             <li [ngClass]="getClassForStep(1)">
                 <i class="spacer spacer-1"></i>
@@ -12,7 +11,7 @@
                 <i class="spacer spacer-4"></i>
             </li>
             <li [ngClass]="getClassForStep(2)">
-                <span>Sign in on {{provider}}</span>
+                <span>You will be redirected to sign in with {{provider}}</span>
             </li>
             <li [ngClass]="getClassForStep(2)">
                 <i class="spacer spacer-1"></i>
@@ -21,7 +20,7 @@
                 <i class="spacer spacer-4"></i>
             </li>
             <li [ngClass]="getClassForStep(3)">
-                <span>Return to WIDE</span>
+                <span>You will come back to the WIDE portal</span>
             </li>
             <li [ngClass]="getClassForStep(3)">
                 <i class="spacer spacer-1"></i>
@@ -30,7 +29,7 @@
                 <i class="spacer spacer-4"></i>
             </li>
             <li [ngClass]="getClassForStep(4)">
-                <span>Encrypt your credentials</span>
+                <span>You will encrypt the data</span>
             </li>
             <li [ngClass]="getClassForStep(4)">
                 <i class="spacer spacer-1"></i>
@@ -39,9 +38,9 @@
                 <i class="spacer spacer-4"></i>
             </li>
             <li [ngClass]="getClassForStep(5)">
-                <span>Upload data to WIDE</span>
+                <span>You will confirm upload</span>
             </li>
         </ul>
-        <ng-content></ng-content>
     </div>
+    <ng-content></ng-content>
 </div>
