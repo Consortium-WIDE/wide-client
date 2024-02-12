@@ -39,6 +39,7 @@ export class PresentationConfirmationComponent implements OnInit {
     let signedMessage = null;
 
     if (this.presentationConfig.requireMessageSignature ?? false) {
+      //TODO: This should ideally be fetch from the server to have 1 source.
       const messageSignature = this.generatePresentationSignature(this.processedCredential, this.presentationConfig.rpName);
       signedMessage = await this.web3WalletService.signMessage(messageSignature);
       this.processedCredential.signedMessage = signedMessage;
@@ -86,8 +87,14 @@ export class PresentationConfirmationComponent implements OnInit {
 
     let msg = `I, holder of account '${processedCredential.credentialSubject.id}' declare that the information below being presented to '${rpName}' is true and correct:\r\n`;
 
+    msg = `By signing this message, I, holder of Ethereum address ${processedCredential.credentialSubject.id}, hereby confirm, represent, and warrant that the data I am sharing through this credential presentation is true, accurate, correct, unaltered, and complete. I understand and agree that the third party I am sharing data with ('${rpName}') may, and is entitled without further inquiry to, rely and act upon the credential presentation or any data shared herein in deciding whether to provide, or continue to provide, services to me.
+
+    I agree to notify the third party I am sharing data with, in writing before or as soon as reasonably practicable following any information in the credential presentation or any of the data herein ceasing to be true, accurate, correct, and complete.
+    
+    I confirm that I have the full power and authority to enter into the terms and statements made herein.`
+
     processedCredential.credentialSubject.issuerDomains.forEach((issuerDomain: any) => {
-      msg += `\r\nSource: ${issuerDomain.label}\r\n`;
+      msg += `\r\n\r\nSource: ${issuerDomain.label}\r\n`;
       issuerDomain.data.credentials.forEach((credential: any) => {
         msg += `- ${credential.name}: ${credential.value}\r\n`;
       });
