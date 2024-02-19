@@ -58,7 +58,7 @@ export class OauthRedirectComponent {
     const encryptedData = await this.web3WalletService.encryptPayload(this.oauthService.getData());
 
     if (!encryptedData) {
-      console.log('Unable to decrypt');
+      console.log('Unable to encrypt');
       this.toastNotificationService.error('Error', 'Unable to encrypt your data');
     } else {
 

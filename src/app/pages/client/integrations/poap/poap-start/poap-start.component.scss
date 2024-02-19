@@ -1,0 +1,18 @@
+@import '_imports';
+
+.panel {
+    background: $white;
+    border-radius: 15px;
+    text-align: center;
+    padding: 25px 25px 25px 25px;
+}
+
+.network-select {
+    .network-listing {
+        margin-top: 50px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+}

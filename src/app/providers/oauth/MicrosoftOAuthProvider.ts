@@ -89,7 +89,7 @@ export class MicrosoftOAuthProvider extends BaseOAuthProvider {
 
         const issuerPayload: any = {
             "label": 'Microsoft Profile',
-            "id": "http://www.microsoft.com/",
+            "id": `${environment.wideDomain}/schemas/oauth/microsoft`,
             "type": ["Microsoft", "OAuth"],
             "issuer": "http://www.microsoft.com/",
             "issuanceDate": new Date().toISOString(),
