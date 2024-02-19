@@ -66,6 +66,11 @@
 
         p.message {
             text-align: justify;
+            height: 50vh;
+            overflow-y: scroll;
+            padding: 25px;
+            border-radius: 10px;
+            background-color: $light-beige;
         }
     }
 }
