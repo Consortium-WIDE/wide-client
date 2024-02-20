@@ -21,7 +21,10 @@
     </div>
     <div class="buttons vertical">
         <div class="buttons">
-            <button (click)="present()">Present Credentials</button>
+            <button (click)="present()" [disabled]="isPresenting">
+                <span *ngIf="isPresenting"><i class="spinner mdi mdi-loading rotate-mdi"></i> Presenting Credentials</span>
+                <span *ngIf="!isPresenting">Present Credentials</span>
+            </button>
             <button class="btn-alt" (click)="showModal = true">View Raw Data</button>
         </div>
         <a class="btn btn-lg" (click)="reject()">Reject</a>
