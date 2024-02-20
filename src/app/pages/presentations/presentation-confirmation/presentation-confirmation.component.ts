@@ -21,6 +21,7 @@ export class PresentationConfirmationComponent implements OnInit {
   presentationConfig: any = null;
   domainOrigin: string = '';
   showModal: boolean = false;
+  isPresenting: boolean = false;
 
   constructor(private httpClient: HttpClient, private web3WalletService: Web3WalletService, private toastNotificationService: ToastNotificationService, private historyService: HistoryService) { }
 
@@ -34,6 +35,8 @@ export class PresentationConfirmationComponent implements OnInit {
   }
 
   async present() {
+    this.isPresenting = true;
+
     //1. Generate a token
     const token = this.generateSecureToken(32);
     let signedMessage = null;
@@ -59,10 +62,13 @@ export class PresentationConfirmationComponent implements OnInit {
           iconUri: this.presentationConfig.iconUri ?? '',
         }).subscribe({
           next: (response) => {
+            this.isPresenting = false;
+
             //4. Redirect to redirectUri and include token
             window.location.href = `${this.presentationConfig.redirectUri}?token=${token}`
           },
           error: (error) => {
+            this.isPresenting = false;
             // Handle the error here
             console.error('Error registering presentation', error);
             this.toastNotificationService.error(error.statusText, `Failed to register presentation (${error.status})`);
@@ -71,6 +77,7 @@ export class PresentationConfirmationComponent implements OnInit {
       },
       error: (error) => {
         // Handle the error here
+        this.isPresenting = false;
         console.error('Error uploading data', error);
         this.toastNotificationService.error(error.statusText, `Failed to present credentials (${error.status})`);
       }
