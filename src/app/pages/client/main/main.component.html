@@ -45,7 +45,17 @@
                         <div class="w-5"></div>
                         <div class="w-25">{{cred.name}}</div>
                         <div class="w-70" *ngIf="cred.status == 2">
-                            {{cred.decryptedValue}}
+                            <ng-container *ngIf="getValueType(cred.decryptedValue) as valueType">
+                                <div *ngIf="valueType === 'object'">
+                                    <app-wide-data-object [data]="cred.decryptedValue"></app-wide-data-object>
+                                </div>
+                                <div *ngIf="valueType === 'array'">
+                                    <app-wide-data-object [data]="cred.decryptedValue"></app-wide-data-object>
+                                </div>
+                                <div *ngIf="valueType === 'other'">
+                                    {{cred.decryptedValue}}    
+                                </div>
+                            </ng-container>
                         </div>
                         <div class="w-70" *ngIf="!cred.status || cred.status < 2">
                             <button class="btn-xs" (click)="decryptProperty(cred)">

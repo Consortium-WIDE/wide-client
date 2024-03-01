@@ -7,6 +7,7 @@ import { ToastNotificationService } from '../../../../../services/toast-notifica
 import { Web3WalletService } from '../../../../../services/web3-wallet.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../../environments/environment';
+import { NavMenuService } from '../../../../../services/nav-menu.service';
 
 @Component({
   selector: 'app-poap-data',
@@ -19,9 +20,11 @@ export class PoapDataComponent implements OnInit {
   @Input({ required: true }) poap: any;
   @Input({ required: true }) provider: string = '';
 
-  constructor(private router: Router, private http: HttpClient, private poapService: PoapService, private toastNotificationService: ToastNotificationService, private web3WalletService: Web3WalletService) { }
+  constructor(private navMenuService: NavMenuService, private router: Router, private http: HttpClient, private poapService: PoapService, private toastNotificationService: ToastNotificationService, private web3WalletService: Web3WalletService) { }
 
   async ngOnInit(): Promise<void> {
+    this.navMenuService.setPageDetails(`Claim POAP`, ['Your credentials', 'Add credentials', `Claim POAP`]);
+
     if (!this.poap.data) {
       this.poapService.getTokenUri(this.poap.id).then(async (tokenUri) => {
         this.poap.data = await firstValueFrom(this.http.get(tokenUri));
@@ -70,8 +73,6 @@ export class PoapDataComponent implements OnInit {
       }
     }
 
-    console.log('issuerPayload', issuerPayload);
-
     const encryptedData = await this.web3WalletService.encryptPayload(poap);
 
     if (!encryptedData) {
@@ -90,10 +91,9 @@ export class PoapDataComponent implements OnInit {
         }
       };
 
-      console.log('encryptedData', encryptedData);
+      console.log('navigationExtras', navigationExtras);
 
-      alert('TODO: Navigate');
-      //this.router.navigate(['credentials/oauth/store'], navigationExtras);
+      this.router.navigate(['credentials/poap/store'], navigationExtras);
     }
   }
 

@@ -14,11 +14,12 @@ import { WideModalComponent } from '../../../components/wide-modal/wide-modal.co
 import { ButtonConfig, MultiButtonComponent } from '../../../components/multi-button/multi-button.component';
 import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
 import { environment } from '../../../../environments/environment';
+import { WideDataObjectComponent } from '../../../components/wide-data/wide-data-object/wide-data-object.component';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [CommonModule, NavMenuComponent, NavHeaderComponent, EncryptedCredentialComponent, WideModalComponent, MultiButtonComponent],
+  imports: [CommonModule, NavMenuComponent, NavHeaderComponent, EncryptedCredentialComponent, WideModalComponent, MultiButtonComponent, WideDataObjectComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
@@ -293,4 +294,13 @@ export class MainComponent implements OnInit {
     return buttonConfig;
   }
 
+  getValueType(decryptedValue: any): string {
+    if (Array.isArray(decryptedValue)) {
+      return 'array';
+    } else if (typeof decryptedValue === 'object' && decryptedValue !== null) {
+      return 'object';
+    } else {
+      return 'other';
+    }
+  }
 }

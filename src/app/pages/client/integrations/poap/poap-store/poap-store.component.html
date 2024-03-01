@@ -1,0 +1,20 @@
+<div class="poap-store">
+    <div class="buttons">
+        <button (click)="uploadData()"><i *ngIf="uploading"
+                class="mdi mdi-loading rotate-mdi"></i> <span *ngIf="!uploading">Upload to WIDE</span></button>
+        <button class="btn-alt" (click)="showDataDetailModal = true">View Encrypted Data</button>
+    </div>
+</div>
+<app-wide-modal [showModal]="showDataDetailModal">
+    <div content class="poap-credentials">
+        <h3>Encrypted Data</h3>
+        <p>This is the raw data that will be sent to WIDE</p>
+        <div class="scrollable">
+            <pre><p>{{this.data | json}}</p></pre>
+        </div>
+    </div>
+    <div buttons>
+        <button (click)="showDataDetailModal = false">Close</button>
+    </div>
+</app-wide-modal>
+<!-- <pre>{{data | json}}</pre> -->
