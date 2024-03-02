@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
   wideServerApiUrl: 'http://localhost:3000',
+  wideDomain: 'http://localhost:4200',
   googleOAuth: {
     clientId: '708493994076-rlpvffondu5hee5vgmkfpn0b50fkl4ti.apps.googleusercontent.com',
     redirectUri: 'http://localhost:4200/credentials/oauth/redirect/google'

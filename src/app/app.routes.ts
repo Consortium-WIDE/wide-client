@@ -17,6 +17,8 @@ import { OauthSigninComponent } from './pages/client/integrations/oauth/add/oaut
 import { OauthRedirectComponent } from './pages/client/integrations/oauth/add/oauth-redirect/oauth-redirect.component';
 import { OauthStoreComponent } from './pages/client/integrations/oauth/add/oauth-store/oauth-store.component';
 import { HistoryComponent } from './pages/client/history/history.component';
+import { PoapStartComponent } from './pages/client/integrations/poap/poap-start/poap-start.component';
+import { PoapStoreComponent } from './pages/client/integrations/poap/poap-store/poap-store.component';
 
 export const routes: Routes = [
     {
@@ -30,6 +32,9 @@ export const routes: Routes = [
             { path: 'credentials/oauth/signin', component: OauthSigninComponent },
             { path: 'credentials/oauth/redirect/:source', component: OauthRedirectComponent },
             { path: 'credentials/oauth/store', component: OauthStoreComponent },
+
+            { path: 'credentials/poap', component: PoapStartComponent },
+            { path: 'credentials/poap/store', component: PoapStoreComponent },
 
             { path: 'history', component: HistoryComponent },
 

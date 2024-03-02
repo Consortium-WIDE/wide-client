@@ -7,6 +7,7 @@ import { MicrosoftOAuthProvider } from '../providers/oauth/MicrosoftOAuthProvide
 import { MSAL_INSTANCE } from '@azure/msal-angular';
 import { IPublicClientApplication } from '@azure/msal-browser';
 import { MsalWrapperService } from './msal-wrapper.service';
+import { PoapSubgraphProvider } from '../providers/poap/PoapSubgraphProvider';
 
 @Injectable({
   providedIn: 'root'

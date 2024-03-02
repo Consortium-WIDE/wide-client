@@ -1,0 +1,70 @@
+@import '_imports';
+
+.poap-fetch {
+    .header,
+    .poap-header,
+    .poap-property {
+        color: $grey-dark;
+        display: flex;
+        align-items: center;
+        
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+
+        .label {
+            text-align: left;
+        }
+    }
+
+    .poap {
+        border-radius: 10px;
+        &.expanded {
+            box-shadow: 0px 3px 8px 0px #3E1B071A;
+            margin-bottom: 15px;
+        }
+
+        .poap-header {
+            color: $black;
+            height: 60px;
+            cursor: pointer;
+
+            .poap-arrow {
+
+                img {
+                    transform: rotate(180deg);
+                }
+
+                &.expanded {
+                    img {
+                        transform: rotate(0deg);
+                    }
+                }
+            }
+
+            .btn-icon {
+                i.mdi {
+                    font-size: 22px;
+                    top: 3px;
+                    position: relative;
+                }
+            }
+
+            .link-icon {
+                margin-right: 10px;
+            }
+        }
+
+        .poap-expanded {
+            color: $black;
+            background: #FAF7F680;
+            padding-top: 25px;
+            padding-bottom: 25px;
+
+            .poap-property {
+                color: $black;
+            }
+        }
+    }
+}

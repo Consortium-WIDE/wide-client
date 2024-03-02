@@ -153,6 +153,16 @@ a.btn.btn-xs {
     padding-bottom: 5px;
 }
 
+.btn-xss,
+a.btn.btn-xss {
+    font-size: 14px;
+    min-width: auto;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 .btn-alt {
     background: transparent;
     color: $coral;
@@ -236,7 +246,6 @@ $btn-white-border-width: 2px;
         background-clip: text;
     }
 }
-
 
 /* FORMS */
 input[type=radio], input[type=checkbox].checkbox-tick {

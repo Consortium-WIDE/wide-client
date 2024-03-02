@@ -1,0 +1,9 @@
+@import '_imports';
+
+.item {
+    padding: 10px;
+
+    &:first-of-type {
+        padding-left: 0;
+    }
+}

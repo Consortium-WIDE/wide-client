@@ -1,0 +1,16 @@
+<div class="item-container">
+    <div *ngFor="let key of objectKeys(data)">
+        <ng-container *ngIf="isObjectType(data[key])">
+            <div class="item">
+                <button class="btn-xss" (click)="toggleExpand(key)">{{expanded[key] ? '-' : '+'}}</button>
+                {{ key }}:
+            </div>
+            <div *ngIf="expanded[key]" style="margin-left: 20px;">
+                <app-wide-data-object [data]="data[key]"></app-wide-data-object>
+            </div>
+        </ng-container>
+        <div class="item" *ngIf="!isObjectType(data[key])">
+            {{ key }}: {{ data[key] }}
+        </div>
+    </div>
+</div>
