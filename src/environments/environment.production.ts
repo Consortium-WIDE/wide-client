@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
   wideServerApiUrl: 'https://api.wid3.app',
+  wideDomain: 'https://wid3.app',
   googleOAuth: {
     clientId: '708493994076-rlpvffondu5hee5vgmkfpn0b50fkl4ti.apps.googleusercontent.com',
     redirectUri: 'https://wid3.app/credentials/oauth/redirect/google'

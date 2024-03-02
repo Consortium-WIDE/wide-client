@@ -224,8 +224,9 @@ export class Web3WalletService {
         return null;
       }
 
+      //TODO: See if this is something we need to separate (using SeparateJsonByProp for complex types like POAPs)
       const separatedCredentials = this.dataProcessingSerivce.separateJson(payload);
-
+      
       const encryptedPayload = this.encryptionService.encryptData(pubKey, JSON.stringify(payload));
       const encryptedCredentials = separatedCredentials.map((cred) => { return { 'name': Object.keys(cred)[0], 'val': this.encryptionService.encryptData(pubKey, JSON.stringify(cred)) } });
 

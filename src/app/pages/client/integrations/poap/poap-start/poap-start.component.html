@@ -1,0 +1,25 @@
+<div class="content">
+    <h2>Claim your POAPs</h2>
+    <div class="network-select panel" *ngIf="!network">
+        <p>Select the network to claim your POAP from:</p>
+        <div class="network-listing">
+            <div class="network-item">
+                <button (click)="selectProvider('mainnet')" class="btn-alt">Ethereum</button>
+            </div>
+            <div class="network-item">
+                <button (click)="selectProvider('xDAI')" class="btn-alt">xDAI</button>
+            </div>
+        </div>
+    </div>
+    <div class="poap-listing panel" *ngIf="network">
+        <ng-container *ngIf="!this.poaps">
+            <p>Looking for POAPs issued to your account on {{network}}!</p>
+        </ng-container>
+        <ng-container *ngIf="this.poaps">
+            <p>We found these POAPs for your account on {{network}}!</p>
+            <div class="poap-item" *ngFor="let poap of this.poaps">
+                <app-poap-data [poap]="poap" [provider]="network"></app-poap-data>
+            </div>
+        </ng-container>
+    </div>
+</div>

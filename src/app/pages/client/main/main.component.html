@@ -45,7 +45,17 @@
                         <div class="w-5"></div>
                         <div class="w-25">{{cred.name}}</div>
                         <div class="w-70" *ngIf="cred.status == 2">
-                            {{cred.decryptedValue}}
+                            <ng-container *ngIf="getValueType(cred.decryptedValue) as valueType">
+                                <div *ngIf="valueType === 'object'">
+                                    <app-wide-data-object [data]="cred.decryptedValue"></app-wide-data-object>
+                                </div>
+                                <div *ngIf="valueType === 'array'">
+                                    <app-wide-data-object [data]="cred.decryptedValue"></app-wide-data-object>
+                                </div>
+                                <div *ngIf="valueType === 'other'">
+                                    {{cred.decryptedValue}}    
+                                </div>
+                            </ng-container>
                         </div>
                         <div class="w-70" *ngIf="!cred.status || cred.status < 2">
                             <button class="btn-xs" (click)="decryptProperty(cred)">
@@ -59,8 +69,7 @@
                 </div>
             </div>
             <div *ngIf="!getWeb3WalletService().isCheckingMetaMask() && (!issuedCredentials || issuedCredentials.length <= 0)" class="panel-message info">
-                <p class="info"> <i class="mdi mdi-alert-circle-outline"></i>It looks like you do not have any encrypted
-                    credentials stored with us yet. Click Add Credentials to get started!</p>
+                <p class="info"> <i class="mdi mdi-check-circle-outline"></i>Your wallet is connected, but there are no credentials stored with us yet. Click Add Credentials to get started!</p>
             </div>
         </div>
         <div *ngIf="getWeb3WalletService().isCheckingMetaMask()" class="panel-message info">

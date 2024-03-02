@@ -12,7 +12,7 @@
     justify-content: center;
 }
 
-.google-credentials {
+.poap-credentials {
     max-height: 600px;
 
     .scrollable {
@@ -24,14 +24,6 @@
         border-radius: 10px;;
 
         p {
-            text-align: left;
-        }
-    }
-
-    table {
-        width: 100%;
-
-        th, td {
             text-align: left;
         }
     }
