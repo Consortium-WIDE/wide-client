@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { ToastNotificationService } from '../../../services/toast-notification.service';
 import { HistoryService } from '../../../services/history.service';
 import { firstValueFrom } from 'rxjs';
+import { ProgressBarComponent } from '../../../components/progress-bar/progress-bar.component';
 
 @Component({
   selector: 'app-getting-started',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProgressBarComponent],
   templateUrl: './getting-started.component.html',
   styleUrl: './getting-started.component.scss'
 })
@@ -17,6 +18,7 @@ export class GettingStartedComponent {
   accounts: string[] | null = null;
   showSignMessageModal: boolean = false;
   messageToSign: string = '';
+  statusPct: number = 0;
 
   constructor(private web3WalletService: Web3WalletService, private toastNotificationService: ToastNotificationService, private router: Router, private historyService: HistoryService) {
 
@@ -60,7 +62,11 @@ export class GettingStartedComponent {
   async signTerms() {
     await this.web3WalletService.signTermsOfService().then(async (response) => {
       if (response) {
+        this.statusPct = 50;
         await this.setupHistoryKey();
+        this.statusPct = 100;
+      } else {
+        this.statusPct = 0;
       }
     }).catch((err) => console.error(err))
       .finally(() => {

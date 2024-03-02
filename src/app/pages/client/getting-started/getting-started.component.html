@@ -20,6 +20,9 @@
         <div class="sign-message-prompt">
             <h3>Verify your Web3 Identity</h3>
             <p class="message" [innerHTML]="messageToSign"></p>
+            <div class="progress">
+                <app-progress-bar [percentage]="statusPct"></app-progress-bar>
+            </div>
             <button (click)="signTerms()">Sign</button>
         </div>
     </div>

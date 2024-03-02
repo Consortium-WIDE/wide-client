@@ -69,8 +69,7 @@
                 </div>
             </div>
             <div *ngIf="!getWeb3WalletService().isCheckingMetaMask() && (!issuedCredentials || issuedCredentials.length <= 0)" class="panel-message info">
-                <p class="info"> <i class="mdi mdi-alert-circle-outline"></i>It looks like you do not have any encrypted
-                    credentials stored with us yet. Click Add Credentials to get started!</p>
+                <p class="info"> <i class="mdi mdi-check-circle-outline"></i>Your wallet is connected, but there are no credentials stored with us yet. Click Add Credentials to get started!</p>
             </div>
         </div>
         <div *ngIf="getWeb3WalletService().isCheckingMetaMask()" class="panel-message info">

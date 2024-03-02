@@ -20,6 +20,7 @@ export class OauthRedirectComponent {
   showProfileDetailModal: boolean = false;
   profile: any = null;
   oauthName!: string;
+  showProfileDetailModalRawData = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private oauthService: OauthService, private httpClient: HttpClient, private navMenuService: NavMenuService, private web3WalletService: Web3WalletService, private toastNotificationService: ToastNotificationService) {
   }
@@ -33,6 +34,7 @@ export class OauthRedirectComponent {
       this.navMenuService.setPageDetails(`Signed in with ${this.oauthName}`, ['Your credentials', 'Add credentials', `${this.oauthName} sign-in`]);
       this.oauthService.handleRedirect().then((response) => {
         this.profile = response;
+        this.showProfileDetailModal = true;
       }).catch((err) => console.error(err));
     });
   }
