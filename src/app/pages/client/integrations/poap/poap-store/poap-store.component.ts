@@ -5,11 +5,15 @@ import { ToastNotificationService } from '../../../../../services/toast-notifica
 import { CommonModule } from '@angular/common';
 import { WideModalComponent } from '../../../../../components/wide-modal/wide-modal.component';
 import { WideStorageService } from '../../../../../services/wide-storage.service';
+import { PoapDataComponent } from '../poap-data/poap-data.component';
+import { PoapDetailComponent } from '../component/poap-detail/poap-detail.component';
+import { WideInputComponent } from '../../../../../components/wide-input/wide-input.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-poap-store',
   standalone: true,
-  imports: [CommonModule, WideModalComponent],
+  imports: [CommonModule, WideModalComponent, FormsModule, PoapDetailComponent, WideInputComponent],
   templateUrl: './poap-store.component.html',
   styleUrl: './poap-store.component.scss'
 })
@@ -17,6 +21,9 @@ export class PoapStoreComponent implements OnInit {
   uploading: boolean = false;
   showDataDetailModal: boolean = false;
   data: any | null = null;
+  poap: any = null;
+  provider: string = '';
+  customLabel: string = '';
 
   constructor(private navMenuService: NavMenuService, private router: Router, private toastNotificationService: ToastNotificationService, private wideStorageService: WideStorageService) {}
 
@@ -45,6 +52,9 @@ export class PoapStoreComponent implements OnInit {
       dataHash: state.rawDataHash,
       encryptedData: state.encryptedData
     }
+
+    this.poap = state.poap;
+    this.provider = state.provider;
   }
 
   uploadData() {

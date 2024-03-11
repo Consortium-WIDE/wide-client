@@ -22,6 +22,10 @@ export class WideStorageService {
     return this.http.post(`${this.apiUrl}/user/${accountAddress}/publicKey`, { publicKey }, { withCredentials: true });
   }
 
+  getCredentialByInternalId(accountAddress: string, wideInternalId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/issued-credential/${wideInternalId}`, { withCredentials: true });
+  }
+
   getUserIssuedCredentials(accountAddress: string): Observable<HttpResponse<any>> {
     return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/issued-credentials`, { observe: 'response', withCredentials: true });
   }
@@ -35,8 +39,21 @@ export class WideStorageService {
     }, { withCredentials: true });
   }
 
+  updateUserCredentials(accountAddress: string, issuer: any, rawPayloadHash: string, credential: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/storage/user/${accountAddress}/credential`, {
+      'issuer': issuer, //The dataset representing the Issuer and info on the issuance of the credentials
+      'payload': credential.payload, //The entire set of credentials ('payload') in encrypted format
+      'rawPayloadHash': rawPayloadHash,//The hash of the entire raw payload
+      'credentials': credential.credentials //The credentials encrypted separately
+    }, { withCredentials: true });
+  }
+
   getEncryptedCredentials(accountAddress: string, credentialKey: string): Observable<HttpResponse<any>> {
     return this.http.get<any>(`${this.apiUrl}/storage/user/${accountAddress}/credentials/${credentialKey}`, { observe: 'response', withCredentials: true });
+  }
+
+  deleteCredential(accountAddress: string, credentialKey: string): Observable<HttpResponse<any>> {
+    return this.http.delete<any>(`${this.apiUrl}/storage/user/${accountAddress}/credentials/${credentialKey}`, { observe: 'response', withCredentials: true });
   }
 
 }

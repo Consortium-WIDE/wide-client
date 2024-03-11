@@ -1,0 +1,56 @@
+<div class="content">
+    <div class="logo-wrapper">
+        <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
+    </div>
+    <h2>Import Credentials to WIDE</h2>
+    <div class="logo-wrapper" *ngIf="config.logoUri">
+        <img class="logo logo-rp" [src]="config.logoUri" />
+    </div>
+    <div *ngIf="waitingForData">
+        <p>Waiting for source to send data...</p>
+    </div>
+    <div *ngIf="!waitingForData && !exists">
+        <div content class="data-panel raw" *ngIf="showRawData">
+            <h3>Retrieved Data</h3>
+            <p>This is the raw data you received from <b>{{config.source}}</b> (<i>{{referrer}}</i>).</p>
+            <p>WIDE does not have access to this data.</p>
+            <div class="scrollable">
+                <pre><p>{{payload | json}}</p></pre>
+            </div>
+        </div>
+        <div content class="data-panel formatted" *ngIf="!showRawData">
+            <h3>Retrieved Data</h3>
+            <p>This is the raw data you received from <b>{{config.source}}</b> (<i>{{referrer}}</i>).</p>
+            <p>WIDE does not have access to this data.</p>
+            <div class="scrollable">
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr *ngFor="let prop of payload.data | keyvalue">
+                        <td>{{prop.key}}</td>
+                        <td>{{prop.value}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div buttons class="buttons">
+            <button class="btn-alt" (click)="showRawData = !showRawData">
+                <span *ngIf="showRawData">Show Data</span>
+                <span *ngIf="!showRawData">Show Raw</span>
+            </button>
+            <button (click)="encryptData()">Encrypt</button>
+        </div>
+    </div>
+    <div *ngIf="!waitingForData && exists">
+        <div class="data-panel">
+            <h3>Credential already exists</h3>
+            <p>It looks like you have already a <b>{{payload.issuer.label}}</b> credential imported on WIDE.</p>
+            <p>You do not need to continue this process</p>
+        </div>
+        <div buttons class="buttons">
+            <button (click)="cancel('already_exists')">Close</button>
+        </div>
+    </div>
+</div>

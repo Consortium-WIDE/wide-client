@@ -16,7 +16,7 @@
             <p>Looking for POAPs issued to your account on {{network}}!</p>
         </ng-container>
         <ng-container *ngIf="this.poaps">
-            <p>We found these POAPs for your account on {{network}}!</p>
+            <p class="info">We found {{this.poaps.length}} POAPs issued to your account on {{network}}!</p>
             <div class="poap-item" *ngFor="let poap of this.poaps">
                 <app-poap-data [poap]="poap" [provider]="network"></app-poap-data>
             </div>

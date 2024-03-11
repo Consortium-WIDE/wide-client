@@ -74,7 +74,6 @@ export class PoapService {
     const contract = new ethers.Contract(this.contractAddress, this.contractABI, this.xDAIProvider);
     try {
       const uri = await contract['tokenURI'](tokenId);
-      console.log('Token URI:', uri);
       return uri;
     } catch (error) {
       console.error('Error fetching token URI:', error);

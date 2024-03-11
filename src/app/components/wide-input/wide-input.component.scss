@@ -14,6 +14,10 @@
         transition: all 0.2s ease;
     }
 
+    &.inline {
+        display: inline-block;
+    }
+
     &:focus-within span.label, span.label.hasvalue {
         top: 1px;
         opacity: 1;

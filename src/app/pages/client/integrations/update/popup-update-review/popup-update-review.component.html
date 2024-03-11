@@ -1,0 +1,83 @@
+<div class="content">
+    <div class="logo-wrapper">
+        <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
+    </div>
+    <h2>Update WIDE Credential</h2>
+    <div class="logo-wrapper" *ngIf="config.logoUri">
+        <img class="logo logo-rp" [src]="config.logoUri" />
+    </div>
+    <div *ngIf="waitingForData">
+        <p>Waiting for source to send data...</p>
+    </div>
+    <div *ngIf="!waitingForData && !decryptedData">
+        <ng-container *ngIf="credential">
+            <div content class="data-panel raw">
+                <h3>Decrypt Credential</h3>
+                <p><b>{{config.source}}</b> (<i>{{referrer}}</i>) is attempting to update your <b>{{issuer.label}}</b> credential.</p>
+                <div class="credentials-panel">
+                    <ul class="credentials-header">
+                        <li><b>Existing Claims:</b> {{getExistingCredentialNames()}}</li>
+                        <li><b>Updating Claims:</b> {{getObjectKeys(payload)}}</li>
+                    </ul>
+                </div>
+                <p>WIDE does not have access to this data. Proceed to decrypt the <b>{{issuer.label}}</b> credential</p>
+            </div>
+            <div buttons class="buttons">
+                <button (click)="decryptCredential()">Proceed</button>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!credential">
+            <div content class="data-panel raw">
+                <h3>Decrypt Credential</h3>
+                <p>Unfortunately we were unable to locate the credential requested by <b>{{config.source}}</b> (<i>{{referrer}}</i>).</p>
+                <p>Please refresh the <b>{{config.source}}</b> page and try again.</p>
+            </div>
+            <div buttons class="buttons">
+                <button (click)="cancel('not_found')">Return</button>
+            </div>
+        </ng-container>
+    </div>
+    <div *ngIf="!waitingForData && decryptedData && mergedData">
+        <div class="data-panel raw" *ngIf="showRawData">
+            <h3>Updated Data</h3>
+            <p>This is the raw data you received from <i>{{referrer}}</i>, combined with the updated data.</p>
+            <p>WIDE does not have access to this data.</p>
+            <div class="scrollable">
+                <pre><p>{{mergedData | json}}</p></pre>
+            </div>
+        </div>
+        <div class="data-panel formatted" *ngIf="!showRawData">
+            <h3>Updated Data</h3>
+            <p>This is the raw data you received from <i>{{referrer}}</i>, combined with the updated data.</p>
+            <p>WIDE does not have access to this data.</p>
+            <div class="scrollable">
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr *ngFor="let prop of mergedData | keyvalue">
+                        <td>
+                            <span class="property-field">{{prop.key}} <app-tooltip class="tooltip"
+                                    *ngIf="hasChanged(prop)" message="{{prop.key}} has been {{hasChanged(prop)}}"
+                                    color="coral"></app-tooltip></span>
+                        </td>
+                        <td>{{prop.value}}</td>
+                    </tr>
+                    <ng-container *ngFor="let prop of decryptedData | keyvalue">
+                        <tr *ngIf="isDeleted(prop)">
+                            <td>
+                                <span class="property-field">{{prop.key}} <app-tooltip class="tooltip" message="{{prop.key}} has been {{hasChanged(prop)}}" color="coral"></app-tooltip></span>
+                            </td>
+                            <td>{{prop.value}}</td>
+                        </tr>
+                    </ng-container>
+                </table>
+            </div>
+        </div>
+        <div buttons class="buttons">
+            <button class="btn-alt" (click)="showRawData = !showRawData">View Raw Data</button>
+            <button (click)="encryptData()">Encrypt</button>
+        </div>
+    </div>
+</div>

@@ -39,14 +39,11 @@ export class OauthRedirectComponent {
     });
   }
 
-  toggleProfileDetailModal() {
-    this.showProfileDetailModal = !this.showProfileDetailModal;
-  }
-
   closeModal() {
     this.showProfileDetailModal = false;
   }
 
+  //TODO: Move to common service
   async encryptData() {
     const accountAddress = await this.web3WalletService.getAccount();
 

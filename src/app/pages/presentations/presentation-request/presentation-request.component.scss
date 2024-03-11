@@ -99,3 +99,11 @@
 .buttons.vertical {
     flex-direction: column;
 }
+
+.info {
+    background: $blue;
+    padding: 10px;
+    border-radius: 5px;
+    color: $white;
+    text-align: justify;
+}

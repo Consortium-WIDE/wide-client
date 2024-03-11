@@ -1,0 +1,67 @@
+<div class="content">
+    <div class="logo-wrapper">
+        <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
+    </div>
+    <h2>Credentials Presentation Request</h2>
+    <div class="logo-wrapper" *ngIf="presentationConfig.logoUri">
+        <img class="logo logo-rp" [src]="presentationConfig.logoUri" />
+    </div>
+    <ng-container>
+        <p class="align-justify"><b>{{presentationConfig.rpName}}</b> is requesting you to present credentials</p>
+        <p class="align-left">There are {{credentialList.length}} credentials that match the required criteria</p>
+        <p class="align-left">Please select one:</p>
+        <div class="credentials-panel">
+            <div class="scroll">
+                <div *ngFor="let credential of credentialList" class="credential" (click)="credentialClick(credential)">
+                    <span class="label">
+                        <img src="{{getFaviconUrl(credential.issuer)}}" width="16" height="16" /> {{credential.label}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="buttons vertical">
+            <!-- <button (click)="prepareRequest()"><i *ngIf="isProcessing" class="spinner mdi mdi-loading rotate-mdi"></i> Proceed</button>
+        <a class="btn btn-lg" (click)="reject()">Reject</a> -->
+        </div>
+    </ng-container>
+</div>
+<app-wide-modal [showModal]="showCredentialModal && selectedCredential">
+    <div content class="credential-modal" *ngIf="showCredentialModal && selectedCredential">
+        <h3>{{selectedCredential.issuer.label}}</h3>
+        <p>View credential details and identify the credential you would like to present.</p>
+        <p>Remember, WIDE does not have access to this data at any point.</p>
+        <div class="scrollable align-left">
+            <div class="credential-property" *ngFor="let cred of selectedCredential.data.credentials">
+                <div class="w-5"></div>
+                <div class="w-25">{{cred.name}}</div>
+                <div class="w-70" *ngIf="cred.status == 2">
+                    <ng-container *ngIf="getValueType(cred.decryptedValue) as valueType">
+                        <div *ngIf="valueType === 'object'">
+                            <app-wide-data-object [data]="cred.decryptedValue"></app-wide-data-object>
+                        </div>
+                        <div *ngIf="valueType === 'array'">
+                            <app-wide-data-object [data]="cred.decryptedValue"></app-wide-data-object>
+                        </div>
+                        <div *ngIf="valueType === 'other'">
+                            {{cred.decryptedValue}}    
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="w-70 align-center" *ngIf="!cred.status || cred.status < 2">
+                    <button class="btn-xs" (click)="decryptProperty(cred)">
+                        <span *ngIf="!cred.isDecrypting && (cred.status == 0 || !cred.status)"><i class="mdi mdi-lock"></i>
+                            Decrypt</span>
+                        <span *ngIf="cred.isDecrypting && cred.status == 1"><i
+                                class="mdi mdi-loading rotate-mdi"></i> Waiting for Metamask</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="buttons" buttons>
+        <button (click)="decryptAll(selectedCredential.issuer)">Decrypt All</button>
+        <button class="btn-alt"(click)="showCredentialModal = false">Close</button>
+        <button (click)="present(selectedCredential)">Present</button>
+    </div>
+</app-wide-modal>

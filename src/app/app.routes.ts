@@ -19,6 +19,13 @@ import { OauthStoreComponent } from './pages/client/integrations/oauth/add/oauth
 import { HistoryComponent } from './pages/client/history/history.component';
 import { PoapStartComponent } from './pages/client/integrations/poap/poap-start/poap-start.component';
 import { PoapStoreComponent } from './pages/client/integrations/poap/poap-store/poap-store.component';
+import { PopupStartComponent } from './pages/client/integrations/popupCredentialLoader/popup-start/popup-start.component';
+import { PopupReviewComponent } from './pages/client/integrations/popupCredentialLoader/popup-review/popup-review.component';
+import { PopupStoreComponent } from './pages/client/integrations/popupCredentialLoader/popup-store/popup-store.component';
+import { PresentationMultiSelectComponent } from './pages/presentations/presentation-multi-select/presentation-multi-select.component';
+import { PopupUpdateReviewComponent } from './pages/client/integrations/update/popup-update-review/popup-update-review.component';
+import { PopupUpdateStartComponent } from './pages/client/integrations/update/popup-update-start/popup-update-start.component';
+import { PopupUpdateStoreComponent } from './pages/client/integrations/update/popup-update-store/popup-update-store.component';
 
 export const routes: Routes = [
     {
@@ -51,9 +58,17 @@ export const routes: Routes = [
 
             { path: 'present', component: BeginPresentationComponent },
             { path: 'present/request', component: PresentationRequestComponent },
+            { path: 'present/multi-select', component: PresentationMultiSelectComponent },
             { path: 'present/confirm', component: PresentationConfirmationComponent },
 
-            
+            { path: 'popup/start', component: PopupStartComponent },
+            { path: 'popup/review', component: PopupReviewComponent },
+            { path: 'popup/store', component: PopupStoreComponent },
+
+            { path: 'update/start', component: PopupUpdateStartComponent },
+            { path: 'update/review', component: PopupUpdateReviewComponent },
+            { path: 'update/store', component: PopupUpdateStoreComponent },
+
             { path: '**', component: NotFoundComponent }
         ]
     }

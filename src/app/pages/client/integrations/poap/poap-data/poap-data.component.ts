@@ -8,11 +8,13 @@ import { Web3WalletService } from '../../../../../services/web3-wallet.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../../environments/environment';
 import { NavMenuService } from '../../../../../services/nav-menu.service';
+import { PoapDetailComponent } from '../component/poap-detail/poap-detail.component';
+import { UnixTimestampPipe } from '../../../../../pipes/unix-timestamp.pipe';
 
 @Component({
   selector: 'app-poap-data',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PoapDetailComponent, UnixTimestampPipe],
   templateUrl: './poap-data.component.html',
   styleUrl: './poap-data.component.scss'
 })
@@ -59,7 +61,7 @@ export class PoapDataComponent implements OnInit {
       return;
     }
 
-    const eventUrl = this.poap.data.attributes.filter((att: any) => att.trait_type == 'eventURL' )[0].value;
+    const eventUrl = this.poap.data.attributes.filter((att: any) => att.trait_type == 'eventURL')[0].value;
 
     const issuerPayload = {
       "label": `POAP (${this.provider})`.trim(),
@@ -69,11 +71,13 @@ export class PoapDataComponent implements OnInit {
       "issuanceDate": new Date().toISOString(),
       "credentialSubject": {
         "id": accountAddress,
+        "eventId": poap.event.id,
         "eventUrl": eventUrl
       }
     }
 
-    const encryptedData = await this.web3WalletService.encryptPayload(poap);
+    let transformedPoap = this.transformPoap(poap);
+    const encryptedData = await this.web3WalletService.encryptPayload(transformedPoap);
 
     if (!encryptedData) {
       console.log('Unable to encrypt');
@@ -86,18 +90,37 @@ export class PoapDataComponent implements OnInit {
         state: {
           accountAddress: accountAddress,
           issuer: issuerPayload,
-          rawDataHash: this.web3WalletService.hashDataKeccak256(poap),
-          encryptedData: encryptedData
+          rawDataHash: this.web3WalletService.hashDataKeccak256(transformedPoap),
+          encryptedData: encryptedData,
+          poap: this.poap,
+          provider: this.provider
         }
       };
-
-      console.log('navigationExtras', navigationExtras);
 
       this.router.navigate(['credentials/poap/store'], navigationExtras);
     }
   }
 
-  convertUnixTimestamp(unixTimestamp: any): Date {
-    return new Date(unixTimestamp * 1000);
+  transformPoap(poap: any): any {
+    const unixTimestampPipe = new UnixTimestampPipe();
+
+    let result: any = {
+      id: poap.id,
+      event_id: poap.event.id,
+      name: poap.data.name,
+      image_url: poap.data.image_url,
+      home_url: poap.data.home_url,
+      external_url: poap.data.external_url,
+      created: unixTimestampPipe.transform(poap.created),
+      year: poap.data.year,
+      tags: poap.data.tags,
+      sourceObj: poap
+    };
+
+    poap.data.attributes.forEach((element: any) => {
+      result[element.trait_type] = element.value
+    });
+
+    return result;
   }
 }

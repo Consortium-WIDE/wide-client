@@ -28,16 +28,10 @@ export class PoapStartComponent implements OnInit {
     this.network = network;
 
     let account = await this.web3WalletService.getAccount();
-    //Temporary
-    //let account = '0x81865ebC7694Dfba6608F6503BBA50Abb04644b4';
-
-    console.log('account', account);
 
     if (account) {
       let response = await firstValueFrom(this.poapService.getPoapsOwned(account, network));
-      console.log('response', response);
       this.poaps = response?.data?.accounts[0]?.tokens;
-      console.log('poaps', this.poaps);
     }
   }
 }

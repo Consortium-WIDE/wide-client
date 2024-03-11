@@ -7,11 +7,13 @@ import { WideStorageService } from '../../../../../../services/wide-storage.serv
 import { NavMenuService } from '../../../../../../services/nav-menu.service';
 import { ToastNotificationService } from '../../../../../../services/toast-notification.service';
 import { OauthService } from '../../../../../../services/oauth.service';
+import { WideInputComponent } from '../../../../../../components/wide-input/wide-input.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-oauth-store',
   standalone: true,
-  imports: [CommonModule, OauthProcedureUiComponent, WideModalComponent, RouterLink],
+  imports: [CommonModule, OauthProcedureUiComponent, WideModalComponent, FormsModule, WideInputComponent, RouterLink],
   templateUrl: './oauth-store.component.html',
   styleUrl: './oauth-store.component.scss'
 })
