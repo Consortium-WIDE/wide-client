@@ -7,6 +7,7 @@ import { Web3WalletService } from '../../../services/web3-wallet.service';
 import { ToastNotificationService } from '../../../services/toast-notification.service';
 import { canonicalize } from 'json-canonicalize';
 import { HistoryService } from '../../../services/history.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-presentation-confirmation',
@@ -52,7 +53,7 @@ export class PresentationConfirmationComponent implements OnInit {
     this.httpClient.post(this.presentationConfig.serverApiEndpoint, {
       key: token,
       data: this.processedCredential
-    }).subscribe({
+    }).subscribe({ //TODO: Add withCredentials as part of the presentationConfig
       next: (response) => {
         //3. Register in History
         this.historyService.logPresentation({
@@ -127,6 +128,14 @@ export class PresentationConfirmationComponent implements OnInit {
   truncatePredicateValue(credential: any): string {
     if (credential.type === 'proof') {
       return (credential.value.slice(0, 32)) + '...';
+    }
+
+    if (Array.isArray(credential.value)) {
+      return credential.value.join(', ');
+    } else if (typeof credential.value === 'object') {
+      const jsonString = JSON.stringify(credential.value);
+      const maxLength = 30; // Adjust as needed
+      return jsonString.length > maxLength ? `${jsonString.substring(0, maxLength)}...` : jsonString;
     }
 
     return credential.value;

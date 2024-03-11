@@ -11,7 +11,7 @@
             <img class="logo logo-rp" [src]="presentationConfig.logoUri" />
         </div>
         <p><b>{{presentationConfig.rpName}}</b> is requesting you to present your
-            <b>{{presentationConfig.credential.join(', ')}}</b> credential </p>
+            <b>{{presentationConfig.credential.type.join(', ')}}</b> credential </p>
         <p>Please connect your wallet associated with WIDE to proceed or click 'Get Started' to get on board.</p>
         <div class="buttons">
             <button (click)="connectWallet()">Connect wallet</button>

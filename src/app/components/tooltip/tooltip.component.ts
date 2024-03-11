@@ -11,4 +11,5 @@ export class TooltipComponent {
   @Input() mdiIcon: string = 'help-circle-outline';
   @Input() position: string = '';
   @Input({ required: true }) message!: string;
+  @Input() color: string = '';
 }

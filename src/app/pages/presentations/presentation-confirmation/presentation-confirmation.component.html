@@ -7,15 +7,16 @@
         <img class="logo logo-rp" [src]="presentationConfig.logoUri" />
     </div>
     <p class="align-left">Here is what you are about to present to <b>{{ presentationConfig.rpName }}</b>:</p>
+    <p class="label"><i>Some data may be truncated in this view for display purposes. You may use the <b>View Raw Data</b> to review the entire data set that will be sent to <b>{{ presentationConfig.rpName }}</b>.</i></p>
     <div class="credentials-panel" *ngIf="pageLoaded">
         <ul class="credentials-header">
-            <li>Verifier: {{ processedCredential.credentialSubject.requestedBy }}</li>
-            <li>Timestamp: {{ processedCredential.issuanceDate | date:'dd-MMM-yyyy HH:mm'}}</li>
+            <li><b>Verifier</b>: {{ processedCredential.credentialSubject.requestedBy }}</li>
+            <li><b>Timestamp</b>: {{ processedCredential.issuanceDate | date:'dd-MMM-yyyy HH:mm'}}</li>
             <li *ngFor="let cred of processedCredential.credentialSubject.issuerDomains[0].data.credentials">
                 <i *ngIf="cred.type === 'plainText'" class="mdi mdi-lock-open-check text-coral"></i>
                 <i *ngIf="cred.type === 'proof'" class="mdi mdi-lock text-coral"></i>
                 <i *ngIf="cred.type === 'predicate'" class="mdi mdi-function-variant text-coral"></i>
-                <span>{{cred.name}}: {{ truncatePredicateValue(cred) }}</span>
+                <span><b>{{cred.name}}</b>: {{ truncatePredicateValue(cred) }}</span>
             </li>
         </ul>
     </div>

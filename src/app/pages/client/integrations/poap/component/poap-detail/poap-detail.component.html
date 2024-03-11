@@ -1,0 +1,36 @@
+<div class="poap">
+    <div class="poap-property">
+        <div class="w-20 align-left">Id</div>
+        <div class="w-80 align-left">{{poap.id}}</div>
+    </div>
+    <div class="poap-property">
+        <div class="w-20 align-left">Name</div>
+        <div class="w-80 align-left">{{poap.data.name}}</div>
+    </div>
+    <div class="poap-property">
+        <div class="w-20 align-left">
+            <img [src]="poap.data.image_url" width="150" />
+        </div>
+        <div class="w-80 align-left">
+            <p>{{poap.data.description}}</p>
+            <p>POAP Url: <a [href]="poap.data.home_url" target="_blank">{{poap.data.home_url}}</a></p>
+            <p>Metadata Source: <a [href]="poap.data.external_url" target="_blank">{{poap.data.external_url}}</a></p>
+        </div>
+    </div>
+    <div class="poap-property">
+        <div class="w-20 align-left">Minted On</div>
+        <div class="w-80 align-left">{{poap.created | unixTimestamp | date:'dd-MMM-yyyy HH:mm'}}</div>
+    </div>
+    <div class="poap-property">
+        <div class="w-20 align-left">Year</div>
+        <div class="w-80 align-left">{{poap.data.year}}</div>
+    </div>
+    <div class="poap-property">
+        <div class="w-20 align-left">Tags</div>
+        <div class="w-80 align-left">{{poap.data.tags.join(', ')}}</div>
+    </div>
+    <div class="poap-property" *ngFor="let attr of poap.data.attributes">
+        <div class="w-20 align-left">{{attr.trait_type | capitalizeCamelCase}}</div>
+        <div class="w-80 align-left">{{attr.value}}</div>
+    </div>
+</div>

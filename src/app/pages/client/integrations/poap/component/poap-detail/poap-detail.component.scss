@@ -1,0 +1,22 @@
+@import '_imports';
+
+.poap {
+    color: $black;
+    padding-top: 25px;
+    padding-bottom: 25px;
+
+    .poap-property {
+        color: $black;
+        display: flex;
+        align-items: center;
+        
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+
+        .label {
+            text-align: left;
+        }
+    }
+}

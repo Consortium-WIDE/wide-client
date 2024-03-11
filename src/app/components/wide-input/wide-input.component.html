@@ -1,7 +1,7 @@
 <div class="wide-input" [ngClass]="getStyle()">
     <label>
-        <span class="label" [ngClass]="value.length > 0 ? 'hasvalue' : ''">{{ label }}</span>
-        <input type="text" [id]="id" [name]="name" [value]="value" [ngClass]="value.length > 0 ? 'hasvalue' : ''" (input)="onInput($event)">
+        <span class="label" [ngClass]="(value && value.length > 0) ? 'hasvalue' : ''">{{ label }}</span>
+        <input type="text" [id]="id" [name]="name" [value]="value" [ngClass]="(value && value.length > 0) ? 'hasvalue' : ''" (input)="onInput($event)">
     </label>
     <span *ngIf="errorMessage.length > 0" class="error-message"><i class="mdi mdi-close-circle"></i>{{errorMessage}}</span>
 </div>

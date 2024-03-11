@@ -5,6 +5,19 @@
     position: relative;
     color: $peach;
 
+    &.white {
+        color: $white;
+    }
+
+    &.coral {
+        color: $coral;
+        background: inherit;
+
+        span {
+            background: $coral;
+        }
+    }
+
     span {
         cursor: default;
         min-width: 200px;
