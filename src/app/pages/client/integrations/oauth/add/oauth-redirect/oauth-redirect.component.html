@@ -10,7 +10,7 @@
     <app-oauth-procedure-ui [activeStep]="4" [provider]="oauthName">
         <div class="buttons">
             <button *ngIf="profile" (click)="encryptData()">Encrypt</button>
-            <button *ngIf="profile" class="btn-alt" (click)="toggleProfileDetailModal()">Review Credentials</button>
+            <button *ngIf="profile" class="btn-alt" (click)="showProfileDetailModal = !showProfileDetailModal">Review Credentials</button>
         </div>
     </app-oauth-procedure-ui>
 </div>

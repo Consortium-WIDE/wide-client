@@ -1,7 +1,15 @@
 <div class="poap-store">
+    <div class="poap-details">
+        <app-poap-detail [poap]="poap" [provider]="provider"></app-poap-detail>
+    </div>
+    <div class="poap-label">
+        <h3>Name your POAP</h3>
+        <p class="info"><i class="mdi mdi-alert"></i> This Data will be shared with WIDE. Please DO NOT put in sensitive information!</p>
+        <p>If you would like to identify the POAP more easily, please provide a name for your POAP</p>
+        <app-wide-input id="textbox" label="POAP Name" name="textbox" [(ngModel)]="data.issuer.label"></app-wide-input>
+    </div>
     <div class="buttons">
-        <button (click)="uploadData()"><i *ngIf="uploading"
-                class="mdi mdi-loading rotate-mdi"></i> <span *ngIf="!uploading">Upload to WIDE</span></button>
+        <button (click)="uploadData()"><i *ngIf="uploading" class="mdi mdi-loading rotate-mdi"></i> <span *ngIf="!uploading">Upload to WIDE</span></button>
         <button class="btn-alt" (click)="showDataDetailModal = true">View Encrypted Data</button>
     </div>
 </div>
@@ -17,4 +25,3 @@
         <button (click)="showDataDetailModal = false">Close</button>
     </div>
 </app-wide-modal>
-<!-- <pre>{{data | json}}</pre> -->

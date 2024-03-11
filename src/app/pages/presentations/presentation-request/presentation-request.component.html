@@ -9,18 +9,27 @@
     <p class="align-justify"><b>{{presentationConfig.rpName}}</b> is requesting you to present credentials</p>
     <p class="align-left">Here is what <b>{{presentationConfig.rpName}}</b> are requesting:</p>
     <div class="credentials-panel">
-        <ul class="credentials-header">
-            <li>Credential: {{presentationConfig.credential.join(', ')}}</li>
-        </ul>
-        <div class="credential-enumeration decrypted-credentials">
-            <i class="mdi mdi-lock-open-check text-coral"></i> Decrypted<span class="separator">:<app-tooltip message="{{presentationConfig.rpName}} require these credentials to be decrypted and sent in Plain Text. Make sure you are happy to share this data with {{presentationConfig.rpName}}"></app-tooltip></span> {{presentationConfig.require.plainText.join(', ')}}
-        </div>
-        <div class="credential-enumeration encrypted-credentials">
-            <i class="mdi mdi-lock text-coral"></i> Encrypted<span class="separator">:<app-tooltip position="bottom" message="These credentials are only required in their encrypted form. {{presentationConfig.rpName}} will be unable to know the contents."></app-tooltip></span> {{presentationConfig.require.proofOf.join(', ')}}
-        </div>
-        <div class="credential-enumeration predicate-credentials">
-            <i class="mdi mdi-function-variant text-coral"></i> Predicate<span class="separator">:<app-tooltip position="bottom" message="{{presentationConfig.rpName}} require proof that specific conditions are met, without disclosing the actual data. You will be required to decrypt these credentials but they will not be sent to {{presentationConfig.rpName}}"></app-tooltip></span> {{formatPredicates(presentationConfig.require.predicate).join(', ')}}
-        </div>
+        <ng-container *ngIf="!presentationConfig.require">
+            <div>
+                <p>Credential: <b>{{presentationConfig.credential.type.join(', ')}}</b></p>
+                <p class="info"><i class="mdi mdi-alert text-white"></i> {{presentationConfig.rpName}} requires you to present the entire {{presentationConfig.credential.type.join(', ')}} credential. Please make sure you are comfortable sharing this data with {{presentationConfig.rpName}}.</p>
+                <p>You will be able to review the data before you present it to {{presentationConfig.rpName}}.</p>
+            </div>            
+        </ng-container>
+        <ng-container *ngIf="presentationConfig.require">
+            <ul class="credentials-header">
+                <li>Credential: <b>{{presentationConfig.credential.type.join(', ')}}</b></li>
+            </ul>
+            <div class="credential-enumeration decrypted-credentials" *ngIf="presentationConfig.require.plainText">
+                <i class="mdi mdi-lock-open-check text-coral"></i> Decrypted<span class="separator">:<app-tooltip message="{{presentationConfig.rpName}} require these credentials to be decrypted and sent in Plain Text. Make sure you are happy to share this data with {{presentationConfig.rpName}}"></app-tooltip></span> {{presentationConfig.require.plainText.join(', ')}}
+            </div>
+            <div class="credential-enumeration encrypted-credentials" *ngIf="presentationConfig.require.proofOf">
+                <i class="mdi mdi-lock text-coral"></i> Encrypted<span class="separator">:<app-tooltip position="bottom" message="These credentials are only required in their encrypted form. {{presentationConfig.rpName}} will be unable to know the contents."></app-tooltip></span> {{presentationConfig.require.proofOf?.join(', ')}}
+            </div>
+            <div class="credential-enumeration predicate-credentials" *ngIf="presentationConfig.require.predicate">
+                <i class="mdi mdi-function-variant text-coral"></i> Predicate<span class="separator">:<app-tooltip position="bottom" message="{{presentationConfig.rpName}} require proof that specific conditions are met, without disclosing the actual data. You will be required to decrypt these credentials but they will not be sent to {{presentationConfig.rpName}}"></app-tooltip></span> {{formatPredicates(presentationConfig.require.predicate)?.join(', ')}}
+            </div>
+        </ng-container>
     </div>
     <div class="buttons vertical">
         <button (click)="prepareRequest()"><i *ngIf="isProcessing" class="spinner mdi mdi-loading rotate-mdi"></i> Proceed</button>

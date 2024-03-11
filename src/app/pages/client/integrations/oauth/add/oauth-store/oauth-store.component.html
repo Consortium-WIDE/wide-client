@@ -1,6 +1,12 @@
 <div class="content">
     <h2>Sign in with {{oauthName}}</h2>
     <app-oauth-procedure-ui [activeStep]="activeStep" [provider]="oauthName">
+        <div class="custom-label">
+            <h3>Name your Credential</h3>
+            <p class="info"><i class="mdi mdi-alert"></i> This Data will be shared with WIDE. Please DO NOT put in sensitive information!</p>
+            <p>If you would like to identify the POAP more easily, please provide a name for your credential</p>
+            <app-wide-input id="textbox" label="Credential Name" name="textbox" [(ngModel)]="data.issuer.label"></app-wide-input>
+        </div>
         <div class="buttons">
             <button (click)="uploadData()" *ngIf="activeStep == 5"><i *ngIf="uploading"
                     class="mdi mdi-loading rotate-mdi"></i> <span *ngIf="!uploading">Upload to WIDE</span></button>

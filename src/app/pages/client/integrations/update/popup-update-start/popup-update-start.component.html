@@ -1,0 +1,16 @@
+<div class="content">
+    <div class="logo-wrapper">
+        <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
+    </div>
+    <h2>Update WIDE Credential</h2>
+    <!-- <div class="logo-wrapper" *ngIf="presentationConfig.logoUri">
+        <img class="logo logo-rp" [src]="presentationConfig.logoUri" />
+    </div> -->
+    <p>An external provider wants to update an existing credential you have on your WIDE account. This request originated from {{referrer}}.</p>
+    <p>If you did not trigger this process, please close the popup.</p>
+    <p>Note that WIDE does not have access to the details of this credential so you will be asked to decrypt it before it is modified.</p>
+    <p>Please connect your wallet associated with WIDE to proceed or click 'Get Started' to get on board.</p>
+    <div class="buttons">
+        <button (click)="connectWallet()">Connect wallet</button>
+    </div>
+</div>

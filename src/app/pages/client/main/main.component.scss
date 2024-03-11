@@ -27,6 +27,7 @@
 
         .credential {
             border-radius: 10px;
+
             &.expanded {
                 box-shadow: 0px 3px 8px 0px #3E1B071A;
                 margin-bottom: 15px;
@@ -34,9 +35,9 @@
 
             .credential-header {
                 color: $black;
-    
+
                 height: 60px;
-    
+
                 .cred-arrow {
 
                     cursor: pointer;
@@ -44,7 +45,7 @@
                     img {
                         transform: rotate(180deg);
                     }
-    
+
                     &.expanded {
                         img {
                             transform: rotate(0deg);
@@ -103,7 +104,7 @@
     }
 }
 
-.issuer-details{
+.issuer-details {
     max-height: 600px;
 
     .scrollable {
@@ -112,7 +113,8 @@
         overflow: auto;
         background: $light-beige;
         padding: 10px;
-        border-radius: 10px;;
+        border-radius: 10px;
+        ;
 
         p {
             text-align: left;
@@ -120,4 +122,12 @@
     }
 
     margin-bottom: 20px;
+}
+
+.delete-credential {
+    .buttons {
+        gap: 20px;
+        display: flex;
+        justify-content: center;
+    }
 }

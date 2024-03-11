@@ -1,0 +1,32 @@
+.content {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+    .logo-wrapper {
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+        .logo-rp {
+            max-height: 80px;
+        }
+    }
+
+    .buttons {
+        margin-top: 25px;
+    }
+}
+
+.buttons, .modal-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}

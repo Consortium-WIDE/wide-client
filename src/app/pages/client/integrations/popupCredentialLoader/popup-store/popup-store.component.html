@@ -1,0 +1,37 @@
+<div class="content">
+    <div class="logo-wrapper">
+        <img class="logo" src="assets/svg/wide_logo_gradient.svg" />
+    </div>
+    <div class="data-panel encrypted-data" *ngIf="showEncryptedData">
+        <h3>Store Data</h3>
+        <div class="logo-wrapper" *ngIf="config.logoUri">
+            <img class="logo logo-rp" [src]="config.logoUri" />
+        </div>
+        <p>This is the raw data that will be sent to WIDE</p>
+        <div class="scrollable">
+            <pre><p>{{this.data | json}}</p></pre>
+        </div>
+    </div>
+    <div class="data-panel encrypted-data" *ngIf="!showEncryptedData">
+        <h3>Store Data</h3>
+        <div class="logo-wrapper" *ngIf="config.logoUri">
+            <img class="logo logo-rp" [src]="config.logoUri" />
+        </div>
+        <p>This is the data that will be sent to WIDE in its encrypted state.</p>
+        <p>WIDE will not have direct access to this data.</p>
+
+        <div class="credentials-panel">
+            <ul class="credentials-header">
+                <li><b>Encrypted Claims <i class="icon mdi mdi-lock text-coral"></i>:</b> {{getEncryptedCredentialNames(data.encryptedData.credentials)}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="buttons">
+        <button (click)="uploadData()"><i *ngIf="uploading" class="mdi mdi-loading rotate-mdi"></i> <span
+                *ngIf="!uploading">Upload to WIDE</span></button>
+        <button class="btn-alt" (click)="showEncryptedData = !showEncryptedData">
+            <span *ngIf="showEncryptedData">View Encrypted Data</span>
+            <span *ngIf="!showEncryptedData">View Data Source</span>
+        </button>
+    </div>
+</div>

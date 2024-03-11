@@ -15,6 +15,7 @@ import { ButtonConfig, MultiButtonComponent } from '../../../components/multi-bu
 import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
 import { environment } from '../../../../environments/environment';
 import { WideDataObjectComponent } from '../../../components/wide-data/wide-data-object/wide-data-object.component';
+import { CredentialHelperService } from '../../../services/credential-helper.service';
 
 @Component({
   selector: 'app-main',
@@ -33,11 +34,14 @@ export class MainComponent implements OnInit {
   showCredentialPreviewModal: boolean = false;
   credentialPreviewData: any = null;
 
+  showConfirmDeleteModal: boolean = false;
+  credentialToDelete: any = null;
+
   //TODO: Strongly type, include in presentation components etc...
   issuedCredentials: any[] = [];
   credentialDetailLookup: any = {};
 
-  constructor(private web3WalletService: Web3WalletService, private wideStorageService: WideStorageService, private toastNotificationService: ToastNotificationService, private navMenuService: NavMenuService, private router: Router) {
+  constructor(private web3WalletService: Web3WalletService, private wideStorageService: WideStorageService, private toastNotificationService: ToastNotificationService, private navMenuService: NavMenuService, private router: Router, private credentialHelperService: CredentialHelperService) {
     this.subscribeToWalletConnection();
   }
 
@@ -126,7 +130,7 @@ export class MainComponent implements OnInit {
     cred.isDecrypting = false;
   }
 
-  async decryptCredential(issuer: any) {
+  async decryptCredential(issuer: any): Promise<void> {
     const issuerCredentialData = await this.getCredentialsForIssuer(issuer.wideInternalId);
 
     if (!issuerCredentialData) {
@@ -139,8 +143,7 @@ export class MainComponent implements OnInit {
       cred.status = 1;
     });
 
-    const response: any = await this.web3WalletService.decryptData(issuerCredentialData.payload);
-    const decryptedData: any = JSON.parse(response);
+    const decryptedData: any = await this.credentialHelperService.decryptCredential(issuerCredentialData.payload);
 
     issuerCredentialData.credentials.forEach((cred: any) => {
       cred.decryptedValue = decryptedData[cred.name];
@@ -167,26 +170,10 @@ export class MainComponent implements OnInit {
 
   async getCredentialsForIssuer(issuerInternalId: string): Promise<any | null> {
     if (!this.credentialDetailLookup[issuerInternalId] && this.account) {
-      try {
-        const response: HttpResponse<any> = await firstValueFrom(
-          this.wideStorageService.getEncryptedCredentials(this.account, issuerInternalId)
-        );
-
-        this.credentialDetailLookup[issuerInternalId] = response.body;
-
-        if (response.status === 204) {
-          this.toastNotificationService.info('Loading credentials', `No credentials found for ${this.account} with key ${issuerInternalId}`);
-        }
-
-        return this.credentialDetailLookup[issuerInternalId];
-      } catch (error: any) {
-        this.toastNotificationService.error(error.statusText, `Failed to load credentials (${error.status})`);
-        console.error('Failed to load credentials', error);
-        return null;
-      }
-    } else {
-      return this.credentialDetailLookup[issuerInternalId];
+      this.credentialDetailLookup[issuerInternalId] = await this.credentialHelperService.getCredentialsForIssuer(this.account, issuerInternalId);
     }
+
+    return this.credentialDetailLookup[issuerInternalId];
   }
 
   async issuerActionClick(action: string, issuer: any) {
@@ -203,6 +190,7 @@ export class MainComponent implements OnInit {
     }
   }
 
+  //TODO: Put in shared library (pipe)
   getFaviconUrl(url: string): string {
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       url = 'http://' + url;
@@ -278,6 +266,27 @@ export class MainComponent implements OnInit {
     return vc;
   }
 
+  deleteCredentialPrompt(issuer: any): void {
+    if (!this.account) {
+      this.toastNotificationService.info('Unable to delete credential', 'Please make sure your wallet is connected first');
+      return;
+    }
+
+    this.credentialToDelete = issuer;
+    this.showConfirmDeleteModal = true;
+  }
+  
+  async deleteCredential(issuer: any): Promise<void> {
+    if (!this.account) {
+      this.toastNotificationService.info('Unable to delete credential', 'Please make sure your wallet is connected first');
+      return;
+    }
+    
+    await this.credentialHelperService.deleteCredentialsForIssuer(this.account, issuer.wideInternalId);
+    await this.refreshAccountCredentials(this.account);
+    this.showConfirmDeleteModal = false;
+  }
+
   getActionMenuButtons(issuer: any): ButtonConfig[] {
     let buttonConfig: ButtonConfig[] = [];
 
@@ -286,7 +295,7 @@ export class MainComponent implements OnInit {
     }
 
     buttonConfig.push({ label: 'Preview Credential', action: 'preview-cred' });
-    
+
     if (!environment.production) {
       buttonConfig.push({ label: 'Download', action: 'download' });
     }
@@ -294,6 +303,7 @@ export class MainComponent implements OnInit {
     return buttonConfig;
   }
 
+  //TODO: Add as pipe
   getValueType(decryptedValue: any): string {
     if (Array.isArray(decryptedValue)) {
       return 'array';

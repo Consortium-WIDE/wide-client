@@ -20,6 +20,7 @@ export class WideInputComponent implements ControlValueAccessor {
   @Input({ required: true }) id!: string;
   @Input({ required: true }) label!: string;
   @Input({ required: true }) name!: string;
+  @Input() inline: boolean = false;
   @Input() errorMessage: string = '';
   @Input() style: string = 'default';
 
@@ -47,10 +48,18 @@ export class WideInputComponent implements ControlValueAccessor {
   }
 
   getStyle(): string {
+    let styles: string[] = [];
+
+    if (this.inline) {
+      styles.push('inline');
+    }
+
     if (this.errorMessage.length > 0){
-      return 'label-error';
+      styles.push('label-error');
     }
     
-    return `label-${this.style}`
+    styles.push(`label-${this.style}`);
+
+    return styles.join(' ');
   }
 }
