@@ -1,0 +1,68 @@
+<div class="dao">
+    <h4 class="text-coral">DAO</h4>
+    <div class="dao-property">
+        <div class="w-20 align-left">Id (Contract Address)</div>
+        <div class="w-80 align-left">{{dao.id}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">DAO Name</div>
+        <div class="w-80 align-left">{{dao.name}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">Active Members</div>
+        <div class="w-80 align-left">{{dao.activeMemberCount}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">Created On</div>
+        <div class="w-80 align-left">{{dao.createdAt | unixTimestamp}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">Created By</div>
+        <div class="w-80 align-left">{{dao.createdBy}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">SafeAddress</div>
+        <div class="w-80 align-left">{{dao.safeAddress}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">Shares Address</div>
+        <div class="w-80 align-left">{{dao.sharesAddress}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">Share Token Name</div>
+        <div class="w-80 align-left">{{dao.shareTokenName}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">Share Token Symbol</div>
+        <div class="w-80 align-left">{{dao.shareTokenSymbol}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">Total Shares</div>
+        <div class="w-80 align-left">{{dao.totalShares | weiToEth}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">Transaction</div>
+        <div class="w-80 align-left">{{dao.txHash}}</div>
+    </div>
+    <h4 class="text-coral">Member</h4>
+    <div class="dao-property">
+        <div class="w-20 align-left">Id</div>
+        <div class="w-80 align-left">{{dao.members[0].id}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">Created On</div>
+        <div class="w-80 align-left">{{dao.members[0].createdAt | unixTimestamp}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">Address</div>
+        <div class="w-80 align-left">{{dao.members[0].memberAddress}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">Shares</div>
+        <div class="w-80 align-left">{{dao.members[0].shares | weiToEth}}</div>
+    </div>
+    <div class="dao-property">
+        <div class="w-20 align-left">Loot</div>
+        <div class="w-80 align-left">{{dao.members[0].loot | weiToEth}}</div>
+    </div>
+</div>
