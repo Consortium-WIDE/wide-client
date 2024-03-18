@@ -4,7 +4,11 @@ export const environment = {
   wideDomain: 'http://localhost:4200',
   googleOAuth: {
     clientId: '708493994076-rlpvffondu5hee5vgmkfpn0b50fkl4ti.apps.googleusercontent.com',
-    redirectUri: 'http://localhost:4200/credentials/oauth/redirect/google'
+    redirectUri: 'http://localhost:4200/credentials/oauth/redirect/google',
+  },
+  discordOAuth: {
+    clientId: '1218533983453712537',
+    redirectUri: 'http://localhost:4200/credentials/oauth/redirect/discord',
   },
   githubOAuth: {
     clientId: 'Iv1.5597c8d31050475d',

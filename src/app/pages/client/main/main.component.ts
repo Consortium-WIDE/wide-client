@@ -16,6 +16,7 @@ import { consumerPollProducersForChange } from '@angular/core/primitives/signals
 import { environment } from '../../../../environments/environment';
 import { WideDataObjectComponent } from '../../../components/wide-data/wide-data-object/wide-data-object.component';
 import { CredentialHelperService } from '../../../services/credential-helper.service';
+import { IconService } from '../../../services/icon.service';
 
 @Component({
   selector: 'app-main',
@@ -41,7 +42,7 @@ export class MainComponent implements OnInit {
   issuedCredentials: any[] = [];
   credentialDetailLookup: any = {};
 
-  constructor(private web3WalletService: Web3WalletService, private wideStorageService: WideStorageService, private toastNotificationService: ToastNotificationService, private navMenuService: NavMenuService, private router: Router, private credentialHelperService: CredentialHelperService) {
+  constructor(private web3WalletService: Web3WalletService, private wideStorageService: WideStorageService, private toastNotificationService: ToastNotificationService, private navMenuService: NavMenuService, private router: Router, private credentialHelperService: CredentialHelperService, private iconService: IconService) {
     this.subscribeToWalletConnection();
   }
 
@@ -189,16 +190,9 @@ export class MainComponent implements OnInit {
         break;
     }
   }
-
-  //TODO: Put in shared library (pipe)
+  
   getFaviconUrl(url: string): string {
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      url = 'http://' + url;
-    }
-
-    // Construct and return the favicon URL
-    const urlObj = new URL(url);
-    return `${urlObj.origin}/favicon.ico`;
+    return this.iconService.getIconFor(url);
   }
 
   showIssuerModal(issuer: any): any {

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseOAuthProvider } from '../providers/oauth/BaseOAuthProvider';
 import { GoogleOAuthProvider } from '../providers/oauth/GoogleOAuthProvider';
 import { MicrosoftOAuthProvider } from '../providers/oauth/MicrosoftOAuthProvider';
@@ -8,6 +8,7 @@ import { MSAL_INSTANCE } from '@azure/msal-angular';
 import { IPublicClientApplication } from '@azure/msal-browser';
 import { MsalWrapperService } from './msal-wrapper.service';
 import { PoapSubgraphProvider } from '../providers/poap/PoapSubgraphProvider';
+import { DiscordOAuthProvider } from '../providers/oauth/DiscordOAuthProvider';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,15 @@ import { PoapSubgraphProvider } from '../providers/poap/PoapSubgraphProvider';
 export class OauthService {
   private oauthProvider: BaseOAuthProvider | undefined;
 
-  constructor(private router: Router, private http: HttpClient, private msalWrapperService: MsalWrapperService) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient, private msalWrapperService: MsalWrapperService) { }
 
   setProviderType(oauthProviderType: string) {
     switch (oauthProviderType) {
       case 'google':
         this.oauthProvider = new GoogleOAuthProvider(this.http);
+        break;
+      case 'discord':
+        this.oauthProvider = new DiscordOAuthProvider(this.http, this.activatedRoute);
         break;
       case 'microsoft':
         this.oauthProvider = new MicrosoftOAuthProvider(this.http, this.router, this.msalWrapperService);

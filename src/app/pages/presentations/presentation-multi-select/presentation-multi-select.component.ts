@@ -9,6 +9,7 @@ import { firstValueFrom } from 'rxjs';
 import { WideStorageService } from '../../../services/wide-storage.service';
 import { Router } from '@angular/router';
 import { CredentialHelperService } from '../../../services/credential-helper.service';
+import { IconService } from '../../../services/icon.service';
 
 @Component({
   selector: 'app-presentation-multi-select',
@@ -29,7 +30,7 @@ export class PresentationMultiSelectComponent implements OnInit {
   account: string | null = null;
   credentialDetailLookup: any = {};
 
-  constructor(private web3WalletService: Web3WalletService, private router: Router, private wideStorageService: WideStorageService, private toastNotificationService: ToastNotificationService, private credentialHelperService: CredentialHelperService) { }
+  constructor(private web3WalletService: Web3WalletService, private router: Router, private wideStorageService: WideStorageService, private toastNotificationService: ToastNotificationService, private credentialHelperService: CredentialHelperService, private iconService: IconService) { }
 
   async ngOnInit(): Promise<void> {
     const historyState = history.state;
@@ -49,13 +50,7 @@ export class PresentationMultiSelectComponent implements OnInit {
 
   //TODO: Put in shared library (pipe)
   getFaviconUrl(url: string): string {
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      url = 'http://' + url;
-    }
-
-    // Construct and return the favicon URL
-    const urlObj = new URL(url);
-    return `${urlObj.origin}/favicon.ico`;
+    return this.iconService.getIconFor(url);
   }
 
   async credentialClick(credentialIssuer: any): Promise<void> {
