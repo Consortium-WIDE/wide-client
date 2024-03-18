@@ -8,7 +8,7 @@ export const environment = {
   },
   discordOAuth: {
     clientId: '1218533983453712537',
-    redirectUri: 'http://wid3.app/credentials/oauth/redirect/discord',
+    redirectUri: 'https://wid3.app/credentials/oauth/redirect/discord',
   },
   microsoftOAuth: {
     msalConfig : {
