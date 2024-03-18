@@ -35,6 +35,7 @@ export class DaohausService {
         sharesAddress
         shareTokenName
         shareTokenSymbol
+        totalShares
         txHash
         members(where: { memberAddress: "${userAddress}"}) {
           id
