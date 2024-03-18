@@ -59,7 +59,10 @@ export class MicrosoftOAuthProvider extends BaseOAuthProvider {
     protected async OAuthCallback(accessToken: string): Promise<{ data: any }> {
         // Here, exchange the code for an access token
         // For simplicity, assuming `accessToken` is already obtained
-        const userInfo = await this.fetchMicrosoftUserInfo(accessToken);
+        let userInfo: any = await this.fetchMicrosoftUserInfo(accessToken);
+
+        //Temporary fix to make sure Microsoft credential also contaisn an `email` credential as it only contains `mail` by default
+        userInfo.email = userInfo.mail;
         this.rawData = userInfo;
 
         return userInfo;

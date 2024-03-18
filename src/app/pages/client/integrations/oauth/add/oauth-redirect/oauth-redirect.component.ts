@@ -8,11 +8,12 @@ import { ToastNotificationService } from '../../../../../../services/toast-notif
 import { OauthProcedureUiComponent } from '../oauth-procedure-ui/oauth-procedure-ui.component';
 import { WideModalComponent } from '../../../../../../components/wide-modal/wide-modal.component';
 import { CommonModule } from '@angular/common';
+import { PrettyJsonPipe } from '../../../../../../pipes/pretty-json.pipe';
 
 @Component({
   selector: 'app-oauth-redirect',
   standalone: true,
-  imports: [CommonModule, OauthProcedureUiComponent, WideModalComponent],
+  imports: [CommonModule, OauthProcedureUiComponent, WideModalComponent, PrettyJsonPipe],
   templateUrl: './oauth-redirect.component.html',
   styleUrl: './oauth-redirect.component.scss'
 })

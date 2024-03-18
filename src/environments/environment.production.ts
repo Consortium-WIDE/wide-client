@@ -6,6 +6,10 @@ export const environment = {
     clientId: '708493994076-rlpvffondu5hee5vgmkfpn0b50fkl4ti.apps.googleusercontent.com',
     redirectUri: 'https://wid3.app/credentials/oauth/redirect/google'
   },
+  discordOAuth: {
+    clientId: '1218533983453712537',
+    redirectUri: 'http://wid3.app/credentials/oauth/redirect/discord',
+  },
   microsoftOAuth: {
     msalConfig : {
       auth: {
