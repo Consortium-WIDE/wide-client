@@ -22,7 +22,7 @@
                         <span (click)="showIssuerModal(issuer)" class="issuer-label">
                             <img src="{{getFaviconUrl(issuer.issuer)}}" width="16" height="16" /> {{issuer.label}} <span
                                 *ngIf="!issuerHasDecryptPending(issuer)" class="pill text-success"><i
-                                    class="mdi mdi-lock-open-check"></i></span>
+                                    class="mdi mdi-lock-open-check text-peach"></i></span>
                         </span>
                     </div>
                     <div class="w-15">{{issuer.type.join(', ')}}</div>

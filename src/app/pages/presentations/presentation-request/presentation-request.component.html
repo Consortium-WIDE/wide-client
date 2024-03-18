@@ -21,7 +21,7 @@
                 <li>Credential: <b>{{presentationConfig.credential.type.join(', ')}}</b></li>
             </ul>
             <div class="credential-enumeration decrypted-credentials" *ngIf="presentationConfig.require.plainText">
-                <i class="mdi mdi-lock-open-check text-coral"></i> Decrypted<span class="separator">:<app-tooltip message="{{presentationConfig.rpName}} require these credentials to be decrypted and sent in Plain Text. Make sure you are happy to share this data with {{presentationConfig.rpName}}"></app-tooltip></span> {{presentationConfig.require.plainText.join(', ')}}
+                <i class="mdi mdi-lock-open-check text-peach"></i> Decrypted<span class="separator">:<app-tooltip message="{{presentationConfig.rpName}} require these credentials to be decrypted and sent in Plain Text. Make sure you are happy to share this data with {{presentationConfig.rpName}}"></app-tooltip></span> {{presentationConfig.require.plainText.join(', ')}}
             </div>
             <div class="credential-enumeration encrypted-credentials" *ngIf="presentationConfig.require.proofOf">
                 <i class="mdi mdi-lock text-coral"></i> Encrypted<span class="separator">:<app-tooltip position="bottom" message="These credentials are only required in their encrypted form. {{presentationConfig.rpName}} will be unable to know the contents."></app-tooltip></span> {{presentationConfig.require.proofOf?.join(', ')}}
