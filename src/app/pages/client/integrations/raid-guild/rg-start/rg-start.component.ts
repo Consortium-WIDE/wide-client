@@ -27,7 +27,7 @@ export class RgStartComponent implements OnInit {
   constructor(private router: Router, private toastNotificationService: ToastNotificationService, private web3WalletService: Web3WalletService, private navMenuService: NavMenuService, private daoHausService: DaohausService, private dataProcessingService: DataProcessingService) { }
 
   async ngOnInit(): Promise<void> {
-    this.navMenuService.setPageDetails(`Claim Raid Guild Membership`, ['Your credentials', 'Add credentials', `Claim Raid Guild Membership`]);
+    this.navMenuService.setPageDetails(`Claim DAO Haus Membership`, ['Your credentials', 'Add credentials', `Claim DAO Haus Membership`]);
 
     this.web3WalletService.connectedToWallet$.subscribe(walletConnected => {
       if (walletConnected) {
@@ -86,11 +86,10 @@ export class RgStartComponent implements OnInit {
           rawDataHash: this.web3WalletService.hashDataKeccak256(transformedDao),
           encryptedData: encryptedData,
           dao: dao,
-          provider: "raidguild-membership"
+          provider: "daohaus-membership"
         }
       };
 
-      console.log('navigationExtras', navigationExtras);
       this.router.navigate(['credentials/raid-guild/store'], navigationExtras);
     }
   }

@@ -37,7 +37,6 @@ export class HistoryComponent implements OnInit {
   private async refreshHistory() {
     const res = await firstValueFrom(this.historyService.getHistory());
     this.historyRecords = res.data;
-    console.log('historyRecords', this.historyRecords);
     this.hasKey = res.hasKey;
   }
 
