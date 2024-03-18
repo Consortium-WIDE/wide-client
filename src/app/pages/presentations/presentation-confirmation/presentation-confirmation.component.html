@@ -16,7 +16,7 @@
                 <i *ngIf="cred.type === 'plainText'" class="mdi mdi-lock-open-check text-coral"></i>
                 <i *ngIf="cred.type === 'proof'" class="mdi mdi-lock text-coral"></i>
                 <i *ngIf="cred.type === 'predicate'" class="mdi mdi-function-variant text-coral"></i>
-                <span><b>{{cred.name}}</b>: {{ truncatePredicateValue(cred) }}</span>
+                <span class="credential-value-wrapper"><b>{{cred.name}}</b><span class="credential-value">: {{ truncatePredicateValue(cred) }}</span></span>
             </li>
         </ul>
     </div>

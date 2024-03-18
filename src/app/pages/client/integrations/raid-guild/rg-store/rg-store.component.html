@@ -1,0 +1,28 @@
+<div class="dao-store">
+    <div class="dao-details">
+        <h2>DAO Details</h2>
+        <app-rg-detail [dao]="dao"></app-rg-detail>
+    </div>
+    <div class="dao-label">
+        <h3>Name your Credential</h3>
+        <p class="info"><i class="mdi mdi-alert"></i> This Data will be shared with WIDE. Please DO NOT put in sensitive information!</p>
+        <p>If you would like to identify the DAO Haus membership credential more easily, please provide a name</p>
+        <app-wide-input id="textbox" label="Credential Name" name="textbox" [(ngModel)]="data.issuer.label"></app-wide-input>
+    </div>
+    <div class="buttons">
+        <button (click)="uploadData()"><i *ngIf="uploading" class="mdi mdi-loading rotate-mdi"></i> <span *ngIf="!uploading">Upload to WIDE</span></button>
+        <button class="btn-alt" (click)="showDataDetailModal = true">View Encrypted Data</button>
+    </div>
+</div>
+<app-wide-modal [showModal]="showDataDetailModal">
+    <div content class="dao-credentials">
+        <h3>Encrypted Data</h3>
+        <p>This is the raw data that will be sent to WIDE</p>
+        <div class="scrollable">
+            <pre><p>{{this.data | json}}</p></pre>
+        </div>
+    </div>
+    <div buttons>
+        <button (click)="showDataDetailModal = false">Close</button>
+    </div>
+</app-wide-modal>

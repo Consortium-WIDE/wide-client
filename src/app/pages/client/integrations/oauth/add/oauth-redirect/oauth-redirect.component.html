@@ -15,7 +15,7 @@
     </app-oauth-procedure-ui>
 </div>
 <app-wide-modal [showModal]="showProfileDetailModal">
-    <div content class="google-credentials raw" *ngIf="showProfileDetailModalRawData">
+    <div content class="oauth-credentials raw" *ngIf="showProfileDetailModalRawData">
         <h3>{{oauthName}} Profile Data</h3>
         <p>This is the raw data you received from {{oauthName}}.</p>
         <p>WIDE does not have access to this data.</p>
@@ -23,7 +23,7 @@
             <pre><p>{{profile | json}}</p></pre>
         </div>
     </div>
-    <div content class="google-credentials" *ngIf="!showProfileDetailModalRawData">
+    <div content class="oauth-credentials" *ngIf="!showProfileDetailModalRawData">
         <h3>{{oauthName}} Profile Data</h3>
         <p>This is the data you received from {{oauthName}}.</p>
         <p>WIDE does not have access to this data.</p>
@@ -34,8 +34,8 @@
                     <th>Value</th>
                 </tr>
                 <tr *ngFor="let prop of profile | keyvalue">
-                    <td>{{prop.key}}</td>
-                    <td>{{prop.value}}</td>
+                    <td class="label">{{prop.key}}</td>
+                    <td class="value">{{prop.value | prettyJson}}</td>
                 </tr>
             </table>
         </div>

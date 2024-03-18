@@ -7,18 +7,26 @@ export class DataProcessingService {
 
   constructor() { }
 
-  public flattenJson(data: any, parentKey: string = '', res: any = {}) {
-    for (let key in data) {
-      if (data.hasOwnProperty(key)) {
-        let newKey = parentKey ? `${parentKey}_${key}` : key;
-        if (typeof data[key] === 'object' && data[key] !== null && !Array.isArray(data[key])) {
-          this.flattenJson(data[key], newKey, res);
+  public flattenJson(obj: any, parentKey: string = '', sep: string = '_'): any {
+    let flattened: any = {};
+
+    for (const [key, value] of Object.entries(obj)) {
+      const newKey = parentKey ? `${parentKey}${sep}${key}` : key;
+
+      if (Array.isArray(value)) {
+        if (value.length === 1) {
+          flattened = { ...flattened, ...this.flattenJson(value[0], newKey) };
         } else {
-          res[newKey] = data[key];
+          value.forEach((item, index) => {
+            flattened = { ...flattened, ...this.flattenJson(item, `${newKey}_${index + 1}`) };
+          });
         }
+      } else {
+        flattened[newKey] = value;
       }
     }
-    return res;
+
+    return flattened;
   }
 
   public separateJson(flattenedData: any): any[] {
@@ -27,17 +35,17 @@ export class DataProcessingService {
 
   public separateJsonByProp(flattenedData: any, includeRaw: boolean = false, parentKey: string = ''): any[] {
     let result: any[] = [];
-  
+
     // Iterate through each key in the object
     Object.keys(flattenedData).forEach(key => {
       const newKey = parentKey ? `${parentKey}.${key}` : key;
       const value = flattenedData[key];
-  
+
       // Include the raw value if specified
       if (includeRaw && parentKey === '') {
         result.push({ [newKey]: value });
       }
-  
+
       // If the value is an object (and not an array or null), recurse
       if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
         // Only add the compound object if it's not the top-level or if includeRaw is true
@@ -51,7 +59,7 @@ export class DataProcessingService {
         result.push({ [newKey]: value });
       }
     });
-  
+
     return result;
   }
 

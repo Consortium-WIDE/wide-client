@@ -12,7 +12,7 @@
     justify-content: center;
 }
 
-.google-credentials {
+.oauth-credentials {
     max-height: 600px;
 
     .scrollable {
@@ -21,7 +21,8 @@
         overflow: auto;
         background: $light-beige;
         padding: 10px;
-        border-radius: 10px;;
+        border-radius: 10px;
+        ;
 
         p {
             text-align: left;
@@ -31,8 +32,24 @@
     table {
         width: 100%;
 
-        th, td {
+        th,
+        td {
             text-align: left;
+        }
+
+        tr {
+
+            .label {
+                vertical-align: top;
+                font-size: inherit;
+                font-weight: inherit;
+                line-height: inherit;
+            }
+
+            .value {
+                white-space: pre-wrap;
+                font-weight: 400;
+            }
         }
     }
 

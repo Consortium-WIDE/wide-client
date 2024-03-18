@@ -1,0 +1,56 @@
+@import '_imports';
+
+.dao-store {
+    .content {
+        margin-bottom: 25px;
+    }
+
+    .dao-details {
+        background: $white;
+        padding: 50px;
+        border-radius: 15px;
+    }
+
+    .buttons {
+        margin-top: 25px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dao-label {
+        margin-top: 25px;
+        background: $white;
+        padding: 50px;
+        border-radius: 15px;
+    }
+}
+
+.dao-credentials {
+    max-height: 600px;
+
+    .scrollable {
+        width: 100%;
+        max-height: 400px;
+        overflow: auto;
+        background: $light-beige;
+        padding: 10px;
+        border-radius: 10px;
+        ;
+
+        p {
+            text-align: left;
+        }
+    }
+
+    margin-bottom: 20px;
+}
+
+.info {
+    background: $blue;
+    color: $light-beige;
+    padding: 5px;
+    border-radius: 5px;
+    display: inline-block;
+}

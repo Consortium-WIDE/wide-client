@@ -1,0 +1,42 @@
+<div class="content">
+    <h2>Claim DAO Haus membership</h2>
+    <ng-container *ngIf="isLoading">
+        <p><i class="spinner mdi mdi-loading rotate-mdi text-coral"></i> Fetching data...</p>
+    </ng-container>
+    <ng-container *ngIf="!isLoading">
+        <div class="panel">
+            <p class="info align-center" *ngIf="daos.length == 0">We were not able to find any DAO Haus DAOs you are a member of.</p>
+            <p class="info align-center" *ngIf="daos.length > 0">We found {{daos.length}} DAOs you are a member of!</p>
+            <div class="dao" *ngFor="let dao of daos" [ngClass]="dao.expanded ? 'expanded' : ''">
+                <div class="dao-header" (click)="dao.expanded = !dao.expanded">
+                    <div class="w-5">
+                        <span class="dao-arrow" [ngClass]="dao.expanded ? 'expanded' : ''">
+                            <img src="/assets/svg/arrow.svg" />
+                        </span>
+                    </div>
+                    <div class="w-20 align-left">
+                        {{dao.data.name}} 
+                    </div>
+                    <div class="w-20">
+                        {{dao.data.createdAt | unixTimestamp | date:'dd-MMM-yyyy HH:mm'}}
+                    </div>
+                    <div class="w-20 align-left">
+                        {{dao.data.activeMemberCount}} active members
+                    </div>
+                    <div class="w-20 align-left">
+                        {{((dao.data.members[0].shares / dao.data.totalShares) * 100) | smartRound}}% voting power
+                    </div>
+                    <div class="w-15">
+                        <span class="link-icon">
+                            <a [href]="getDaoUrl(dao.data.id)" target="_blank"><i class="mdi mdi-open-in-new text-coral"></i></a>
+                        </span>
+                        <button class="btn-xs" (click)="claimDaoMembership(dao.data)">Import</button>
+                    </div>
+                </div>
+                <div class="dao-expanded" *ngIf="dao.expanded">
+                    <app-rg-detail [dao]="dao.data"></app-rg-detail>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
