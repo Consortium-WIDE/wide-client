@@ -14,7 +14,7 @@
             <li><b>Timestamp</b>: {{ processedCredential.issuanceDate | date:'dd-MMM-yyyy HH:mm'}}</li>
             <li *ngFor="let cred of processedCredential.credentialSubject.issuerDomains[0].data.credentials">
                 <i *ngIf="cred.type === 'plainText'" class="mdi mdi-lock-open-check text-peach"></i>
-                <i *ngIf="cred.type === 'proof'" class="mdi mdi-lock text-coral"></i>
+                <i *ngIf="cred.type === 'keccak256'" class="mdi mdi-lock text-coral"></i>
                 <i *ngIf="cred.type === 'predicate'" class="mdi mdi-function-variant text-coral"></i>
                 <span class="credential-value-wrapper"><b>{{cred.name}}</b><span class="credential-value">: {{ truncatePredicateValue(cred) }}</span></span>
             </li>

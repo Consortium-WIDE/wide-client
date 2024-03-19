@@ -201,7 +201,7 @@ export class MainComponent implements OnInit {
   }
 
   async showWideCredentialPreviewModal(issuer: any) {
-    const credentialDetails = this.credentialDetailLookup[issuer.wideInternalId];
+    const credentialDetails = await this.getCredentialsForIssuer(issuer.wideInternalId);
 
     if (!credentialDetails) {
       this.toastNotificationService.error('Internal Error', 'An internal error has occurred');
@@ -233,7 +233,7 @@ export class MainComponent implements OnInit {
             "label": issuer.label,
             "type": issuer.type,
             "data": {
-              "payloadKeccak256CipherText": this.web3WalletService.hashTextKeccak256(credentialsContainer.payload.ciphertext),
+              "payloadKeccak256CipherText": this.web3WalletService.hashTextKeccak256(credentialsContainer.payload),
               "credentials": [] as any[]
             }
           }
@@ -251,8 +251,8 @@ export class MainComponent implements OnInit {
       } else {
         vc.credentialSubject.issuerDomains[0].data.credentials.push({
           "name": c.name,
-          "value": this.web3WalletService.hashDataKeccak256(c.val.ciphertext),
-          "type": "proof"
+          "value": this.web3WalletService.hashDataKeccak256(c.val),
+          "type": "keccak256"
         });
       }
     });
