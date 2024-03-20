@@ -37,8 +37,16 @@
         .wide-logo {
             width: 100%;
 
+            &.small {
+                display: none;
+            }
+
             @media (max-width: 1200px) {
                 text-align: center;
+                display: none;
+                &.small {
+                    display: block;
+                }
             }
 
             img {
