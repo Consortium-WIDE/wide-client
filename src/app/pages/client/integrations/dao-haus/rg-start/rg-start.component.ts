@@ -90,7 +90,7 @@ export class RgStartComponent implements OnInit {
         }
       };
 
-      this.router.navigate(['credentials/raid-guild/store'], navigationExtras);
+      this.router.navigate(['credentials/dao-haus/store'], navigationExtras);
     }
   }
 
