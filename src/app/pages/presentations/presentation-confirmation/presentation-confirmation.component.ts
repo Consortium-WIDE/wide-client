@@ -126,7 +126,7 @@ export class PresentationConfirmationComponent implements OnInit {
   }
 
   truncatePredicateValue(credential: any): string {
-    if (credential.type === 'proof') {
+    if (credential.type === 'keccak256') {
       return (credential.value.slice(0, 32)) + '...';
     }
 
