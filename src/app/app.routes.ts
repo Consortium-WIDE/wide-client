@@ -26,8 +26,8 @@ import { PresentationMultiSelectComponent } from './pages/presentations/presenta
 import { PopupUpdateReviewComponent } from './pages/client/integrations/update/popup-update-review/popup-update-review.component';
 import { PopupUpdateStartComponent } from './pages/client/integrations/update/popup-update-start/popup-update-start.component';
 import { PopupUpdateStoreComponent } from './pages/client/integrations/update/popup-update-store/popup-update-store.component';
-import { RgStartComponent } from './pages/client/integrations/raid-guild/rg-start/rg-start.component';
-import { RgStoreComponent } from './pages/client/integrations/raid-guild/rg-store/rg-store.component';
+import { RgStartComponent } from './pages/client/integrations/dao-haus/rg-start/rg-start.component';
+import { RgStoreComponent } from './pages/client/integrations/dao-haus/rg-store/rg-store.component';
 
 export const routes: Routes = [
     {
@@ -45,8 +45,8 @@ export const routes: Routes = [
             { path: 'credentials/poap', component: PoapStartComponent },
             { path: 'credentials/poap/store', component: PoapStoreComponent },
 
-            { path: 'credentials/raid-guild', component: RgStartComponent },
-            { path: 'credentials/raid-guild/store', component: RgStoreComponent },
+            { path: 'credentials/dao-haus', component: RgStartComponent },
+            { path: 'credentials/dao-haus/store', component: RgStoreComponent },
 
             { path: 'history', component: HistoryComponent },
 
