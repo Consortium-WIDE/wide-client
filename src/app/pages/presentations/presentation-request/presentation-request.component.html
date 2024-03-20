@@ -23,8 +23,8 @@
             <div class="credential-enumeration decrypted-credentials" *ngIf="presentationConfig.require.plainText">
                 <i class="mdi mdi-lock-open-check text-peach"></i> Decrypted<span class="separator">:<app-tooltip message="{{presentationConfig.rpName}} require these credentials to be decrypted and sent in Plain Text. Make sure you are happy to share this data with {{presentationConfig.rpName}}"></app-tooltip></span> {{presentationConfig.require.plainText.join(', ')}}
             </div>
-            <div class="credential-enumeration encrypted-credentials" *ngIf="presentationConfig.require.proofOf">
-                <i class="mdi mdi-lock text-coral"></i> Encrypted<span class="separator">:<app-tooltip position="bottom" message="These credentials are only required in their encrypted form. {{presentationConfig.rpName}} will be unable to know the contents."></app-tooltip></span> {{presentationConfig.require.proofOf?.join(', ')}}
+            <div class="credential-enumeration encrypted-credentials" *ngIf="presentationConfig.require.keccak256">
+                <i class="mdi mdi-lock text-coral"></i> Encrypted<span class="separator">:<app-tooltip position="bottom" message="These credentials are only required in their encrypted form. {{presentationConfig.rpName}} will be unable to know the contents."></app-tooltip></span> {{presentationConfig.require.keccak256?.join(', ')}}
             </div>
             <div class="credential-enumeration predicate-credentials" *ngIf="presentationConfig.require.predicate">
                 <i class="mdi mdi-function-variant text-coral"></i> Predicate<span class="separator">:<app-tooltip position="bottom" message="{{presentationConfig.rpName}} require proof that specific conditions are met, without disclosing the actual data. You will be required to decrypt these credentials but they will not be sent to {{presentationConfig.rpName}}"></app-tooltip></span> {{formatPredicates(presentationConfig.require.predicate)?.join(', ')}}

@@ -45,7 +45,7 @@ export class CredentialHelperService {
             "label": issuer.label,
             "type": issuer.type,
             "data": {
-              "payloadKeccak256CipherText": this.web3WalletService.hashTextKeccak256(encryptedCredential.payload.ciphertext),
+              "payloadKeccak256CipherText": this.web3WalletService.hashTextKeccak256(encryptedCredential.payload),
               "credentials": [] as any[]
             }
           }
@@ -67,13 +67,13 @@ export class CredentialHelperService {
         });
       }
 
-      const requiredCredentialsProof = presentationConfig.require.proofOf;
-      if (requiredCredentialsProof) {
-        requiredCredentialsProof.forEach((c: any) => {
+      const requiredCredentialsKeccak256 = presentationConfig.require.keccak256;
+      if (requiredCredentialsKeccak256) {
+        requiredCredentialsKeccak256.forEach((c: any) => {
           vc.credentialSubject.issuerDomains[0].data.credentials.push({
             "name": c,
-            "value": this.web3WalletService.hashDataKeccak256(encryptedCredential.credentials.filter((encryptedCred: any) => encryptedCred.name == c)[0].val.ciphertext),
-            "type": "proof"
+            "value": this.web3WalletService.hashDataKeccak256(encryptedCredential.credentials.filter((encryptedCred: any) => encryptedCred.name == c)[0].val),
+            "type": "keccak256"
           });
         });
       }
@@ -193,7 +193,6 @@ export class CredentialHelperService {
   }
 
   async decryptCredential(payload: any): Promise<any> {
-
     const response: any = await this.web3WalletService.decryptData(payload);
     const decryptedData: any = JSON.parse(response);
 
