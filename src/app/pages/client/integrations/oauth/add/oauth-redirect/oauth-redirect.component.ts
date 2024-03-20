@@ -35,7 +35,6 @@ export class OauthRedirectComponent {
       this.navMenuService.setPageDetails(`Signed in with ${this.oauthName}`, ['Your credentials', 'Add credentials', `${this.oauthName} sign-in`]);
       this.oauthService.handleRedirect().then((response) => {
         this.profile = response;
-        this.showProfileDetailModal = true;
       }).catch((err) => console.error(err));
     });
   }

@@ -36,11 +36,11 @@
             </div>
         </div>
         <div buttons class="buttons">
+            <button (click)="encryptData()">Encrypt</button>
             <button class="btn-alt" (click)="showRawData = !showRawData">
                 <span *ngIf="showRawData">Show Data</span>
                 <span *ngIf="!showRawData">Show Raw</span>
             </button>
-            <button (click)="encryptData()">Encrypt</button>
         </div>
     </div>
     <div *ngIf="!waitingForData && exists">
