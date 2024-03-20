@@ -41,10 +41,10 @@
         </div>
     </div>
     <div buttons class="buttons">
+        <button (click)="closeModal()">Close</button>
         <button class="btn-alt" (click)="showProfileDetailModalRawData = !showProfileDetailModalRawData">
             <span *ngIf="showProfileDetailModalRawData">Show Data</span>
             <span *ngIf="!showProfileDetailModalRawData">Show Raw</span>
         </button>
-        <button (click)="closeModal()">Close</button>
     </div>
 </app-wide-modal>

@@ -31,7 +31,7 @@
                         <span *ngIf="issuer.datevaliduntil">{{issuer.datevaliduntil | date:'dd-MMM-yyyyHH:mm'}}</span>
                         <span *ngIf="!issuer.datevaliduntil"><i class="mdi mdi-infinity"></i></span>
                     </div> -->
-                    <div class="w-30 align-right">
+                    <div class="w-30">
                         <app-multi-button btnSize="btn-xs" [buttons]="getActionMenuButtons(issuer)"
                             (buttonClick)="issuerActionClick($event, issuer)"></app-multi-button>
                         <!-- <button class="btn-xs" (click)="decryptCredential(issuer)" *ngIf="issuerHasDecryptPending(issuer)">
