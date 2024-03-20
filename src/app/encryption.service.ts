@@ -49,5 +49,4 @@ export class EncryptionService {
 
     return encryptedPayload;
   }
-
 }

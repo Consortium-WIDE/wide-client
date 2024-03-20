@@ -4,10 +4,10 @@
         <div class="credentials-listing" *ngIf="getWeb3WalletService().isConnectedToWallet()">
             <div class="header">
                 <div class="label w-5"></div>
-                <div class="label w-25">Name</div>
-                <div class="label w-15">Type</div>
+                <div class="label w-30">Name</div>
+                <div class="label w-25">Type</div>
                 <div class="label w-15">Date added</div>
-                <div class="label w-15">Valid until</div>
+                <!-- <div class="label w-15">Valid until</div> -->
                 <div class="label w-25"></div>
             </div>
             <div class="credential" *ngFor="let issuer of issuedCredentials"
@@ -18,19 +18,19 @@
                             <img src="/assets/svg/arrow.svg" />
                         </span>
                     </div>
-                    <div class="w-25">
+                    <div class="w-30">
                         <span (click)="showIssuerModal(issuer)" class="issuer-label">
                             <img src="{{getFaviconUrl(issuer.issuer)}}" width="16" height="16" /> {{issuer.label}} <span
                                 *ngIf="!issuerHasDecryptPending(issuer)" class="pill text-success"><i
                                     class="mdi mdi-lock-open-check text-peach"></i></span>
                         </span>
                     </div>
-                    <div class="w-15">{{issuer.type.join(', ')}}</div>
+                    <div class="w-25">{{issuer.type.join(', ')}}</div>
                     <div class="w-15">{{issuer.issuanceDate | date:'dd-MMM-yyyy HH:mm'}}</div>
-                    <div class="w-15">
+                    <!-- <div class="w-15">
                         <span *ngIf="issuer.datevaliduntil">{{issuer.datevaliduntil | date:'dd-MMM-yyyyHH:mm'}}</span>
                         <span *ngIf="!issuer.datevaliduntil"><i class="mdi mdi-infinity"></i></span>
-                    </div>
+                    </div> -->
                     <div class="w-25">
                         <app-multi-button btnSize="btn-xs" [buttons]="getActionMenuButtons(issuer)"
                             (buttonClick)="issuerActionClick($event, issuer)"></app-multi-button>
