@@ -1,21 +1,34 @@
 <div class="nav-menu">
     <div class="content">
         <div class="wide-logo">
-            <img src="assets/svg/wide_logo_white.svg" />
+            <img src="assets/svg/wid3_logo_white.svg" />
         </div>
         <div class="wide-logo small">
             <img src="assets/svg/W_WIDE.svg" />
         </div>
-        <ul class="items top">
+        <ul class="items desktop top">
             <li *ngFor="let item of menuItems">
-              <app-nav-menu-item [url]="item.url" [text]="item.text" [class]="item.iconClass"></app-nav-menu-item>
+                <app-nav-menu-item [url]="item.url" [text]="item.text" [class]="item.iconClass"></app-nav-menu-item>
             </li>
-          </ul>
+        </ul>
 
-        <ul class="items bottom">
-            <li><app-nav-menu-item url="/about" text="About WIDE" [class]="'mdi mdi-information'"></app-nav-menu-item></li>
+        <ul class="items desktop bottom">
+            <li><app-nav-menu-item url="/about" text="About WIDE" [class]="'mdi mdi-information'"></app-nav-menu-item>
+            </li>
             <li><app-nav-menu-item url="/support" text="Support" [class]="'mdi mdi-lifebuoy'"></app-nav-menu-item></li>
-            <li class="m-t-25"><app-nav-menu-item (menuItemClickEvent)="logout($event)" [class]="'mdi mdi-logout'" text="Log Out"></app-nav-menu-item></li>
+            <li class="m-t-25"><app-nav-menu-item (menuItemClickEvent)="logout($event)" [class]="'mdi mdi-logout'"
+                    text="Log Out"></app-nav-menu-item></li>
+        </ul>
+
+        <ul class="items mobile">
+            <li *ngFor="let item of menuItems">
+                <app-nav-menu-item [url]="item.url" [text]="item.text" [class]="item.iconClass"></app-nav-menu-item>
+            </li>
+            <li><app-nav-menu-item url="/about" text="About WIDE" [class]="'mdi mdi-information'"></app-nav-menu-item>
+            </li>
+            <li><app-nav-menu-item url="/support" text="Support" [class]="'mdi mdi-lifebuoy'"></app-nav-menu-item></li>
+            <li><app-nav-menu-item (menuItemClickEvent)="logout($event)" [class]="'mdi mdi-logout'"
+                    text="Log Out"></app-nav-menu-item></li>
         </ul>
     </div>
 </div>
