@@ -24,3 +24,19 @@
         background: $coral;
     }
 }
+
+@media (max-width: 575px) {
+    .progress-bar {
+        border: none;
+        border-radius: 10px;
+        text-align: center;
+        
+        .progress {
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            font-size: 14px;
+        }
+    }
+}

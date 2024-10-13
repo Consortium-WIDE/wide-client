@@ -44,6 +44,7 @@
             @media (max-width: 1200px) {
                 text-align: center;
                 display: none;
+
                 &.small {
                     display: block;
                 }
@@ -61,6 +62,10 @@
             font-size: 16px;
             font-weight: 500;
 
+            &.mobile {
+                display: none;
+            }
+
             &.top {
                 padding-top: 40px;
                 margin-bottom: auto;
@@ -69,6 +74,49 @@
             li {
                 overflow: hidden;
                 position: relative;
+            }
+        }
+    }
+}
+
+@media (max-width: 575px) {
+    .nav-menu {
+        width: 100%;
+        height: auto;
+        overflow-y: auto;
+        background: $white;
+        box-shadow: 0px 5px 10px black;
+
+        .content {
+            flex-direction: row;
+            justify-content: start;
+            padding: 0;
+
+            .wide-logo,
+            .wide-logo.small {
+                display: none;
+            }
+
+            ul.items {
+                display: flex;
+                flex-direction: row;
+                align-items: start;
+
+                &.mobile {
+                    display: inherit;
+                    padding: 0;
+                    margin: 0;
+
+                    width: 100%;
+                    justify-content: space-evenly;
+
+                    height: 60px;
+                    align-items: center;
+                }
+
+                &.desktop {
+                    display: none;
+                }
             }
         }
     }

@@ -22,6 +22,7 @@
             max-height: 80px;
         }
     }
+
     p.align-left {
         width: 100%;
     }
@@ -50,6 +51,7 @@
         .separator {
             position: relative;
             margin-right: 10px;
+
             app-tooltip {
                 position: absolute;
                 bottom: 10px;
@@ -61,6 +63,7 @@
             padding-top: 5px;
             padding-bottom: 5px;
         }
+
         .decrypt-message {
             background: $light-blue;
             padding: 10px;
@@ -75,6 +78,7 @@
             i.encrypted {
                 color: $coral;
             }
+
             i.decrypted {
                 color: $green;
             }
@@ -90,7 +94,8 @@
     }
 }
 
-.buttons, .modal-buttons {
+.buttons,
+.modal-buttons {
     display: flex;
     gap: 20px;
     justify-content: center;
@@ -106,4 +111,32 @@
     border-radius: 5px;
     color: $white;
     text-align: justify;
+}
+
+@media (max-width: 575px) {
+    .content {
+        justify-content: inherit;
+        padding: 0 50px;
+        width: 100%;
+        box-sizing: border-box;
+        overflow-y: auto;
+        height: 100vh;
+
+        .credentials-panel {
+            box-sizing: border-box;
+        }
+
+        .logo-wrapper {
+
+            img {
+                width: 100%;
+            }
+        }
+
+    }
+
+    .buttons,
+    .modal-buttons {
+        flex-direction: column;
+    }
 }

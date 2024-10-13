@@ -3,14 +3,20 @@
 .getting-started {
     background: $gradient-3;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
+    box-sizing: border-box;
+
+    .content-mobile {
+        display: none;
+    }
 
     .content {
         padding-top: 25vh;
         width: 100%;
         display: flex;
         align-items: center;
-
+        overflow: hidden;
 
         .left-content {
             width: 30%;
@@ -46,7 +52,7 @@
     width: 100%;
     height: 100%;
     top: 0;
-    background: rgba(0, 0, 0, 0.45); 
+    background: rgba(0, 0, 0, 0.45);
 
     display: flex;
     align-items: center;
@@ -76,6 +82,104 @@
         .progress {
             margin-top: 15px;
             margin-bottom: 15px;
+        }
+
+        .progress-mobile {
+            display: none;
+        }
+
+        .buttons {
+            text-align: center;
+        }
+    }
+}
+
+@media (max-width: 575px) {
+    .getting-started {
+        .content {
+            display: none;
+        }
+
+        .content-mobile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 100vh;
+            box-sizing: border-box;
+            padding-bottom: 20%;
+
+            .middle-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                flex-grow: 1;
+                width: 100%;
+
+                .wide-title {
+                    color: $white;
+                    font-weight: 600;
+                    margin: 25px 10px;
+                }
+            }
+
+            .buttons {
+                height: 150px;
+            }
+        }
+    }
+
+
+    .modal {
+        margin-top: 20px;
+        background: none;
+
+        .sign-message-prompt {
+            display: flex;
+            flex-direction: column;
+
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            border-radius: 15px;
+            padding-left: 40px;
+            padding-right: 40px;
+
+            text-align: left;
+
+            .mobile-nub {
+                background: #E5D3CC;
+                width: 45px;
+                height: 5px;
+                border-radius: 5px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 10px;
+                margin-bottom: 40px;
+            }
+
+            .progress {
+                display: none;
+            }
+
+            .progress-mobile {
+                display: block;
+            }
+
+            p.message {
+                flex-grow: 1;
+                margin: 0;
+
+                font-size: 12px;
+                line-height: 14px;
+            }
+
+            .buttons {
+                text-align: center;
+                margin-bottom: 60px;
+                margin-top: 20px;
+            }
         }
     }
 }

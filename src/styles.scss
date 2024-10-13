@@ -6,6 +6,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 body {
@@ -481,4 +482,23 @@ select {
 .pill {
     padding: 5px;
     border-radius: 5px;
+}
+
+
+@media (max-width: 575px) {
+    
+    h2 {
+        font-size: 16px;
+    }
+
+    h3 {
+        font-size: 14px;
+    }
+    
+
+    .label, label {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    
 }
