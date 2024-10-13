@@ -56,3 +56,21 @@
     margin-bottom: 20px;
 
 }
+
+@media (max-width: 575px) {
+    .buttons {
+        flex-direction: column;
+        button {
+            width: 100%;
+        }
+    }
+
+    .oauth-credentials {
+        max-height: 600px;
+    
+        .scrollable {
+            max-height: inherit;
+            height: 40vh;
+        }
+    }
+}

@@ -4,6 +4,7 @@ import { Web3WalletService } from '../../services/web3-wallet.service';
 import { siEthereum } from 'simple-icons';
 import { DomSanitizer } from '@angular/platform-browser';
 import { WideModalComponent } from '../wide-modal/wide-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-header',
@@ -27,7 +28,7 @@ export class NavHeaderComponent implements OnInit {
 
   accounts: string[] | null = [];
 
-  constructor(private web3WalletService: Web3WalletService, private sanitizer: DomSanitizer) {
+  constructor(private web3WalletService: Web3WalletService, private router: Router, private sanitizer: DomSanitizer) {
     this.subscribeToWalletConnection();
   }
 
@@ -51,6 +52,14 @@ export class NavHeaderComponent implements OnInit {
     this.web3WalletService.connectedToWallet$.subscribe(walletConnected => {
       this.isConnected = walletConnected;
     });
+  }
+
+  goBack() {
+    window.history.back();
+  }
+
+  showBackButton(): boolean {
+    return this.router.url !== '/';
   }
 
   //TODO: Connect Wallet, check if already signed message. Check secure session/cookie, possibly ask to sign another message

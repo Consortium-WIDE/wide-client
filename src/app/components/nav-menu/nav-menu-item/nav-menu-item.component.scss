@@ -4,7 +4,7 @@ a {
     display: block;
     position: relative;
     text-decoration: none;
-    
+
     color: $white;
 
     padding-left: 15px;
@@ -45,7 +45,7 @@ a {
         }
     }
 
-    i.mdi + span.menu-text {
+    i.mdi+span.menu-text {
         bottom: 2px;
     }
 
@@ -64,7 +64,7 @@ a {
         margin-right: 0;
 
         background: $light-beige;
-        
+
         color: $coral;
 
         i.menu-icon {
@@ -102,6 +102,58 @@ a {
             border-radius: 0 50% 0 0;
             border-bottom: 0;
             border-left: 0;
+        }
+    }
+}
+
+@media (max-width: 575px) {
+    a {
+        color: #E5D3CC;
+        padding: 0;
+        margin: 0;
+        width: 30px;
+        text-align: center;
+        
+        &.active {
+            color: $peach;
+            background: transparent;
+            padding: 0;
+            margin: 0;
+        }
+
+        i.menu-icon {
+            background: transparent;
+
+            &.mdi {
+                background: transparent;
+            }
+        }
+
+        &:hover {
+            background: transparent;
+            color: $peach;
+
+            i.menu-icon {
+                background: transparent;
+
+                &.mdi {
+                    background: transparent;
+                    color: $peach;
+                }
+            }
+
+            &:after,
+            &:before {
+                display: none;
+            }
+
+            &:after {
+                display: none;
+            }
+
+            &:before {
+                display: none;
+            }
         }
     }
 }

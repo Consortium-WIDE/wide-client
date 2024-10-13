@@ -2,7 +2,7 @@
     <div class="content">
         <div class="left-content">
             <div class="wide-logo">
-                <img src="assets/svg/wide_logo_white.svg" alt="WIDE logo" />
+                <img src="assets/svg/wid3_logo_white.svg" alt="WIDE logo" />
             </div>
             <div class="description">
                 A decentralised identity bridge between your skills and the opportunities available in Web3
@@ -15,15 +15,34 @@
             <img src="assets/svg/bridge_illustration.svg" alt="WIDE logo" />
         </div>
     </div>
+    <div class="content-mobile">
+        <div class="middle-content">
+            <div class="wide-title">
+                Welcome to
+            </div>
+            <div class="wide-logo">
+                <img src="assets/svg/wid3_logo_white.svg" alt="WIDE logo" />
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="btn-white-outline" (click)="connect()">Get Started</button>
+        </div>
+    </div>
     <!--TODO: Replace with app-wide-modal component-->
     <div class="modal" *ngIf="showSignMessageModal">
         <div class="sign-message-prompt">
+            <div class="mobile-nub"></div>
+            <div class="progress-mobile">
+                <app-progress-bar [percentage]="50"></app-progress-bar>
+            </div>
             <h3>Verify your Web3 Identity</h3>
             <p class="message" [innerHTML]="messageToSign"></p>
             <div class="progress">
                 <app-progress-bar [percentage]="statusPct"></app-progress-bar>
             </div>
-            <button (click)="signTerms()">Sign</button>
+            <div class="buttons">
+                <button (click)="signTerms()">Sign</button>
+            </div>
         </div>
     </div>
 </div>

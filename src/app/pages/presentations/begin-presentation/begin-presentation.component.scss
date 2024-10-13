@@ -23,8 +23,29 @@
     }
 }
 
-.buttons, .modal-buttons {
+.buttons,
+.modal-buttons {
     display: flex;
     gap: 20px;
     justify-content: center;
+}
+
+@media (max-width: 575px) {
+    .content {
+        .container {
+            padding: 0 50px;
+            width: 100%;
+            box-sizing: border-box;
+
+            .logo-wrapper {
+                img {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .buttons, .modal-buttons {
+        flex-direction: column;
+    }
 }

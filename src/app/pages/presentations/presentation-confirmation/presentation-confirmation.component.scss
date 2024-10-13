@@ -88,3 +88,31 @@
 
     margin-bottom: 20px;
 }
+
+
+@media (max-width: 575px) {
+    .content {
+        justify-content: inherit;
+        padding: 0 50px;
+        width: 100%;
+        box-sizing: border-box;
+        overflow-y: auto;
+        height: 100vh;
+
+        .credentials-panel {
+            box-sizing: border-box;
+        }
+
+        .logo-wrapper {
+            img {
+                width: 100%;
+            }
+        }
+
+    }
+
+    .buttons,
+    .modal-buttons {
+        flex-direction: column;
+    }
+}
