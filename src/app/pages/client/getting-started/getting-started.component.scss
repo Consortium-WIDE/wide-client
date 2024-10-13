@@ -135,7 +135,7 @@
         margin-top: 20px;
         background: none;
 
-        .sign-message-prompt {            
+        .sign-message-prompt {
             display: flex;
             flex-direction: column;
 
@@ -148,7 +148,7 @@
 
             text-align: left;
 
-            .mobile-nub{
+            .mobile-nub {
                 background: #E5D3CC;
                 width: 45px;
                 height: 5px;
@@ -170,6 +170,9 @@
             p.message {
                 flex-grow: 1;
                 margin: 0;
+
+                font-size: 12px;
+                line-height: 14px;
             }
 
             .buttons {

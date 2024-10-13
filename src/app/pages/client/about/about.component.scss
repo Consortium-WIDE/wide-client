@@ -2,3 +2,14 @@
     display: flex;
     gap: 50px;
 }
+
+@media (max-width: 575px) {
+    .logos {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        img {
+            width: 80%;
+        }
+    }
+}

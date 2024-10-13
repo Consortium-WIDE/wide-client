@@ -19,7 +19,7 @@
                     </div>
                     <div class="w-25">
                         <span (click)="showIssuerModal(issuer)" class="issuer-label">
-                            <img src="{{getFaviconUrl(issuer.issuer)}}" width="16" height="16" /> {{issuer.label}} <span *ngIf="!issuerHasDecryptPending(issuer)" class="pill text-success"><i class="mdi mdi-lock-open-check text-peach"></i></span>
+                            <img [src]="issuer.icon" (error)="issuer.icon = 'assets/svg/placeholder_favico.svg'" width="16" height="16" /> {{issuer.label}} <span *ngIf="!issuerHasDecryptPending(issuer)" class="pill text-success"><i class="mdi mdi-lock-open-check text-peach"></i></span>
                         </span>
                     </div>
                     <div class="w-25">{{issuer.type.join(', ')}}</div>
@@ -68,7 +68,7 @@
             <div class="credential mobile" *ngFor="let issuer of issuedCredentials" [ngClass]="issuer.expanded ? 'expanded' : ''">
                 <div class="credential-header" (click)="expand(issuer)">
                     <div class="w-15">
-                        <img src="{{getFaviconUrl(issuer.issuer)}}" width="32" height="32" />
+                        <img [src]="issuer.icon" (error)="issuer.icon = 'assets/svg/placeholder_favico.svg'" width="32" height="32" />
                     </div>
                     <div class="w-80">
                         <span class="issuer-label">{{issuer.label}} <span *ngIf="!issuerHasDecryptPending(issuer)" class="pill text-success"><i class="mdi mdi-lock-open-check text-peach"></i></span>
@@ -82,23 +82,31 @@
                     </div>
                 </div>
                 <div class="credential-expanded" *ngIf="issuer.expanded && credentialDetailLookup[issuer.wideInternalId]?.credentials">
+                    <div class="credential-property label">
+                        <label>Label</label>
+                    </div>
                     <div class="credential-property">
-                        <label>Label: </label>
                         <span>{{issuer.label}}</span>
                     </div>
-                    <div class="credential-property">
-                        <label>Credential Type: </label>
+                    <div class="credential-property label">
+                        <label>Credential Type</label>
+                    </div>
+                    <div class="credential-property">                    
                         <span>{{issuer.type.join(', ')}}</span>
                     </div>
-                    <div class="credential-property">
+                    <div class="credential-property label">
                         <label>Issuer: </label>
+                    </div>
+                    <div class="credential-property">
                         <span>{{issuer.issuer}}</span>
                     </div>
-                    <div class="credential-property">
+                    <div class="credential-property label">
                         <label>Issued On: </label>
-                        <span>{{issuer.issuanceDate | date:'dd-MMM-yyyy HH:mm'}}</span>
                     </div>
                     <div class="credential-property">
+                        <span>{{issuer.issuanceDate | date:'dd-MMM-yyyy HH:mm'}}</span>
+                    </div>
+                    <div class="credential-property label">
                         <h3>Properties</h3>
                     </div>
                     <div class="credential-property" *ngFor="let cred of credentialDetailLookup[issuer.wideInternalId]?.credentials">
@@ -136,6 +144,9 @@
                     <div class="credential-property">
                         <button class="btn-xs" (click)="showWideCredentialPreviewModal(issuer)"><i class="mdi mdi-eye"></i> Preview</button>
                     </div>
+                    <div class="credential-property">
+                        <button class="btn-xs" (click)="deleteCredentialPrompt(issuer)"><i class="mdi mdi-delete"></i> Delete</button>
+                    </div>
                 </div>
             </div>
             <div *ngIf="!getWeb3WalletService().isCheckingMetaMask() && (!issuedCredentials || issuedCredentials.length <= 0)" class="panel-message info">
@@ -156,7 +167,7 @@
 </div>
 <app-wide-modal [showModal]="showIssuerDetailsModal">
     <div content class="issuer-details" *ngIf="issuerDetailsModalData">
-        <h3><img src="{{getFaviconUrl(issuerDetailsModalData.issuer)}}" width="16" height="16" />
+        <h3><img [src]="issuerDetailsModalData.issuer.icon" (error)="issuerDetailsModalData.issuer.icon = 'assets/svg/placeholder_favico.svg'" width="16" height="16" />
             {{issuerDetailsModalData.label}}</h3>
         <p>The details on the issuance of this data is listed below.</p>
         <div class="scrollable align-left">

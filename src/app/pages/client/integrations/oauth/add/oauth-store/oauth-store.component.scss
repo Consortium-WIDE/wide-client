@@ -48,3 +48,26 @@
     border-radius: 5px;
     display: inline-block;
 }
+
+@media (max-width: 575px) {
+    .buttons {
+        flex-direction: column;
+        button {
+            width: 100%;
+        }
+    }
+
+    .oauth-credentials {
+        max-height: inherit;
+    
+        .scrollable {
+            max-height: inherit;
+            height: 60vh;
+        }
+    }
+
+    .custom-label {
+        margin-top: 15px;
+        padding: 15px;
+    }
+}

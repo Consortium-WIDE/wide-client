@@ -37,6 +37,7 @@
 
         .history {
             border-radius: 10px;
+
             &.expanded {
                 box-shadow: 0px 3px 8px 0px #3E1B071A;
                 margin-bottom: 15px;
@@ -44,9 +45,9 @@
 
             .history-header {
                 color: $black;
-    
+
                 height: 60px;
-    
+
                 .cred-arrow {
 
                     cursor: pointer;
@@ -54,7 +55,7 @@
                     img {
                         transform: rotate(180deg);
                     }
-    
+
                     &.expanded {
                         img {
                             transform: rotate(0deg);
@@ -101,5 +102,13 @@
 
     .buttons {
         margin-top: 30px;
+    }
+}
+
+@media (max-width: 575px) {
+    .main {
+        .message {
+            flex-direction: column;
+        }
     }
 }

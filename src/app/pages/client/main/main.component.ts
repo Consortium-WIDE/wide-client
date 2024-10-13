@@ -61,6 +61,10 @@ export class MainComponent implements OnInit {
       next: (response: HttpResponse<any>) => {
         this.issuedCredentials = response.body;
 
+        this.issuedCredentials.forEach((issuer: any) => {
+          issuer.icon = this.getFaviconUrl(issuer.issuer);
+        });
+
         if (response.status == 204) {
           this.toastNotificationService.info('Loading credentials', `No credentials found for ${account}`);
         }
@@ -190,7 +194,7 @@ export class MainComponent implements OnInit {
         break;
     }
   }
-  
+
   getFaviconUrl(url: string): string {
     return this.iconService.getIconFor(url);
   }
@@ -269,13 +273,13 @@ export class MainComponent implements OnInit {
     this.credentialToDelete = issuer;
     this.showConfirmDeleteModal = true;
   }
-  
+
   async deleteCredential(issuer: any): Promise<void> {
     if (!this.account) {
       this.toastNotificationService.info('Unable to delete credential', 'Please make sure your wallet is connected first');
       return;
     }
-    
+
     await this.credentialHelperService.deleteCredentialsForIssuer(this.account, issuer.wideInternalId);
     await this.refreshAccountCredentials(this.account);
     this.showConfirmDeleteModal = false;
